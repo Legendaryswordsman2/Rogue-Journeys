@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rogue_journeys/class_page.dart';
 import 'package:rogue_journeys/widgets/appbar_gradient_widget.dart';
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Rogue Journeys',
       theme: ThemeData(
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
@@ -119,16 +120,19 @@ class HomePage extends StatelessWidget {
         centerTitle: true,
         title: Image.asset("assets/images/logo.png", height: 40),
 
-        // backgroundColor: Colors.blue,
         flexibleSpace: AppbarGradientContainer(),
 
         leading: IconButton(
-          icon: Icon(Icons.calendar_today),
+          icon: Icon(Icons.calendar_today, color: Colors.white),
           onPressed: null,
         ),
 
         actions: [
-          IconButton(icon: Icon(Icons.search), onPressed: null),
+          IconButton(
+            icon: Icon(Icons.search, color: Colors.white),
+            color: Colors.white,
+            onPressed: null,
+          ),
         ],
       ),
       body: Column(
@@ -140,6 +144,7 @@ class HomePage extends StatelessWidget {
           ClassList(
             title: "Upcoming Classes",
             sessions: upcomingSessions,
+            initiallyExpanded: true,
           ),
         ],
       ),
@@ -170,22 +175,23 @@ class ClassListTitle extends StatelessWidget {
 class ClassList extends StatelessWidget {
   final String title;
   final List<ClassSession> sessions;
+  final bool initiallyExpanded;
   const ClassList({
     super.key,
     required this.title,
     required this.sessions,
+    this.initiallyExpanded = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      tilePadding: EdgeInsets.zero,
       title: ClassListTitle(title: title),
+      initiallyExpanded: initiallyExpanded,
       children: [
         Column(
           children: [
-            // ClassListTitle(title: title),
-            Divider(thickness: 1, color: Colors.black),
+            // Divider(thickness: 1, color: Colors.black),
             ...sessions.map(
               (sessions) => ClassEntry(session: sessions),
             ),
@@ -209,13 +215,14 @@ class ClassEntry extends StatelessWidget {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
+            CupertinoPageRoute(
               builder: (context) => ClassPage(session: session),
             ),
           );
         },
         child: Column(
           children: [
+            Divider(thickness: 1, color: Colors.black),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Row(
@@ -230,7 +237,6 @@ class ClassEntry extends StatelessWidget {
                 ],
               ),
             ),
-            Divider(thickness: 1, color: Colors.black),
           ],
         ),
       ),
@@ -272,26 +278,29 @@ class ClassTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          session.title,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-        ),
-        RichText(
-          text: TextSpan(
-            text: "with ${session.coach} in ",
-            style: DefaultTextStyle.of(context).style,
-            children: [
-              TextSpan(
-                text: session.section.name,
-                style: TextStyle(color: session.getSectionColor()),
-              ),
-            ],
+    return SizedBox(
+      width: 230,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            session.title,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
-        ),
-      ],
+          RichText(
+            text: TextSpan(
+              text: "with ${session.coach} in ",
+              style: DefaultTextStyle.of(context).style,
+              children: [
+                TextSpan(
+                  text: session.section.name,
+                  style: TextStyle(color: session.getSectionColor()),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -305,12 +314,14 @@ class ClassCapacity extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(6),
+      width: 45,
       decoration: BoxDecoration(
         color: Colors.grey.shade400,
         borderRadius: BorderRadius.circular(18),
       ),
 
       child: Text(capacity),
+      alignment: Alignment.center,
     );
   }
 }
@@ -343,7 +354,7 @@ class ClassSession {
   Color getSectionColor() {
     return switch (section) {
       SectionType.floor => Colors.red,
-      SectionType.vaults => Colors.yellow.shade700,
+      SectionType.vaults => Color(0xffffce00),
       SectionType.walls => Colors.orange,
       SectionType.bars => Colors.blue,
       SectionType.precisions => Colors.green,
