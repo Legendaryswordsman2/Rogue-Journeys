@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rogue_journeys/class_page.dart';
+import 'package:rogue_journeys/widgets/appbar_gradient_widget.dart';
 
 enum SectionType { floor, walls, vaults, precisions, bars }
 
@@ -25,6 +27,7 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatelessWidget {
   final List<ClassSession> upcomingSessions = [
     ClassSession(
+      date: "Wednesday, Apr 29, 2026",
       startTime: "5:00pm",
       endTime: "5:45pm",
       title: "Pre-K Parkour",
@@ -33,6 +36,7 @@ class HomePage extends StatelessWidget {
       capacity: "3/6",
     ),
     ClassSession(
+      date: "Wednesday, Apr 29, 2026",
       startTime: "5:00pm",
       endTime: "5:50pm",
       title: "Youth Level 1 Parkour",
@@ -41,6 +45,7 @@ class HomePage extends StatelessWidget {
       capacity: "4/8",
     ),
     ClassSession(
+      date: "Wednesday, Apr 29, 2026",
       startTime: "5:00pm",
       endTime: "5:50pm",
       title: "Youth 2 & 3 Parkour",
@@ -49,6 +54,7 @@ class HomePage extends StatelessWidget {
       capacity: "3/10",
     ),
     ClassSession(
+      date: "Wednesday, Apr 29, 2026",
       startTime: "5:00pm",
       endTime: "5:50pm",
       title: "Intro to Flips",
@@ -57,6 +63,7 @@ class HomePage extends StatelessWidget {
       capacity: "6/10",
     ),
     ClassSession(
+      date: "Wednesday, Apr 29, 2026",
       startTime: "6:00pm",
       endTime: "6:50pm",
       title: "Teen/Adult 2 & 3 Parkour",
@@ -65,6 +72,7 @@ class HomePage extends StatelessWidget {
       capacity: "5/10",
     ),
     ClassSession(
+      date: "Wednesday, Apr 29, 2026",
       startTime: "6:00pm",
       endTime: "6:50pm",
       title: "Acro 4-6 Parkour",
@@ -76,6 +84,7 @@ class HomePage extends StatelessWidget {
 
   final List<ClassSession> earlierSessions = [
     ClassSession(
+      date: "Wednesday, Apr 29, 2026",
       startTime: "3:00pm",
       endTime: "3:45pm",
       title: "Pre-K Parkour",
@@ -84,6 +93,7 @@ class HomePage extends StatelessWidget {
       capacity: "3/6",
     ),
     ClassSession(
+      date: "Wednesday, Apr 29, 2026",
       startTime: "3:00pm",
       endTime: "3:50pm",
       title: "Youth Level 1 Parkour",
@@ -92,6 +102,7 @@ class HomePage extends StatelessWidget {
       capacity: "8/10",
     ),
     ClassSession(
+      date: "Wednesday, Apr 29, 2026",
       startTime: "3:00pm",
       endTime: "3:50pm",
       title: "Youth 2 & 3 Parkour",
@@ -109,19 +120,7 @@ class HomePage extends StatelessWidget {
         title: Image.asset("assets/images/logo.png", height: 40),
 
         // backgroundColor: Colors.blue,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [
-                Color(0xff002abc),
-                Color(0xff004cda),
-                Color(0xff002abc),
-              ],
-            ),
-          ),
-        ),
+        flexibleSpace: AppbarGradientContainer(),
 
         leading: IconButton(
           icon: Icon(Icons.calendar_today),
@@ -188,7 +187,7 @@ class ClassList extends StatelessWidget {
             // ClassListTitle(title: title),
             Divider(thickness: 1, color: Colors.black),
             ...sessions.map(
-              (sessions) => ClassEntry(classSession: sessions),
+              (sessions) => ClassEntry(session: sessions),
             ),
           ],
         ),
@@ -198,36 +197,42 @@ class ClassList extends StatelessWidget {
 }
 
 class ClassEntry extends StatelessWidget {
-  final ClassSession classSession;
+  final ClassSession session;
 
-  const ClassEntry({super.key, required this.classSession});
+  const ClassEntry({super.key, required this.session});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ClassTimeRange(
-                  startTime: classSession.startTime,
-                  endTime: classSession.endTime,
-                ),
-                ClassTitle(
-                  title: classSession.title,
-                  coach: classSession.coach,
-                  section: classSession.section,
-                ),
-                ClassCapacity(capacity: classSession.capacity),
-              ],
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ClassPage(session: session),
             ),
-          ),
-          Divider(thickness: 1, color: Colors.black),
-        ],
+          );
+        },
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ClassTimeRange(
+                    startTime: session.startTime,
+                    endTime: session.endTime,
+                  ),
+                  ClassTitle(session: session),
+                  ClassCapacity(capacity: session.capacity),
+                ],
+              ),
+            ),
+            Divider(thickness: 1, color: Colors.black),
+          ],
+        ),
       ),
     );
   }
@@ -261,16 +266,9 @@ class ClassTimeRange extends StatelessWidget {
 }
 
 class ClassTitle extends StatelessWidget {
-  final String title;
-  final String coach;
-  final SectionType section;
+  final ClassSession session;
 
-  const ClassTitle({
-    super.key,
-    required this.title,
-    required this.coach,
-    required this.section,
-  });
+  const ClassTitle({super.key, required this.session});
 
   @override
   Widget build(BuildContext context) {
@@ -278,33 +276,23 @@ class ClassTitle extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          title,
+          session.title,
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
         ),
         RichText(
           text: TextSpan(
-            text: "with $coach in ",
+            text: "with ${session.coach} in ",
             style: DefaultTextStyle.of(context).style,
             children: [
               TextSpan(
-                text: section.name,
-                style: TextStyle(color: getSectionColor(section)),
+                text: session.section.name,
+                style: TextStyle(color: session.getSectionColor()),
               ),
             ],
           ),
         ),
       ],
     );
-  }
-
-  Color getSectionColor(SectionType section) {
-    return switch (section) {
-      SectionType.floor => Colors.red,
-      SectionType.vaults => Colors.yellow.shade700,
-      SectionType.walls => Colors.orange,
-      SectionType.bars => Colors.blue,
-      SectionType.precisions => Colors.green,
-    };
   }
 }
 
@@ -328,6 +316,8 @@ class ClassCapacity extends StatelessWidget {
 }
 
 class ClassSession {
+  final String date;
+
   final String startTime;
   final String endTime;
 
@@ -338,6 +328,8 @@ class ClassSession {
   final String capacity;
 
   const ClassSession({
+    required this.date,
+
     required this.startTime,
     required this.endTime,
 
@@ -347,4 +339,14 @@ class ClassSession {
 
     required this.capacity,
   });
+
+  Color getSectionColor() {
+    return switch (section) {
+      SectionType.floor => Colors.red,
+      SectionType.vaults => Colors.yellow.shade700,
+      SectionType.walls => Colors.orange,
+      SectionType.bars => Colors.blue,
+      SectionType.precisions => Colors.green,
+    };
+  }
 }
