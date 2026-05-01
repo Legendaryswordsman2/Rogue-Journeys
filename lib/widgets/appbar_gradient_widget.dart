@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
 
 class AppbarGradientContainer extends StatelessWidget{
+  const AppbarGradientContainer({super.key});
+
 
 @override
   Widget build(BuildContext context) {

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:rogue_journeys/main.dart';
+import 'package:rogue_journeys/data_objects/class_info.dart';
 import 'package:rogue_journeys/widgets/appbar_gradient_widget.dart';
+import 'package:rogue_journeys/widgets/text_widgets.dart';
 
 class ClassPage extends StatelessWidget {
-  final ClassSession session;
+  final Class session;
 
   const ClassPage({super.key, required this.session});
 
@@ -34,7 +35,7 @@ class ClassPage extends StatelessWidget {
 }
 
 class Header extends StatelessWidget {
-  final ClassSession session;
+  final Class session;
 
   const Header({super.key, required this.session});
 
@@ -85,10 +86,9 @@ class Header extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 20,
-                    ),
+                    width: 75,
+                    height: 60,
+                    alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.white,
@@ -98,23 +98,24 @@ class Header extends StatelessWidget {
                       style: TextStyle(
                         color: session.getSectionColor(),
                         fontWeight: FontWeight.bold,
+                        fontSize: 15,
                       ),
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 20,
-                    ),
+                    width: 75,
+                    height: 60,
+                    alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.white,
                     ),
                     child: Text(
-                      session.section.name,
+                      session.capacity,
                       style: TextStyle(
-                        color: session.getSectionColor(),
+                        color: Colors.grey.shade600,
                         fontWeight: FontWeight.bold,
+                        fontSize: 30,
                       ),
                     ),
                   ),
@@ -126,90 +127,54 @@ class Header extends StatelessWidget {
       ),
     );
   }
+}
+
+class StudentsList extends StatelessWidget {
+  const StudentsList({super.key});
 
   @override
-  Widget build_old(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          colors: [
-            Color(0xff0032c4),
-            Color(0xff004cda),
-            Color(0xff0032c4),
-          ],
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 8, left: 20, right: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TitleText("Students"),
+              TitleText("Attendance"),
+            ],
+          ),
         ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        spacing: 50,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextWithIcon(
-                text: session.date,
-                icon: Icons.calendar_today,
-              ),
-              TextWithIcon(
-                text: "${session.startTime}-${session.endTime}",
-                icon: Icons.timer,
-              ),
-              TextWithIcon(text: session.coach, icon: Icons.person),
-            ],
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 20,
-                ),
-                margin: EdgeInsets.only(bottom: 20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.white,
-                ),
-                child: Text(
-                  session.section.name,
-                  style: TextStyle(
-                    color: session.getSectionColor(),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 30,
-                  vertical: 20,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.white,
-                ),
-                child: Text(
-                  session.capacity,
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+        Divider(thickness: 1, color: Colors.black),
+        StudentEntry(student: Student.sampleStudent),
+      ],
     );
   }
 }
 
-class StudentsList extends StatelessWidget {
+class StudentEntry extends StatelessWidget {
+  final Student student;
+
+  const StudentEntry({super.key, required this.student});
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Row(
+      children: [
+        Image.asset(
+          Student.sampleStudent.profilePicAssetLocation,
+          height: 20,
+          width: 20,
+        ),
+        Column(
+          children: [
+            Text(student.studentName),
+            Text("Level ${student.level}"),
+          ],
+        ),
+      ],
+    );
   }
 }
 

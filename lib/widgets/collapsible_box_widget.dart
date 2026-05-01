@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CollapsibleBox extends StatefulWidget {
+  const CollapsibleBox({super.key});
+
   @override
   State<StatefulWidget> createState() => _CollapsibleBoxState();
 }

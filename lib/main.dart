@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rogue_journeys/class_page.dart';
+import 'package:rogue_journeys/data_objects/class_info.dart';
 import 'package:rogue_journeys/widgets/appbar_gradient_widget.dart';
-
-enum SectionType { floor, walls, vaults, precisions, bars }
 
 void main() {
   runApp(const MyApp());
@@ -26,8 +25,8 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
-  final List<ClassSession> upcomingSessions = [
-    ClassSession(
+  final List<Class> upcomingSessions = [
+    Class(
       date: "Wednesday, Apr 29, 2026",
       startTime: "5:00pm",
       endTime: "5:45pm",
@@ -36,16 +35,16 @@ class HomePage extends StatelessWidget {
       section: SectionType.precisions,
       capacity: "3/6",
     ),
-    ClassSession(
+    Class(
       date: "Wednesday, Apr 29, 2026",
       startTime: "5:00pm",
       endTime: "5:50pm",
       title: "Youth Level 1 Parkour",
-      coach: "Avery Shulz",
+      coach: "Avery Shultz",
       section: SectionType.vaults,
       capacity: "4/8",
     ),
-    ClassSession(
+    Class(
       date: "Wednesday, Apr 29, 2026",
       startTime: "5:00pm",
       endTime: "5:50pm",
@@ -54,7 +53,7 @@ class HomePage extends StatelessWidget {
       section: SectionType.bars,
       capacity: "3/10",
     ),
-    ClassSession(
+    Class(
       date: "Wednesday, Apr 29, 2026",
       startTime: "5:00pm",
       endTime: "5:50pm",
@@ -63,7 +62,7 @@ class HomePage extends StatelessWidget {
       section: SectionType.floor,
       capacity: "6/10",
     ),
-    ClassSession(
+    Class(
       date: "Wednesday, Apr 29, 2026",
       startTime: "6:00pm",
       endTime: "6:50pm",
@@ -72,7 +71,25 @@ class HomePage extends StatelessWidget {
       section: SectionType.walls,
       capacity: "5/10",
     ),
-    ClassSession(
+    Class(
+      date: "Wednesday, Apr 29, 2026",
+      startTime: "6:00pm",
+      endTime: "6:50pm",
+      title: "Acro 4-6 Parkour",
+      coach: "Jacob Lavelle",
+      section: SectionType.floor,
+      capacity: "2/10",
+    ),
+    Class(
+      date: "Wednesday, Apr 29, 2026",
+      startTime: "6:00pm",
+      endTime: "6:50pm",
+      title: "Acro 4-6 Parkour",
+      coach: "Jacob Lavelle",
+      section: SectionType.floor,
+      capacity: "2/10",
+    ),
+    Class(
       date: "Wednesday, Apr 29, 2026",
       startTime: "6:00pm",
       endTime: "6:50pm",
@@ -83,8 +100,8 @@ class HomePage extends StatelessWidget {
     ),
   ];
 
-  final List<ClassSession> earlierSessions = [
-    ClassSession(
+  final List<Class> earlierSessions = [
+    Class(
       date: "Wednesday, Apr 29, 2026",
       startTime: "3:00pm",
       endTime: "3:45pm",
@@ -93,7 +110,7 @@ class HomePage extends StatelessWidget {
       section: SectionType.vaults,
       capacity: "3/6",
     ),
-    ClassSession(
+    Class(
       date: "Wednesday, Apr 29, 2026",
       startTime: "3:00pm",
       endTime: "3:50pm",
@@ -102,7 +119,7 @@ class HomePage extends StatelessWidget {
       section: SectionType.precisions,
       capacity: "8/10",
     ),
-    ClassSession(
+    Class(
       date: "Wednesday, Apr 29, 2026",
       startTime: "3:00pm",
       endTime: "3:50pm",
@@ -112,6 +129,8 @@ class HomePage extends StatelessWidget {
       capacity: "1/10",
     ),
   ];
+
+  HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -135,18 +154,23 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          ClassList(
-            title: "Earlier Classes",
-            sessions: earlierSessions,
-          ),
-          ClassList(
-            title: "Upcoming Classes",
-            sessions: upcomingSessions,
-            initiallyExpanded: true,
-          ),
-        ],
+      body: ScrollConfiguration(
+        behavior: ScrollConfiguration.of(
+          context,
+        ).copyWith(overscroll: false),
+        child: ListView(
+          children: [
+            ClassList(
+              title: "Earlier Classes",
+              sessions: earlierSessions,
+            ),
+            ClassList(
+              title: "Upcoming Classes",
+              sessions: upcomingSessions,
+              initiallyExpanded: true,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -174,7 +198,7 @@ class ClassListTitle extends StatelessWidget {
 
 class ClassList extends StatelessWidget {
   final String title;
-  final List<ClassSession> sessions;
+  final List<Class> sessions;
   final bool initiallyExpanded;
   const ClassList({
     super.key,
@@ -188,6 +212,7 @@ class ClassList extends StatelessWidget {
     return ExpansionTile(
       title: ClassListTitle(title: title),
       initiallyExpanded: initiallyExpanded,
+
       children: [
         Column(
           children: [
@@ -203,7 +228,7 @@ class ClassList extends StatelessWidget {
 }
 
 class ClassEntry extends StatelessWidget {
-  final ClassSession session;
+  final Class session;
 
   const ClassEntry({super.key, required this.session});
 
@@ -272,7 +297,7 @@ class ClassTimeRange extends StatelessWidget {
 }
 
 class ClassTitle extends StatelessWidget {
-  final ClassSession session;
+  final Class session;
 
   const ClassTitle({super.key, required this.session});
 
@@ -285,7 +310,10 @@ class ClassTitle extends StatelessWidget {
         children: [
           Text(
             session.title,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
           ),
           RichText(
             text: TextSpan(
@@ -320,44 +348,8 @@ class ClassCapacity extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
       ),
 
-      child: Text(capacity),
       alignment: Alignment.center,
+      child: Text(capacity),
     );
-  }
-}
-
-class ClassSession {
-  final String date;
-
-  final String startTime;
-  final String endTime;
-
-  final String title;
-  final String coach;
-  final SectionType section;
-
-  final String capacity;
-
-  const ClassSession({
-    required this.date,
-
-    required this.startTime,
-    required this.endTime,
-
-    required this.title,
-    required this.coach,
-    required this.section,
-
-    required this.capacity,
-  });
-
-  Color getSectionColor() {
-    return switch (section) {
-      SectionType.floor => Colors.red,
-      SectionType.vaults => Color(0xffffce00),
-      SectionType.walls => Colors.orange,
-      SectionType.bars => Colors.blue,
-      SectionType.precisions => Colors.green,
-    };
   }
 }
