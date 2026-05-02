@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rogue_journeys/data_objects/class_info.dart';
 import 'package:rogue_journeys/widgets/appbar_gradient_widget.dart';
 import 'package:rogue_journeys/widgets/text_widgets.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class ClassPage extends StatelessWidget {
   final Class session;
@@ -24,10 +25,11 @@ class ClassPage extends StatelessWidget {
 
         flexibleSpace: AppbarGradientContainer(),
       ),
+      // body: StudentsList(),
       body: Column(
         children: [
           Header(session: session),
-          StudentsList(),
+          Expanded(child: StudentsList()),
         ],
       ),
     );
@@ -93,12 +95,17 @@ class Header extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.white,
                     ),
-                    child: Text(
-                      session.section.name,
-                      style: TextStyle(
-                        color: session.getSectionColor(),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: AutoSizeText(
+                        
+                        maxLines: 1,
+                        session.section.name,
+                        style: TextStyle(
+                          color: session.getSectionColor(),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30, // Max Font Size
+                        ),
                       ),
                     ),
                   ),
@@ -130,7 +137,13 @@ class Header extends StatelessWidget {
 }
 
 class StudentsList extends StatelessWidget {
-  const StudentsList({super.key});
+  final List<Student> students = [
+    Student.sampleStudent,
+    Student.sampleStudent,
+    Student.sampleStudent,
+    Student.sampleStudent,
+  ];
+  StudentsList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -146,8 +159,37 @@ class StudentsList extends StatelessWidget {
             ],
           ),
         ),
-        Divider(thickness: 1, color: Colors.black),
-        StudentEntry(student: Student.sampleStudent),
+
+        Expanded(
+          child: ScrollConfiguration(
+            behavior: ScrollConfiguration.of(
+              context,
+            ).copyWith(overscroll: false),
+            child: ListView.builder(
+              itemCount: students.length + 2,
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return Divider(thickness: 1, color: Colors.black);
+                }
+
+                if (index == students.length + 1) {
+                  return Divider(thickness: 1, color: Colors.black);
+                }
+
+                final studentIndex = index - 1;
+
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    StudentEntry(student: students[studentIndex]),
+                    if (studentIndex < students.length - 1)
+                      Divider(thickness: 1, color: Colors.black),
+                  ],
+                );
+              },
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -160,20 +202,92 @@ class StudentEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          AvatarAndInfo(student: student),
+          AttendanceBox(),
+        ],
+      ),
+    );
+  }
+}
+
+class AttendanceBox extends StatelessWidget {
+  const AttendanceBox({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Container(
+          width: 50,
+          height: 50,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadiusGeometry.circular(50),
+            // border: Border.all(color: Colors.black, width: 2),
+            color: Colors.grey.shade300,
+          ),
+        ),
+        Icon(Icons.check, color: Colors.green, size: 50),
+      ],
+    );
+  }
+}
+
+class AvatarAndInfo extends StatelessWidget {
+  final Student student;
+
+  const AvatarAndInfo({super.key, required this.student});
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       children: [
-        Image.asset(
-          Student.sampleStudent.profilePicAssetLocation,
-          height: 20,
-          width: 20,
-        ),
+        ProfileAvatar(student: student),
+        SizedBox(width: 20),
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(student.studentName),
+            Text(
+              student.studentName,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
             Text("Level ${student.level}"),
           ],
         ),
       ],
+    );
+  }
+}
+
+class ProfileAvatar extends StatelessWidget {
+  final Student student;
+
+  const ProfileAvatar({super.key, required this.student});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadiusGeometry.circular(50),
+        border: Border.all(color: Colors.black, width: 2),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadiusGeometry.circular(50),
+        child: Image.asset(
+          student.profilePicAssetLocation,
+          height: 75,
+          width: 75,
+          fit: BoxFit.cover,
+        ),
+      ),
     );
   }
 }
