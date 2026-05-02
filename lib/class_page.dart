@@ -137,12 +137,7 @@ class Header extends StatelessWidget {
 }
 
 class StudentsList extends StatelessWidget {
-  final List<Student> students = [
-    Student.sampleStudent,
-    Student.sampleStudent,
-    Student.sampleStudent,
-    Student.sampleStudent,
-  ];
+  final List<Student> students = Student.sampleStudentList1;
   StudentsList({super.key});
 
   @override
