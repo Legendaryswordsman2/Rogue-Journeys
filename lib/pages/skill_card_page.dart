@@ -57,9 +57,22 @@ class SkillCategoryBlock extends StatelessWidget {
     return Container(
       color: Color(0xFFEDD6B1),
       child: Column(
-        children: skillCategoryDefinition.skills
-            .map((skill) => SkillEntry(skillDefinition: skill))
-            .toList(),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Text(
+              skillCategoryDefinition.displayName,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          ...skillCategoryDefinition.skills.map(
+            (skill) => SkillEntry(skillDefinition: skill),
+          ),
+        ],
       ),
     );
   }
@@ -79,6 +92,7 @@ class SkillEntry extends StatelessWidget {
         skillDefinition.displayName,
         style: TextStyle(color: Colors.black),
       ),
+      contentPadding: EdgeInsetsGeometry.symmetric(horizontal: 15),
       value: false,
       onChanged: null,
     );
