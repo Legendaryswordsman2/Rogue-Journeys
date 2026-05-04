@@ -7,7 +7,8 @@
         {
             "name": "rogue_journeys",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "program": "lib/pages/main.dart"
         },
         {
             "name": "rogue_journeys (profile mode)",

@@ -1,0 +1,86 @@
+{
+    "skillCardTracks": [
+        {
+            "id": "skill_card_track_Core",
+            "displayName": "Core Track",
+            "skillCardDefinitions": [
+                {
+                    "id": "skill_card_core_1",
+                    "displayName": "Core LVL 1",
+                    "skillCategories": [
+                        {
+                            "id": "category_floor",
+                            "displayName": "Floor Skills",
+                            "skills": [
+                                {
+                                    "id": "shoulder_roll",
+                                    "displayName": "Shoulder Roll"
+                                },
+                                {
+                                    "id": "qm_qm_gallop",
+                                    "displayName": "QM/QM Gallop"
+                                },
+                                {
+                                    "id": "Ground Kong",
+                                    "displayName": "Ground Kong"
+                                },
+                                {
+                                    "id": "180_jump",
+                                    "displayName": "180 Jump"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "category_precisions",
+                            "displayName": "Precision Skills",
+                            "skills": [
+                                {
+                                    "id": "standing_precision",
+                                    "displayName": "Standing Precision"
+                                },
+                                {
+                                    "id": "running_precision",
+                                    "displayName": "Running Precision"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "skill_card_core_2",
+                    "displayName": "Core LVL 2"
+                },
+                {
+                    "id": "skill_card_core_3",
+                    "displayName": "Core LVL 3"
+                }
+            ]
+        },
+        {
+            "id": "skillTrackTricking",
+            "displayName": "Tricking Track",
+            "skillCardDefinitions": [
+                {
+                    "id": "skillCardTricking1",
+                    "displayName": "Tricking LVL 1"
+                },
+                {
+                    "id": "skillCardTricking2",
+                    "displayName": "Tricking LVL 2"
+                },
+                {
+                    "id": "skillCardTricking3",
+                    "displayName": "Tricking LVL 3"
+                },
+                {
+                    "id": "skillCardTricking4",
+                    "displayName": "Tricking LVL 4"
+                },
+                {
+                    "id": "skillCardTricking5",
+                    "displayName": "Tricking LVL 5"
+                }
+            ]
+        }
+    ]
+}

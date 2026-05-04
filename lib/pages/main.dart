@@ -1,10 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rogue_journeys/class_page.dart';
+import 'package:rogue_journeys/data_objects/progression_tree_info.dart';
+import 'package:rogue_journeys/pages/class_page.dart';
 import 'package:rogue_journeys/data_objects/class_info.dart';
 import 'package:rogue_journeys/widgets/appbar_gradient_widget.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  ProgressionTreeTemplateManager.insance.loadProgressionTree();
+
   runApp(const MyApp());
 }
 

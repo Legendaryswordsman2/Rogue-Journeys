@@ -1,5 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rogue_journeys/data_objects/class_info.dart';
+import 'package:rogue_journeys/data_objects/student_info.dart';
+import 'package:rogue_journeys/pages/account_page.dart';
+import 'package:rogue_journeys/pages/skill_card_page.dart';
 import 'package:rogue_journeys/widgets/appbar_gradient_widget.dart';
 import 'package:rogue_journeys/widgets/text_widgets.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -11,6 +15,7 @@ class ClassPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         // toolbarHeight: 200,
@@ -197,14 +202,32 @@ class StudentEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          AvatarAndInfo(student: student),
-          AttendanceBox(),
-        ],
+    return InkWell(
+      onTap: () {
+          Navigator.push(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => SkillCardPage(),
+            ),
+          );
+        },
+        onLongPress: () {
+          Navigator.push(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => AccountPage(),
+            ),
+          );
+        },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            AvatarAndInfo(student: student),
+            AttendanceBox(),
+          ],
+        ),
       ),
     );
   }
