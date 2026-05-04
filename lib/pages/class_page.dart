@@ -301,8 +301,8 @@ class ProfileAvatar extends StatelessWidget {
         borderRadius: BorderRadiusGeometry.circular(50),
         child: Image.asset(
           student.profilePicAssetLocation,
-          height: 75,
-          width: 75,
+          height: 60,
+          width: 60,
           fit: BoxFit.cover,
         ),
       ),
