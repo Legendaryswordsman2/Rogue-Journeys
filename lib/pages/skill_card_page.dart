@@ -64,7 +64,6 @@ class SkillCardView extends StatelessWidget {
       child: Column(
         children: [
           ProgressHeader(),
-
           Expanded(
             child: ScrollConfiguration(
               behavior: ScrollConfiguration.of(
@@ -78,6 +77,35 @@ class SkillCardView extends StatelessWidget {
                       ),
                     )
                     .toList(),
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Container(
+              margin: EdgeInsets.only(top: 10),
+              width: 250,
+              height: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                gradient: const LinearGradient(
+                  colors: [Colors.lightBlue, Colors.blueAccent],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                border: Border.all(color: Colors.white10),
+              ),
+              child: Center(
+                child: Text(
+                  "Save Changes",
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
           ),
@@ -148,7 +176,6 @@ class SkillCategoryBlock extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         gradient: const LinearGradient(
-          // colors: [Colors.red, Colors.redAccent],
           colors: [Color(0xFF1C1C1C), Color(0xFF141414)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
