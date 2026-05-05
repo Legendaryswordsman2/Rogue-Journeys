@@ -28,56 +28,23 @@ class ProgressionTreeTemplateManager {
       _cache = ProgressionTreeDefinition.fromJson(jsonData);
     } catch (e, stackTrace) {
       debugPrint("Failed to load Porgression Tree: $e");
-      debugPrint("$stackTrace");
+      debugPrint("STACK TRACE: $stackTrace");
 
-      _cache = ProgressionTreeDefinition(progressionTrackDefinitions: []);
+      _cache = null;
     } finally {
       _loading = false;
     }
 
-    debugPrint(
-      "Skill Card Tracks Loaded: ${_cache!.progressionTrackDefinitions.length}",
-    );
+    debugPrint("State: $_cache");
 
-    if (_cache!.progressionTrackDefinitions[0].skillCardDefinitions.isNotEmpty) {
-      debugPrint(
-        "Skill Cards Loaded in Track 1: ${_cache!.progressionTrackDefinitions[0].skillCardDefinitions.length}",
-      );
-
-      if (_cache!
-          .progressionTrackDefinitions[0]
-          .skillCardDefinitions[0]
-          .skillCategoryDefinitions
-          .isNotEmpty) {
-        debugPrint(
-          "Skill Categories Loaded in Skill Card Core LVL 1: ${_cache!.progressionTrackDefinitions[0].skillCardDefinitions[0].skillCategoryDefinitions.length}",
-        );
-
-        if (_cache!
-            .progressionTrackDefinitions[0]
-            .skillCardDefinitions[0]
-            .skillCategoryDefinitions[0]
-            .skillDefinitions
-            .isNotEmpty) {
-          debugPrint(
-            "Skills Loaded in Skill Category in Skill Card Core LVL 1: ${_cache!.progressionTrackDefinitions[0].skillCardDefinitions[0].skillCategoryDefinitions[0].skillDefinitions.length}",
-          );
-          debugPrint(
-            _cache!
-                .progressionTrackDefinitions[0]
-                .skillCardDefinitions[0]
-                .skillCategoryDefinitions[0]
-                .skillDefinitions[0]
-                .displayName,
-          );
-        }
-      }
-    }
+    // debugPrint(
+    //   "Skill Card Tracks Loaded: ${_cache!.progressionTrackDefinitions.length}",
+    // );
   }
 
   ProgressionTreeDefinition get progressionTree {
     if (_cache == null) {
-      throw Exception("Progression Tree not loaded yet");
+      throw Exception("Progression Tree not loaded");
     }
     return _cache!;
   }
@@ -85,37 +52,92 @@ class ProgressionTreeTemplateManager {
 
 // Represents a list of all Skill Card Tracks.
 class ProgressionTreeDefinition {
-  List<ProgressionTrackDefinition> progressionTrackDefinitions;
+  ProgressionNodeDefinition coreRoot;
+  List<ProgressionNodeDefinition> sideRoots;
 
-  ProgressionTreeDefinition({required this.progressionTrackDefinitions});
+  ProgressionTreeDefinition({
+    required this.coreRoot,
+    required this.sideRoots,
+  });
 
-  factory ProgressionTreeDefinition.fromJson(Map<String, dynamic> json) {
+  factory ProgressionTreeDefinition.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final coreRootJson =
+        json['coreRoot'] as Map<String, dynamic>? ?? {};
+
     return ProgressionTreeDefinition(
-      progressionTrackDefinitions: (json["skillCardTracks"] as List? ?? [])
-          .map((e) => ProgressionTrackDefinition.fromJson(e))
+      coreRoot: ProgressionNodeDefinition(
+        skillCardDefinition: SkillCardDefinition(
+          id: coreRootJson['skillCard']['id'],
+          displayName: coreRootJson['skillCard']['displayName'],
+          skillCategoryDefinitions:
+              (coreRootJson['skillCard']["skillCategories"] as List? ?? [])
+                  .map((e) => SkillCategoryDefinition.fromJson(e))
+                  .toList(),
+        ),
+        next: (json["next"] as List? ?? [])
+            .map((e) => ProgressionNodeDefinition.fromJson(e))
+            .toList(),
+      ),
+      sideRoots: (json["sideRoots"] as List? ?? [])
+          .map((e) => ProgressionNodeDefinition.fromJson(e))
           .toList(),
     );
   }
 }
 
 // Represents a list of skill cards to work through in a single track (e.g. Core lvl 1-6, tricking lvl 1-5).
-class ProgressionTrackDefinition {
-  String id;
-  String displayName;
-  List<SkillCardDefinition> skillCardDefinitions;
+// class ProgressionTrackDefinition {
+//   String id;
+//   String displayName;
 
-  ProgressionTrackDefinition({
-    required this.id,
-    required this.displayName,
-    required this.skillCardDefinitions,
+//   List<SkillCardDefinition> skillCardDefinitions;
+//   // List<ProgressionNodeDefinition> rootNodes;
+
+//   ProgressionTrackDefinition({
+//     required this.id,
+//     required this.displayName,
+//     // required this.rootNodes
+//     required this.skillCardDefinitions,
+//   });
+
+//   factory ProgressionTrackDefinition.fromJson(
+//     Map<String, dynamic> json,
+//   ) {
+//     return ProgressionTrackDefinition(
+//       id: json["id"],
+//       displayName: json["displayName"],
+//       skillCardDefinitions: (json["skillCardDefinitions"] as List)
+//           .map((e) => SkillCardDefinition.fromJson(e))
+//           .toList(),
+//     );
+//   }
+// }
+
+class ProgressionNodeDefinition {
+  SkillCardDefinition skillCardDefinition;
+  List<ProgressionNodeDefinition> next;
+
+  ProgressionNodeDefinition({
+    required this.skillCardDefinition,
+    required this.next,
   });
 
-  factory ProgressionTrackDefinition.fromJson(Map<String, dynamic> json) {
-    return ProgressionTrackDefinition(
-      id: json["id"],
-      displayName: json["displayName"],
-      skillCardDefinitions: (json["skillCardDefinitions"] as List)
-          .map((e) => SkillCardDefinition.fromJson(e))
+  factory ProgressionNodeDefinition.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    return ProgressionNodeDefinition(
+      skillCardDefinition: SkillCardDefinition(
+        id: json['skillCard']['id'],
+        displayName: json['skillCard']['displayName'],
+        skillCategoryDefinitions:
+            (json['skillCard']["skillCategories"] as List? ?? [])
+                .map((e) => SkillCategoryDefinition.fromJson(e))
+                .toList(),
+      ),
+      next: (json["next"] as List? ?? [])
+          .map((e) => ProgressionNodeDefinition.fromJson(e))
           .toList(),
     );
   }
@@ -136,10 +158,11 @@ class SkillCardDefinition {
   factory SkillCardDefinition.fromJson(Map<String, dynamic> json) {
     return SkillCardDefinition(
       id: json["id"],
-      displayName: json["displayName"] ?? json["name"],
-      skillCategoryDefinitions: (json["skillCategories"] as List? ?? [])
-          .map((e) => SkillCategoryDefinition.fromJson(e))
-          .toList(),
+      displayName: json["displayName"],
+      skillCategoryDefinitions:
+          (json["skillCategories"] as List? ?? [])
+              .map((e) => SkillCategoryDefinition.fromJson(e))
+              .toList(),
     );
   }
 }
@@ -165,7 +188,7 @@ class SkillCategoryDefinition {
       id: json["id"],
       displayName: json["displayName"],
       color: parseColor(json['color']),
-      skillDefinitions: (json["skills"] as List)
+      skillDefinitions: (json["skills"] as List? ?? [])
           .map((e) => SkillDefinition.fromJson(e))
           .toList(),
     );

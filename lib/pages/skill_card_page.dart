@@ -9,8 +9,8 @@ class SkillCardPage extends StatelessWidget {
       ProgressionTreeTemplateManager
           .insance
           .progressionTree
-          .progressionTrackDefinitions[0]
-          .skillCardDefinitions[0];
+          .coreRoot
+          .skillCardDefinition;
 
   @override
   Widget build(BuildContext context) {

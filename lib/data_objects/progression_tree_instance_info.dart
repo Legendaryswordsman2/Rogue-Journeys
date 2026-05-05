@@ -8,11 +8,11 @@ class ProgressionTreeInstance {
 }
 
 class ProgressionTrackInstance {
-  final ProgressionTrackDefinition skillCardTrackDefinition;
+  // final ProgressionTrackDefinition skillCardTrackDefinition;
   final List<SkillCardInstance> skillCards;
 
   ProgressionTrackInstance({
-    required this.skillCardTrackDefinition,
+    // required this.skillCardTrackDefinition,
     required this.skillCards,
   });
 }

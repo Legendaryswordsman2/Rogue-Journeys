@@ -1,13 +1,9 @@
 {
-    "skillCardTracks": [
-        {
-            "id": "skill_card_track_Core",
-            "displayName": "Core Track",
-            "skillCardDefinitions": [
-                {
-                    "id": "skill_card_core_1",
-                    "displayName": "Core LVL 1",
-                    "skillCategories": [
+    "coreRoot": {
+        "skillCard": {
+            "id": "skill_card_core_1",
+            "displayName": "Core LVL 1",
+            "skillCategories": [
                         {
                             "id": "category_floor",
                             "displayName": "Floor Skills",
@@ -131,40 +127,139 @@
                         }
 
                     ]
-                },
-                {
+            
+        },
+        "next": [
+            {
+                "skillCard": {
                     "id": "skill_card_core_2",
                     "displayName": "Core LVL 2"
                 },
-                {
-                    "id": "skill_card_core_3",
-                    "displayName": "Core LVL 3"
-                }
-            ]
-        },
+                "next": [
+                    {
+                        "skillCard": {
+                            "id": "skill_card_core_3",
+                            "displayName": "Core LVL 3"
+                        },
+                        "next": [
+                            {
+                                "skillCard": {
+                                    "id": "skill_card_skills_4",
+                                    "displayName": "Skills LVL 4"
+                                },
+                                "next": [
+                                    {
+                                        "skillCard": {
+                                            "id": "skill_card_skills_5",
+                                            "displayName": "Skills LVL 5"
+                                        },
+                                        "next": [
+                                            {
+                                                "skillCard": {
+                                                    "id": "skill_card_skills_6",
+                                                    "displayName": "Skills LVL 6"
+                                                },
+                                                "next": [
+                                                    {}
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "skillCard": {
+                                    "id": "skill_card_speed_4",
+                                    "displayName": "Speed LVL 4"
+                                },
+                                "next": [
+                                    {
+                                        "skillCard": {
+                                            "id": "skill_card_speed_5",
+                                            "displayName": "Speed LVL 5"
+                                        },
+                                        "next": [
+                                            {
+                                                "skillCard": {
+                                                    "id": "skill_card_speed_6",
+                                                    "displayName": "Speed LVL 6"
+                                                },
+                                                "next": [
+                                                    {}
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "skillCard": {
+                                    "id": "skill_card_acro_4",
+                                    "displayName": "Acro LVL 4"
+                                },
+                                "next": [
+                                    {
+                                        "skillCard": {
+                                            "id": "skill_card_acro_5",
+                                            "displayName": "Acro LVL 5"
+                                        },
+                                        "next": [
+                                            {
+                                                "skillCard": {
+                                                    "id": "skill_card_acro_6",
+                                                    "displayName": "Acro LVL 6"
+                                                },
+                                                "next": [
+                                                    {}
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "sideRoots": [
         {
-            "id": "skillTrackTricking",
-            "displayName": "Tricking Track",
-            "skillCardDefinitions": [
+            "skillCard": {
+                "id": "skill_card_tricking_1",
+                "displayName": "Tricking LVL 1"
+            },
+            "next": [
                 {
-                    "id": "skillCardTricking1",
-                    "displayName": "Tricking LVL 1"
-                },
-                {
-                    "id": "skillCardTricking2",
-                    "displayName": "Tricking LVL 2"
-                },
-                {
-                    "id": "skillCardTricking3",
-                    "displayName": "Tricking LVL 3"
-                },
-                {
-                    "id": "skillCardTricking4",
-                    "displayName": "Tricking LVL 4"
-                },
-                {
-                    "id": "skillCardTricking5",
-                    "displayName": "Tricking LVL 5"
+                    "skillCard": {
+                        "id": "skill_card_tricking_2",
+                        "displayName": "Tricking LVL 2"
+                    },
+                    "next": [
+                        {
+                            "skillCard": {
+                                "id": "skill_card_tricking_3",
+                                "displayName": "Tricking LVL 3"
+                            },
+                            "next": [
+                                {
+                                    "skillCard": {
+                                        "id": "skill_card_tricking_4",
+                                        "displayName": "Tricking LVL 4"
+                                    },
+                                    "next": [
+                                        {
+                                            "skillCard": {
+                                                "id": "skill_card_tricking_5",
+                                                "displayName": "Tricking LVL 5"
+                                            },
+                                            "next": []
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         }
