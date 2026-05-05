@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rogue_journeys/data_objects/progression_tree_info.dart';
+import 'package:rogue_journeys/data_objects/progression_tree_template_info.dart';
 import 'package:rogue_journeys/widgets/appbar_gradient_widget.dart';
 
 class SkillCardPage extends StatelessWidget {
@@ -9,7 +9,7 @@ class SkillCardPage extends StatelessWidget {
       ProgressionTreeTemplateManager
           .insance
           .progressionTree
-          .skillCardTracks[0]
+          .progressionTrackDefinitions[0]
           .skillCardDefinitions[0];
 
   @override
@@ -70,7 +70,7 @@ class SkillCardView extends StatelessWidget {
                 context,
               ).copyWith(overscroll: false),
               child: ListView(
-                children: skillCardDefinition.skillCategories
+                children: skillCardDefinition.skillCategoryDefinitions
                     .map(
                       (skillCategory) => SkillCategoryBlock(
                         skillCategoryDefinition: skillCategory,
@@ -80,35 +80,73 @@ class SkillCardView extends StatelessWidget {
               ),
             ),
           ),
-          InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Container(
-              margin: EdgeInsets.only(top: 10),
-              width: 250,
-              height: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                gradient: const LinearGradient(
-                  colors: [Colors.lightBlue, Colors.blueAccent],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+
+          Container(
+            margin: EdgeInsets.only(top: 10),
+            child: Material(
+              color: Colors.transparent,
+              child: Ink(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  gradient: const LinearGradient(
+                    colors: [Colors.lightBlue, Colors.blueAccent],
+                  ),
+                  border: Border.all(color: Colors.white10),
                 ),
-                border: Border.all(color: Colors.white10),
-              ),
-              child: Center(
-                child: Text(
-                  "Save Changes",
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(20),
+                  onTap: () => Navigator.pop(context),
+                  child: SizedBox(
+                    width: 250,
+                    height: 50,
+                    child: Center(
+                      child: Text(
+                        "Save Changes",
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
             ),
           ),
+
+          // Material(
+          //   color: Colors.transparent,
+          //   child: InkWell(
+          //     onTap: () {
+          //       Navigator.pop(context);
+          //     },
+          //     child: Container(
+          //       margin: EdgeInsets.only(top: 10),
+          //       width: 250,
+          //       height: 50,
+          //       decoration: BoxDecoration(
+          //         borderRadius: BorderRadius.circular(20),
+          //         gradient: const LinearGradient(
+          //           colors: [Colors.lightBlue, Colors.blueAccent],
+          //           begin: Alignment.topLeft,
+          //           end: Alignment.bottomRight,
+          //         ),
+          //         border: Border.all(color: Colors.white10),
+          //       ),
+          //       child: Center(
+          //         child: Text(
+          //           "Save Changes",
+          //           style: TextStyle(
+          //             fontSize: 30,
+          //             fontWeight: FontWeight.bold,
+          //             color: Colors.white,
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
@@ -199,8 +237,11 @@ class SkillCategoryBlock extends StatelessWidget {
             ),
           ),
 
-          ...skillCategoryDefinition.skills.map(
-            (skill) => SkillEntry(skillDefinition: skill),
+          ...skillCategoryDefinition.skillDefinitions.map(
+            (skill) => SkillEntry(
+              skillDefinition: skill,
+              skillCategoryDefinition: skillCategoryDefinition,
+            ),
           ),
           LinearProgressIndicator(
             value: 1 / 4,
@@ -216,8 +257,13 @@ class SkillCategoryBlock extends StatelessWidget {
 }
 
 class SkillEntry extends StatefulWidget {
-  const SkillEntry({super.key, required this.skillDefinition});
+  const SkillEntry({
+    super.key,
+    required this.skillDefinition,
+    required this.skillCategoryDefinition,
+  });
 
+  final SkillCategoryDefinition skillCategoryDefinition;
   final SkillDefinition skillDefinition;
 
   @override
@@ -251,16 +297,19 @@ class _SkillEntryState extends State<SkillEntry> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           color: _isChecked
-              ? const Color(0xFF1E2A1E)
+              ? widget.skillCategoryDefinition.color.withAlpha(30)
               : const Color(0xFF2A2A2A),
           border: Border.all(
-            color: _isChecked ? Colors.greenAccent : Colors.white12,
+            color: _isChecked
+                ? widget.skillCategoryDefinition.color
+                : Colors.white12,
             width: 1.5,
           ),
           boxShadow: _isChecked
               ? [
                   BoxShadow(
-                    color: Colors.greenAccent.withValues(alpha: 0.25),
+                    color: widget.skillCategoryDefinition.color
+                        .withValues(alpha: 0.25),
                     blurRadius: 12,
                     spreadRadius: 1,
                   ),
@@ -272,9 +321,9 @@ class _SkillEntryState extends State<SkillEntry> {
             AnimatedSwitcher(
               duration: Duration(milliseconds: 200),
               child: _isChecked
-                  ? const Icon(
+                  ? Icon(
                       Icons.verified,
-                      color: Colors.greenAccent,
+                      color: widget.skillCategoryDefinition.color,
                     )
                   : const Icon(
                       Icons.radio_button_unchecked,

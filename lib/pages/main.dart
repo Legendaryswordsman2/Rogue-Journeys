@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rogue_journeys/data_objects/progression_tree_info.dart';
+import 'package:rogue_journeys/data_objects/progression_tree_template_info.dart';
 import 'package:rogue_journeys/pages/class_page.dart';
 import 'package:rogue_journeys/data_objects/class_info.dart';
 import 'package:rogue_journeys/widgets/appbar_gradient_widget.dart';
@@ -75,34 +75,7 @@ class HomePage extends StatelessWidget {
       coach: "Zander Duncan",
       section: SectionType.walls,
       capacity: "5/10",
-    ),
-    Class(
-      date: "Wednesday, Apr 29, 2026",
-      startTime: "6:00pm",
-      endTime: "6:50pm",
-      title: "Acro 4-6 Parkour",
-      coach: "Jacob Lavelle",
-      section: SectionType.floor,
-      capacity: "2/10",
-    ),
-    Class(
-      date: "Wednesday, Apr 29, 2026",
-      startTime: "6:00pm",
-      endTime: "6:50pm",
-      title: "Acro 4-6 Parkour",
-      coach: "Jacob Lavelle",
-      section: SectionType.floor,
-      capacity: "2/10",
-    ),
-    Class(
-      date: "Wednesday, Apr 29, 2026",
-      startTime: "6:00pm",
-      endTime: "6:50pm",
-      title: "Acro 4-6 Parkour",
-      coach: "Jacob Lavelle",
-      section: SectionType.floor,
-      capacity: "2/10",
-    ),
+    )
   ];
 
   final List<Class> earlierSessions = [
