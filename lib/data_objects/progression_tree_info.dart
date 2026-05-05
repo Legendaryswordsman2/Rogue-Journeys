@@ -148,11 +148,13 @@ class SkillCardDefinition {
 class SkillCategoryDefinition {
   String id;
   String displayName;
+  Color color;
   List<SkillDefinition> skills;
 
   SkillCategoryDefinition({
     required this.id,
     required this.displayName,
+    required this.color,
     required this.skills,
   });
 
@@ -162,10 +164,48 @@ class SkillCategoryDefinition {
     return SkillCategoryDefinition(
       id: json["id"],
       displayName: json["displayName"],
+      color: parseColor(json['color']),
       skills: (json["skills"] as List)
           .map((e) => SkillDefinition.fromJson(e))
           .toList(),
     );
+  }
+
+  static Color parseColor(dynamic value) {
+    try {
+      if (value == null || value.isEmpty) return Colors.white;
+
+      // Case 1: already an int (e.g. 0xFFFFCE00 stored as number)
+      if (value is int) {
+        return Color(value);
+      }
+
+      // Case 2: string input
+      if (value is String) {
+        String v = value.trim();
+
+        // Handle "0xFFFFCE00"
+        if (v.startsWith('0x')) {
+          return Color(int.parse(v));
+        }
+
+        // Handle "#RRGGBB" or "#AARRGGBB"
+        v = v.replaceAll('#', '');
+
+        if (v.length == 6) {
+          v = 'FF$v'; // assume full opacity
+        }
+
+        if (v.length == 8) {
+          return Color(int.parse(v, radix: 16));
+        }
+      }
+
+      return Colors.white;
+    } catch (e) {
+      debugPrint("$e");
+      return Colors.white;
+    }
   }
 }
 
