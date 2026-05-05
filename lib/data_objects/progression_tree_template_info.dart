@@ -121,7 +121,7 @@ class ProgressionTrackDefinition {
   }
 }
 
-// Represents a list of skill categories contained in the Skill Card. Once all skills in all categories are complete, the Skill Card is complete.
+// Represents a list of skill categories contained in the Skill Card.
 class SkillCardDefinition {
   String id;
   String displayName;
