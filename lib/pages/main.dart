@@ -30,85 +30,7 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
-  final List<Class> upcomingSessions = [
-    Class(
-      date: "Wednesday, Apr 29, 2026",
-      startTime: "5:00pm",
-      endTime: "5:45pm",
-      title: "Pre-K Parkour",
-      coach: "Zander Duncan",
-      section: SectionType.precisions,
-      capacity: "3/6",
-    ),
-    Class(
-      date: "Wednesday, Apr 29, 2026",
-      startTime: "5:00pm",
-      endTime: "5:50pm",
-      title: "Youth Level 1 Parkour",
-      coach: "Avery Shultz",
-      section: SectionType.vaults,
-      capacity: "4/8",
-    ),
-    Class(
-      date: "Wednesday, Apr 29, 2026",
-      startTime: "5:00pm",
-      endTime: "5:50pm",
-      title: "Youth 2 & 3 Parkour",
-      coach: "Chase Engrstrom",
-      section: SectionType.bars,
-      capacity: "3/10",
-    ),
-    Class(
-      date: "Wednesday, Apr 29, 2026",
-      startTime: "5:00pm",
-      endTime: "5:50pm",
-      title: "Intro to Flips",
-      coach: "Jacob Lavelle",
-      section: SectionType.floor,
-      capacity: "6/10",
-    ),
-    Class(
-      date: "Wednesday, Apr 29, 2026",
-      startTime: "6:00pm",
-      endTime: "6:50pm",
-      title: "Teen/Adult 2 & 3 Parkour",
-      coach: "Zander Duncan",
-      section: SectionType.walls,
-      capacity: "5/10",
-    )
-  ];
-
-  final List<Class> earlierSessions = [
-    Class(
-      date: "Wednesday, Apr 29, 2026",
-      startTime: "3:00pm",
-      endTime: "3:45pm",
-      title: "Pre-K Parkour",
-      coach: "Jacob Lavelle",
-      section: SectionType.vaults,
-      capacity: "3/6",
-    ),
-    Class(
-      date: "Wednesday, Apr 29, 2026",
-      startTime: "3:00pm",
-      endTime: "3:50pm",
-      title: "Youth Level 1 Parkour",
-      coach: "Zander Duncan",
-      section: SectionType.precisions,
-      capacity: "8/10",
-    ),
-    Class(
-      date: "Wednesday, Apr 29, 2026",
-      startTime: "3:00pm",
-      endTime: "3:50pm",
-      title: "Youth 2 & 3 Parkour",
-      coach: "Chase Engrstrom",
-      section: SectionType.bars,
-      capacity: "1/10",
-    ),
-  ];
-
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -140,11 +62,11 @@ class HomePage extends StatelessWidget {
           children: [
             ClassList(
               title: "Earlier Classes",
-              sessions: earlierSessions,
+              sessions: Class.sampleEarlierClasses,
             ),
             ClassList(
               title: "Upcoming Classes",
-              sessions: upcomingSessions,
+              sessions: Class.sampleUpcomingClasses,
               initiallyExpanded: true,
             ),
           ],
@@ -231,12 +153,9 @@ class ClassEntry extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ClassTimeRange(
-                    startTime: session.startTime,
-                    endTime: session.endTime,
-                  ),
+                  ClassTimeRange(session: session),
                   ClassTitle(session: session),
-                  ClassCapacity(capacity: session.capacity),
+                  ClassCapacity(session: session),
                 ],
               ),
             ),
@@ -248,14 +167,9 @@ class ClassEntry extends StatelessWidget {
 }
 
 class ClassTimeRange extends StatelessWidget {
-  final String startTime;
-  final String endTime;
+  final Class session;
 
-  const ClassTimeRange({
-    super.key,
-    required this.startTime,
-    required this.endTime,
-  });
+  const ClassTimeRange({super.key, required this.session});
 
   @override
   Widget build(BuildContext context) {
@@ -268,7 +182,10 @@ class ClassTimeRange extends StatelessWidget {
 
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [Text("$startTime-"), Text(endTime)],
+        children: [
+          Text("${session.startTime}-"),
+          Text(session.endTime),
+        ],
       ),
     );
   }
@@ -312,9 +229,9 @@ class ClassTitle extends StatelessWidget {
 }
 
 class ClassCapacity extends StatelessWidget {
-  final String capacity;
+  final Class session;
 
-  const ClassCapacity({super.key, required this.capacity});
+  const ClassCapacity({super.key, required this.session});
 
   @override
   Widget build(BuildContext context) {
@@ -327,7 +244,7 @@ class ClassCapacity extends StatelessWidget {
       ),
 
       alignment: Alignment.center,
-      child: Text(capacity),
+      child: Text("${session.attendance.length}/${session.capacity}"),
     );
   }
 }

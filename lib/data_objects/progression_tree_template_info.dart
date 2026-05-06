@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rogue_journeys/data_objects/progression_tree_instance_info.dart';
 
 class ProgressionTreeTemplateManager {
   ProgressionTreeTemplateManager._internal();
@@ -68,13 +69,8 @@ class ProgressionTreeDefinition {
 
     return ProgressionTreeDefinition(
       coreRoot: ProgressionNodeDefinition(
-        skillCardDefinition: SkillCardDefinition(
-          id: coreRootJson['skillCard']['id'],
-          displayName: coreRootJson['skillCard']['displayName'],
-          skillCategoryDefinitions:
-              (coreRootJson['skillCard']["skillCategories"] as List? ?? [])
-                  .map((e) => SkillCategoryDefinition.fromJson(e))
-                  .toList(),
+        skillCardDefinition: SkillCardDefinition.fromJson(
+          coreRootJson['skillCard'],
         ),
         next: (json["next"] as List? ?? [])
             .map((e) => ProgressionNodeDefinition.fromJson(e))
@@ -87,34 +83,7 @@ class ProgressionTreeDefinition {
   }
 }
 
-// Represents a list of skill cards to work through in a single track (e.g. Core lvl 1-6, tricking lvl 1-5).
-// class ProgressionTrackDefinition {
-//   String id;
-//   String displayName;
-
-//   List<SkillCardDefinition> skillCardDefinitions;
-//   // List<ProgressionNodeDefinition> rootNodes;
-
-//   ProgressionTrackDefinition({
-//     required this.id,
-//     required this.displayName,
-//     // required this.rootNodes
-//     required this.skillCardDefinitions,
-//   });
-
-//   factory ProgressionTrackDefinition.fromJson(
-//     Map<String, dynamic> json,
-//   ) {
-//     return ProgressionTrackDefinition(
-//       id: json["id"],
-//       displayName: json["displayName"],
-//       skillCardDefinitions: (json["skillCardDefinitions"] as List)
-//           .map((e) => SkillCardDefinition.fromJson(e))
-//           .toList(),
-//     );
-//   }
-// }
-
+// References a Skill Card Definition and contains the next Progression Nodes to be unlocked once the Skill Card has been completed.
 class ProgressionNodeDefinition {
   SkillCardDefinition skillCardDefinition;
   List<ProgressionNodeDefinition> next;
@@ -128,13 +97,8 @@ class ProgressionNodeDefinition {
     Map<String, dynamic> json,
   ) {
     return ProgressionNodeDefinition(
-      skillCardDefinition: SkillCardDefinition(
-        id: json['skillCard']['id'],
-        displayName: json['skillCard']['displayName'],
-        skillCategoryDefinitions:
-            (json['skillCard']["skillCategories"] as List? ?? [])
-                .map((e) => SkillCategoryDefinition.fromJson(e))
-                .toList(),
+      skillCardDefinition: SkillCardDefinition.fromJson(
+        json['skillCard'],
       ),
       next: (json["next"] as List? ?? [])
           .map((e) => ProgressionNodeDefinition.fromJson(e))

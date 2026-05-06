@@ -2,19 +2,36 @@ import 'package:rogue_journeys/data_objects/progression_tree_template_info.dart'
 
 class ProgressionTreeInstance {
   final ProgressionTreeDefinition progressionTreeDefinition;
-  final List<ProgressionTrackInstance> progressionTracks;
+  final ProgressionNodeInstance coreRoot;
+  final List<ProgressionNodeInstance> sideRoots;
 
-  ProgressionTreeInstance({required this.progressionTreeDefinition, required this.progressionTracks});
+  ProgressionTreeInstance({
+    required this.progressionTreeDefinition,
+    required this.coreRoot,
+    required this.sideRoots,
+  });
+
+  ProgressionTreeInstance.newTree(ProgressionTreeDefinition progressionTreeDef)
+    : progressionTreeDefinition = progressionTreeDef,
+      coreRoot = ProgressionNodeInstance.newNode(progressionTreeDef.coreRoot),
+      sideRoots = progressionTreeDef.sideRoots.map((childRoot) => ProgressionNodeInstance.newNode(childRoot)).toList();
 }
 
-class ProgressionTrackInstance {
-  // final ProgressionTrackDefinition skillCardTrackDefinition;
-  final List<SkillCardInstance> skillCards;
+class ProgressionNodeInstance {
+  final ProgressionNodeDefinition progressionNodeDefinition;
+  final SkillCardInstance skillCard;
+  final List<ProgressionNodeInstance> next;
 
-  ProgressionTrackInstance({
-    // required this.skillCardTrackDefinition,
-    required this.skillCards,
+  ProgressionNodeInstance({
+    required this.progressionNodeDefinition,
+    required this.skillCard,
+    required this.next,
   });
+
+  ProgressionNodeInstance.newNode(ProgressionNodeDefinition progressionNodeDef)
+  : progressionNodeDefinition = progressionNodeDef,
+  skillCard = SkillCardInstance.newSkillCard(progressionNodeDef.skillCardDefinition),
+  next = progressionNodeDef.next.map((childDef) => ProgressionNodeInstance.newNode(childDef)).toList();
 }
 
 class SkillCardInstance {
@@ -25,6 +42,10 @@ class SkillCardInstance {
     required this.skillCardDefinition,
     required this.skillCategories,
   });
+
+  SkillCardInstance.newSkillCard(SkillCardDefinition skillCardDef)
+  : skillCardDefinition = skillCardDef,
+  skillCategories = skillCardDef.skillCategoryDefinitions.map((childCategoryDefinition) => SkillCategoryInstance.newSkillCategory(childCategoryDefinition)).toList();
 }
 
 class SkillCategoryInstance {
@@ -35,15 +56,22 @@ class SkillCategoryInstance {
     required this.skillCategoryDefinition,
     required this.skills,
   });
+
+  SkillCategoryInstance.newSkillCategory(SkillCategoryDefinition skillCategoryDef)
+  : skillCategoryDefinition = skillCategoryDef,
+  skills = skillCategoryDef.skillDefinitions.map((childSkillDefinition) => SkillInstance.newSkill(childSkillDefinition)).toList();
 }
 
 class SkillInstance {
   final SkillDefinition skillDefinition;
 
-  bool skillCompleted;
+  bool skillCompleted = false;
 
   SkillInstance({
     required this.skillDefinition,
     this.skillCompleted = false,
   });
+
+  SkillInstance.newSkill(SkillDefinition skillDef)
+  : skillDefinition = skillDef;
 }

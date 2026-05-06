@@ -65,7 +65,11 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/images/tally_hall/
+    - assets/images/sample_profile_pics/set_1/
+    - assets/images/sample_profile_pics/set_2/
+    - assets/images/sample_profile_pics/set_3/
+    - assets/images/sample_profile_pics/set_4/
+    - assets/images/sample_profile_pics/set_5/
     - assets/data/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

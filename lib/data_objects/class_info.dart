@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rogue_journeys/data_objects/student_info.dart';
 
 enum SectionType { floor, walls, vaults, precisions, bars }
 
@@ -14,6 +15,8 @@ class Class {
 
   final String capacity;
 
+  final List<Student> attendance;
+
   const Class({
     required this.date,
 
@@ -25,6 +28,8 @@ class Class {
     required this.section,
 
     required this.capacity,
+
+    required this.attendance,
   });
 
   Color getSectionColor() {
@@ -45,7 +50,8 @@ class Class {
       title: "Pre-K Parkour",
       coach: "Zander Duncan",
       section: SectionType.precisions,
-      capacity: "3/6",
+      capacity: "6",
+      attendance: Student.sampleStudentList3
     ),
     Class(
       date: "Wednesday, Apr 29, 2026",
@@ -54,7 +60,8 @@ class Class {
       title: "Youth Level 1 Parkour",
       coach: "Avery Shultz",
       section: SectionType.vaults,
-      capacity: "4/8",
+      capacity: "8",
+      attendance: Student.sampleStudentList2
     ),
     Class(
       date: "Wednesday, Apr 29, 2026",
@@ -63,7 +70,8 @@ class Class {
       title: "Youth 2 & 3 Parkour",
       coach: "Chase Engrstrom",
       section: SectionType.bars,
-      capacity: "3/10",
+      capacity: "10",
+      attendance: Student.sampleStudentList5
     ),
     Class(
       date: "Wednesday, Apr 29, 2026",
@@ -72,7 +80,8 @@ class Class {
       title: "Intro to Flips",
       coach: "Jacob Lavelle",
       section: SectionType.floor,
-      capacity: "6/10",
+      capacity: "10",
+      attendance: Student.sampleStudentList4
     ),
     Class(
       date: "Wednesday, Apr 29, 2026",
@@ -81,7 +90,8 @@ class Class {
       title: "Teen/Adult 2 & 3 Parkour",
       coach: "Zander Duncan",
       section: SectionType.walls,
-      capacity: "5/10",
+      capacity: "10",
+      attendance: Student.sampleStudentList1
     ),
     Class(
       date: "Wednesday, Apr 29, 2026",
@@ -90,7 +100,8 @@ class Class {
       title: "Acro 4-6 Parkour",
       coach: "Jacob Lavelle",
       section: SectionType.floor,
-      capacity: "2/10",
+      capacity: "10",
+      attendance: Student.sampleStudentList1
     ),
   ];
 
@@ -102,7 +113,8 @@ class Class {
       title: "Pre-K Parkour",
       coach: "Jacob Lavelle",
       section: SectionType.vaults,
-      capacity: "3/6",
+      capacity: "6",
+      attendance: Student.sampleStudentList1
     ),
     Class(
       date: "Wednesday, Apr 29, 2026",
@@ -111,7 +123,8 @@ class Class {
       title: "Youth Level 1 Parkour",
       coach: "Zander Duncan",
       section: SectionType.precisions,
-      capacity: "8/10",
+      capacity: "10",
+      attendance: Student.sampleStudentList4
     ),
     Class(
       date: "Wednesday, Apr 29, 2026",
@@ -120,7 +133,8 @@ class Class {
       title: "Youth 2 & 3 Parkour",
       coach: "Chase Engrstrom",
       section: SectionType.bars,
-      capacity: "1/10",
+      capacity: "10",
+      attendance: Student.sampleStudentList2
     ),
   ];
 }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:rogue_journeys/data_objects/progression_tree_template_info.dart';
+import 'package:rogue_journeys/data_objects/student_info.dart';
 import 'package:rogue_journeys/widgets/appbar_gradient_widget.dart';
 
 class SkillCardPage extends StatelessWidget {
-  SkillCardPage({super.key});
+  SkillCardPage({super.key, required this.student});
+
+  final Student student;
 
   final SkillCardDefinition skillCardDefinition =
       ProgressionTreeTemplateManager
@@ -28,7 +31,10 @@ class SkillCardPage extends StatelessWidget {
 
         flexibleSpace: AppbarGradientContainer(),
       ),
-      body: SkillCardView(skillCardDefinition: skillCardDefinition),
+      body: SkillCardView(
+        skillCardDefinition: skillCardDefinition,
+        student: student,
+      ),
       // body: Column(
       //   crossAxisAlignment: .center,
       //   children: [
@@ -47,9 +53,14 @@ class SkillCardPage extends StatelessWidget {
 }
 
 class SkillCardView extends StatelessWidget {
-  const SkillCardView({super.key, required this.skillCardDefinition});
+  const SkillCardView({
+    super.key,
+    required this.skillCardDefinition,
+    required this.student,
+  });
 
   final SkillCardDefinition skillCardDefinition;
+  final Student student;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +74,7 @@ class SkillCardView extends StatelessWidget {
       ),
       child: Column(
         children: [
-          ProgressHeader(),
+          ProgressHeader(student: student),
           Expanded(
             child: ScrollConfiguration(
               behavior: ScrollConfiguration.of(
@@ -154,7 +165,9 @@ class SkillCardView extends StatelessWidget {
 }
 
 class ProgressHeader extends StatelessWidget {
-  const ProgressHeader({super.key});
+  const ProgressHeader({super.key, required this.student});
+
+  final Student student;
 
   @override
   Widget build(BuildContext context) {
@@ -173,7 +186,7 @@ class ProgressHeader extends StatelessWidget {
               ),
             ),
             Text(
-              "Rob Cantor",
+              student.studentName,
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,

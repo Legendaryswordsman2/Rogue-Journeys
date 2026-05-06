@@ -15,7 +15,6 @@ class ClassPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         // toolbarHeight: 200,
@@ -34,7 +33,7 @@ class ClassPage extends StatelessWidget {
       body: Column(
         children: [
           Header(session: session),
-          Expanded(child: StudentsList()),
+          Expanded(child: StudentsList(students: session.attendance)),
         ],
       ),
     );
@@ -101,9 +100,10 @@ class Header extends StatelessWidget {
                       color: Colors.white,
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                      ),
                       child: AutoSizeText(
-                        
                         maxLines: 1,
                         session.section.name,
                         style: TextStyle(
@@ -123,7 +123,7 @@ class Header extends StatelessWidget {
                       color: Colors.white,
                     ),
                     child: Text(
-                      session.capacity,
+                      "${session.attendance.length}/${session.capacity}",
                       style: TextStyle(
                         color: Colors.grey.shade600,
                         fontWeight: FontWeight.bold,
@@ -142,8 +142,8 @@ class Header extends StatelessWidget {
 }
 
 class StudentsList extends StatelessWidget {
-  final List<Student> students = Student.sampleStudentList1;
-  StudentsList({super.key});
+  final List<Student> students;
+  const StudentsList({super.key, required this.students});
 
   @override
   Widget build(BuildContext context) {
@@ -204,21 +204,19 @@ class StudentEntry extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-          Navigator.push(
-            context,
-            CupertinoPageRoute(
-              builder: (context) => SkillCardPage(),
-            ),
-          );
-        },
-        onLongPress: () {
-          Navigator.push(
-            context,
-            CupertinoPageRoute(
-              builder: (context) => AccountPage(),
-            ),
-          );
-        },
+        Navigator.push(
+          context,
+          CupertinoPageRoute(
+            builder: (context) => SkillCardPage(student: student),
+          ),
+        );
+      },
+      onLongPress: () {
+        Navigator.push(
+          context,
+          CupertinoPageRoute(builder: (context) => AccountPage()),
+        );
+      },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Row(
