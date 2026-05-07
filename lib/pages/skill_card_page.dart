@@ -217,9 +217,7 @@ class _HeaderProgressState extends State<HeaderProgress> {
     final completed = widget.progressionState.countAllCompletedSkills();
     final total = widget.skillCardDefinition.totalSkills;
 
-    final int percent = total == 0
-    ? 0
-    : ((completed / total) * 100).round();
+    final int percent = total == 0 ? 0 : ((completed / total) * 100).round();
 
     return Column(
       crossAxisAlignment: .start,
@@ -236,16 +234,9 @@ class _HeaderProgressState extends State<HeaderProgress> {
             );
           },
         ),
-
-        // LinearProgressIndicator(
-        //   value:
-        //       widget.progressionState.countAllCompletedSkills() /
-        //       widget.skillCardDefinition.totalSkills,
-        //   backgroundColor: Colors.white10,
-        //   valueColor: AlwaysStoppedAnimation(Colors.greenAccent),
-        // ),
         SizedBox(height: 8),
         Text("$percent% completed", style: TextStyle(color: Colors.white54)),
+        SizedBox(height: 8)
       ],
     );
   }
@@ -332,8 +323,27 @@ class CategoryProgressBar extends StatefulWidget {
   State<CategoryProgressBar> createState() => _CategoryProgressBarState();
 }
 
-class _CategoryProgressBarState extends State<CategoryProgressBar> {
+class _CategoryProgressBarState extends State<CategoryProgressBar>
+    with SingleTickerProviderStateMixin {
   void refresh() => setState(() {});
+
+  late AnimationController _controller;
+  late Animation<double> _pulse;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    );
+
+    _pulse = Tween<double>(
+      begin: 0.2,
+      end: 0.6,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+  }
 
   @override
   Widget build(BuildContext context) {
