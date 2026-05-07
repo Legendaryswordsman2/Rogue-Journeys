@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rogue_journeys/data_objects/progression_tree_template_info.dart';
 import 'package:rogue_journeys/data_objects/student_info.dart';
@@ -41,7 +42,7 @@ class SkillCardPage extends StatelessWidget {
 }
 
 class SkillCardView extends StatelessWidget {
-  const SkillCardView({
+  SkillCardView({
     super.key,
     required this.skillCardDefinition,
     required this.student,
@@ -51,6 +52,8 @@ class SkillCardView extends StatelessWidget {
   final SkillCardDefinition skillCardDefinition;
   final Student student;
   final ProgressionState progressionState;
+
+  final GlobalKey<_HeaderInfoViewState> _headerInfoViewKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +67,12 @@ class SkillCardView extends StatelessWidget {
       ),
       child: Column(
         children: [
-          ProgressHeader(student: student),
+          HeaderInfoView(
+            key: _headerInfoViewKey,
+            student: student,
+            progressionState: progressionState,
+            skillCardDefinition: skillCardDefinition,
+          ),
           Expanded(
             child: ScrollConfiguration(
               behavior: ScrollConfiguration.of(
@@ -76,6 +84,8 @@ class SkillCardView extends StatelessWidget {
                       (skillCategory) => SkillCategoryBlock(
                         progressionState: progressionState,
                         skillCategoryDefinition: skillCategory,
+                        onCategoryUpdated: () => _headerInfoViewKey.currentState
+                            ?.refreshHeaderProgresss(),
                       ),
                     )
                     .toList(),
@@ -125,10 +135,24 @@ class SkillCardView extends StatelessWidget {
   }
 }
 
-class ProgressHeader extends StatelessWidget {
-  const ProgressHeader({super.key, required this.student});
+class HeaderInfoView extends StatefulWidget {
+  const HeaderInfoView({
+    super.key,
+    required this.student,
+    required this.progressionState,
+    required this.skillCardDefinition,
+  });
 
   final Student student;
+  final ProgressionState progressionState;
+  final SkillCardDefinition skillCardDefinition;
+
+  @override
+  State<HeaderInfoView> createState() => _HeaderInfoViewState();
+}
+
+class _HeaderInfoViewState extends State<HeaderInfoView> {
+  final GlobalKey<_HeaderProgressState> _headerProgressKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +171,7 @@ class ProgressHeader extends StatelessWidget {
               ),
             ),
             Text(
-              student.studentName,
+              widget.student.studentName,
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
@@ -157,27 +181,90 @@ class ProgressHeader extends StatelessWidget {
           ],
         ),
         SizedBox(height: 10),
-        LinearProgressIndicator(
-          value: 0.45,
-          backgroundColor: Colors.white10,
-          valueColor: AlwaysStoppedAnimation(Colors.greenAccent),
+        HeaderProgress(
+          key: _headerProgressKey,
+          progressionState: widget.progressionState,
+          skillCardDefinition: widget.skillCardDefinition,
         ),
+      ],
+    );
+  }
+
+  void refreshHeaderProgresss() {
+    _headerProgressKey.currentState?.refresh();
+  }
+}
+
+class HeaderProgress extends StatefulWidget {
+  final ProgressionState progressionState;
+  final SkillCardDefinition skillCardDefinition;
+
+  const HeaderProgress({
+    super.key,
+    required this.progressionState,
+    required this.skillCardDefinition,
+  });
+
+  @override
+  State<HeaderProgress> createState() => _HeaderProgressState();
+}
+
+class _HeaderProgressState extends State<HeaderProgress> {
+  void refresh() => setState(() {});
+
+  @override
+  Widget build(BuildContext context) {
+    final completed = widget.progressionState.countAllCompletedSkills();
+    final total = widget.skillCardDefinition.totalSkills;
+
+    final int percent = total == 0
+    ? 0
+    : ((completed / total) * 100).round();
+
+    return Column(
+      crossAxisAlignment: .start,
+      children: [
+        TweenAnimationBuilder(
+          tween: Tween<double>(begin: 0, end: completed / total),
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeOut,
+          builder: (context, value, _) {
+            return LinearProgressIndicator(
+              value: value,
+              backgroundColor: Colors.white10,
+              valueColor: AlwaysStoppedAnimation(Colors.greenAccent),
+            );
+          },
+        ),
+
+        // LinearProgressIndicator(
+        //   value:
+        //       widget.progressionState.countAllCompletedSkills() /
+        //       widget.skillCardDefinition.totalSkills,
+        //   backgroundColor: Colors.white10,
+        //   valueColor: AlwaysStoppedAnimation(Colors.greenAccent),
+        // ),
         SizedBox(height: 8),
-        Text("42% completed", style: TextStyle(color: Colors.white54)),
+        Text("$percent% completed", style: TextStyle(color: Colors.white54)),
       ],
     );
   }
 }
 
 class SkillCategoryBlock extends StatelessWidget {
-  const SkillCategoryBlock({
+  SkillCategoryBlock({
     super.key,
     required this.progressionState,
     required this.skillCategoryDefinition,
+    required this.onCategoryUpdated,
   });
 
   final ProgressionState progressionState;
   final SkillCategoryDefinition skillCategoryDefinition;
+
+  final GlobalKey<_CategoryProgressBarState> _progressBarKey = GlobalKey();
+
+  final VoidCallback onCategoryUpdated;
 
   @override
   Widget build(BuildContext context) {
@@ -193,7 +280,6 @@ class SkillCategoryBlock extends StatelessWidget {
         ),
         border: Border.all(color: Colors.white10),
       ),
-      // width: 250,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -215,15 +301,61 @@ class SkillCategoryBlock extends StatelessWidget {
               progressionState: progressionState,
               skillDefinition: skill,
               skillCategoryDefinition: skillCategoryDefinition,
+              onUpdated: () {
+                _progressBarKey.currentState?.refresh();
+                onCategoryUpdated();
+              },
             ),
           ),
-          LinearProgressIndicator(
-            value: skillCategoryDefinition.skillsCompleted(progressionState) / skillCategoryDefinition.skillDefinitions.length,
-            backgroundColor: Colors.white10,
-            valueColor: AlwaysStoppedAnimation(skillCategoryDefinition.color),
+          CategoryProgressBar(
+            key: _progressBarKey,
+            progressionState: progressionState,
+            skillCategoryDefinition: skillCategoryDefinition,
           ),
         ],
       ),
+    );
+  }
+}
+
+class CategoryProgressBar extends StatefulWidget {
+  const CategoryProgressBar({
+    super.key,
+    required this.progressionState,
+    required this.skillCategoryDefinition,
+  });
+
+  final ProgressionState progressionState;
+  final SkillCategoryDefinition skillCategoryDefinition;
+
+  @override
+  State<CategoryProgressBar> createState() => _CategoryProgressBarState();
+}
+
+class _CategoryProgressBarState extends State<CategoryProgressBar> {
+  void refresh() => setState(() {});
+
+  @override
+  Widget build(BuildContext context) {
+    final completed = widget.skillCategoryDefinition.skillsCompleted(
+      widget.progressionState,
+    );
+
+    final total = widget.skillCategoryDefinition.skillDefinitions.length;
+
+    return TweenAnimationBuilder(
+      tween: Tween<double>(begin: 0, end: completed / total),
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeOut,
+      builder: (context, value, _) {
+        return LinearProgressIndicator(
+          value: value,
+          backgroundColor: Colors.white10,
+          valueColor: AlwaysStoppedAnimation(
+            widget.skillCategoryDefinition.color,
+          ),
+        );
+      },
     );
   }
 }
@@ -234,12 +366,15 @@ class SkillEntry extends StatefulWidget {
     required ProgressionState progressionState,
     required this.skillDefinition,
     required this.skillCategoryDefinition,
+    required this.onUpdated,
   }) : skillState = progressionState.getSkillState(skillDefinition.id);
 
   final SkillCategoryDefinition skillCategoryDefinition;
   final SkillDefinition skillDefinition;
 
   final SkillState skillState;
+
+  final VoidCallback onUpdated;
 
   @override
   State<SkillEntry> createState() => _SkillEntryState();
@@ -248,6 +383,7 @@ class SkillEntry extends StatefulWidget {
 class _SkillEntryState extends State<SkillEntry> {
   void _toggle() {
     setState(() => widget.skillState.completed = !widget.skillState.completed);
+    widget.onUpdated();
   }
 
   @override

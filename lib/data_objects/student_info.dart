@@ -1,3 +1,5 @@
+import 'package:rogue_journeys/data_objects/progression_tree_template_info.dart';
+
 class Student {
   final String studentName;
   final String profilePicAssetLocation;
@@ -6,15 +8,14 @@ class Student {
   //   ProgressionTreeTemplateManager.insance.progressionTree,
   // );
 
-  ProgressionState progressionState = ProgressionState(
-    progressionTreeTemplateVersion: "1.0.0",
-  );
+  ProgressionState? _progressionState;
 
-  // ProgressionTreeState get progressionTreeState {
-  //   return _progressionTreeState ??= ProgressionTreeState(
-  //     progressionTreeTemplateVersion: "1.0.0",
-  //   );
-  // }
+  ProgressionState get progressionState {
+    return _progressionState ??= ProgressionState(
+      progressionTreeDefinition:
+          ProgressionTreeTemplateManager.insance.progressionTree,
+    );
+  }
 
   // ignore: unused_field
   final List<ProgressionState> _oldProgressionStates = [];
@@ -148,14 +149,15 @@ class Student {
 }
 
 class ProgressionState {
-  final String progressionTreeTemplateVersion;
+  // final String progressionTreeTemplateVersion;
+  final ProgressionTreeDefinition progressionTreeDefinition;
   Map<String, SkillState> _skillStates;
 
-  ProgressionState({required this.progressionTreeTemplateVersion})
+  ProgressionState({required this.progressionTreeDefinition})
     : _skillStates = {};
 
   ProgressionState._internal({
-    required this.progressionTreeTemplateVersion,
+    required this.progressionTreeDefinition,
     required Map<String, SkillState> skillStates,
   }) : _skillStates = skillStates;
 
@@ -163,9 +165,29 @@ class ProgressionState {
     return _skillStates.putIfAbsent(skillId, () => SkillState());
   }
 
+  bool isSkillCompleted(String skillId) {
+    return getSkillState(skillId).completed;
+  }
+
+  int countCompletedSkills(Iterable<String> skillIds) {
+    int count = 0;
+
+    for (final id in skillIds) {
+      if (isSkillCompleted(id)) {
+        count++;
+      }
+    }
+
+    return count;
+  }
+
+  int countAllCompletedSkills() {
+    return _skillStates.values.where((s) => s.completed).length;
+  }
+
   ProgressionState copy() {
     return ProgressionState._internal(
-      progressionTreeTemplateVersion: progressionTreeTemplateVersion,
+      progressionTreeDefinition: progressionTreeDefinition,
       skillStates: {
         for (final entry in _skillStates.entries) entry.key: entry.value.copy(),
       },

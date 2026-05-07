@@ -103,11 +103,15 @@ class SkillCardDefinition {
   String displayName;
   List<SkillCategoryDefinition> skillCategoryDefinitions;
 
+  final int totalSkills;
+
   SkillCardDefinition({
     required this.id,
     required this.displayName,
     required this.skillCategoryDefinitions,
-  });
+  }) : totalSkills = skillCategoryDefinitions
+           .expand((categoryDefinition) => categoryDefinition.skillDefinitions)
+           .length;
 
   factory SkillCardDefinition.fromJson(Map<String, dynamic> json) {
     return SkillCardDefinition(
@@ -117,6 +121,13 @@ class SkillCardDefinition {
           .map((e) => SkillCategoryDefinition.fromJson(e))
           .toList(),
     );
+  }
+
+  int skillsCompleted(ProgressionState progression) {
+    final skillIds = skillCategoryDefinitions
+        .expand((categoryDefinition) => categoryDefinition.skillDefinitions)
+        .map((s) => s.id);
+    return progression.countCompletedSkills(skillIds);
   }
 }
 
@@ -145,16 +156,10 @@ class SkillCategoryDefinition {
     );
   }
 
-  int skillsCompleted(ProgressionState progression) {
-    int completedAmount = 0;
-
-    skillDefinitions.forEach((skillDefinition) {
-      if (progression.getSkillState(skillDefinition.id).completed) {
-        completedAmount++;
-      }
-    });
-
-    return completedAmount;
+  int skillsCompleted(ProgressionState progressionState) {
+    return progressionState.countCompletedSkills(
+      skillDefinitions.map((skillDefinition) => skillDefinition.id),
+    );
   }
 
   static Color parseColor(dynamic value) {
