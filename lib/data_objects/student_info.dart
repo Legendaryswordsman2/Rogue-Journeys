@@ -1,4 +1,3 @@
-
 class Student {
   final String studentName;
   final String profilePicAssetLocation;
@@ -7,7 +6,18 @@ class Student {
   //   ProgressionTreeTemplateManager.insance.progressionTree,
   // );
 
-  // final Map<String, SkillState> skillStates;
+  ProgressionState progressionState = ProgressionState(
+    progressionTreeTemplateVersion: "1.0.0",
+  );
+
+  // ProgressionTreeState get progressionTreeState {
+  //   return _progressionTreeState ??= ProgressionTreeState(
+  //     progressionTreeTemplateVersion: "1.0.0",
+  //   );
+  // }
+
+  // ignore: unused_field
+  final List<ProgressionState> _oldProgressionStates = [];
 
   final int level;
 
@@ -137,7 +147,46 @@ class Student {
   ];
 }
 
+class ProgressionState {
+  final String progressionTreeTemplateVersion;
+  Map<String, SkillState> _skillStates;
+
+  ProgressionState({required this.progressionTreeTemplateVersion})
+    : _skillStates = {};
+
+  ProgressionState._internal({
+    required this.progressionTreeTemplateVersion,
+    required Map<String, SkillState> skillStates,
+  }) : _skillStates = skillStates;
+
+  SkillState getSkillState(String skillId) {
+    return _skillStates.putIfAbsent(skillId, () => SkillState());
+  }
+
+  ProgressionState copy() {
+    return ProgressionState._internal(
+      progressionTreeTemplateVersion: progressionTreeTemplateVersion,
+      skillStates: {
+        for (final entry in _skillStates.entries) entry.key: entry.value.copy(),
+      },
+    );
+  }
+
+  void override(ProgressionState newProgressionState) {
+    _skillStates = newProgressionState._skillStates;
+  }
+}
+
 class SkillState {
   bool completed = false;
-  DateTime? completedAt;
+  // DateTime? completedAt;
+
+  SkillState({
+    this.completed = false,
+    // this.completedAt,
+  });
+
+  SkillState copy() {
+    return SkillState(completed: completed);
+  }
 }

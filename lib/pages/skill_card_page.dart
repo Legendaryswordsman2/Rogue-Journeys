@@ -4,16 +4,19 @@ import 'package:rogue_journeys/data_objects/student_info.dart';
 import 'package:rogue_journeys/widgets/appbar_gradient_widget.dart';
 
 class SkillCardPage extends StatelessWidget {
-  SkillCardPage({super.key, required this.student});
+  SkillCardPage({super.key, required this.student})
+    : tempProgressionState = student.progressionState.copy();
 
   final Student student;
 
-  final SkillCardDefinition skillCardDefinition =
-      ProgressionTreeTemplateManager
-          .insance
-          .progressionTree
-          .coreRoot
-          .skillCardDefinition;
+  // A copy of the students progression state. This is modifed when changes are made in the Skill Card page. then when "Save Changes" is pressed, the tempProgressionState is applied to the students ProgressionState.
+  final ProgressionState tempProgressionState;
+
+  final SkillCardDefinition skillCardDefinition = ProgressionTreeTemplateManager
+      .insance
+      .progressionTree
+      .coreRoot
+      .skillCardDefinition;
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +26,7 @@ class SkillCardPage extends StatelessWidget {
         centerTitle: true,
         title: Text(
           "Skill Card",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
 
         flexibleSpace: AppbarGradientContainer(),
@@ -34,20 +34,8 @@ class SkillCardPage extends StatelessWidget {
       body: SkillCardView(
         skillCardDefinition: skillCardDefinition,
         student: student,
+        progressionState: tempProgressionState,
       ),
-      // body: Column(
-      //   crossAxisAlignment: .center,
-      //   children: [
-      //     SkillCategoryBlock(
-      //       skillCategoryDefinition:
-      //           skillCardDefinition.skillCategories[0],
-      //     ),
-      //     SkillCategoryBlock(
-      //       skillCategoryDefinition:
-      //           skillCardDefinition.skillCategories[1],
-      //     ),
-      //   ],
-      // ),
     );
   }
 }
@@ -57,10 +45,12 @@ class SkillCardView extends StatelessWidget {
     super.key,
     required this.skillCardDefinition,
     required this.student,
+    required this.progressionState,
   });
 
   final SkillCardDefinition skillCardDefinition;
   final Student student;
+  final ProgressionState progressionState;
 
   @override
   Widget build(BuildContext context) {
@@ -84,6 +74,7 @@ class SkillCardView extends StatelessWidget {
                 children: skillCardDefinition.skillCategoryDefinitions
                     .map(
                       (skillCategory) => SkillCategoryBlock(
+                        progressionState: progressionState,
                         skillCategoryDefinition: skillCategory,
                       ),
                     )
@@ -106,7 +97,10 @@ class SkillCardView extends StatelessWidget {
                 ),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(20),
-                  onTap: () => Navigator.pop(context),
+                  onTap: () {
+                    student.progressionState.override(progressionState);
+                    Navigator.pop(context);
+                  },
                   child: SizedBox(
                     width: 250,
                     height: 50,
@@ -125,39 +119,6 @@ class SkillCardView extends StatelessWidget {
               ),
             ),
           ),
-
-          // Material(
-          //   color: Colors.transparent,
-          //   child: InkWell(
-          //     onTap: () {
-          //       Navigator.pop(context);
-          //     },
-          //     child: Container(
-          //       margin: EdgeInsets.only(top: 10),
-          //       width: 250,
-          //       height: 50,
-          //       decoration: BoxDecoration(
-          //         borderRadius: BorderRadius.circular(20),
-          //         gradient: const LinearGradient(
-          //           colors: [Colors.lightBlue, Colors.blueAccent],
-          //           begin: Alignment.topLeft,
-          //           end: Alignment.bottomRight,
-          //         ),
-          //         border: Border.all(color: Colors.white10),
-          //       ),
-          //       child: Center(
-          //         child: Text(
-          //           "Save Changes",
-          //           style: TextStyle(
-          //             fontSize: 30,
-          //             fontWeight: FontWeight.bold,
-          //             color: Colors.white,
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );
@@ -202,10 +163,7 @@ class ProgressHeader extends StatelessWidget {
           valueColor: AlwaysStoppedAnimation(Colors.greenAccent),
         ),
         SizedBox(height: 8),
-        Text(
-          "42% completed",
-          style: TextStyle(color: Colors.white54),
-        ),
+        Text("42% completed", style: TextStyle(color: Colors.white54)),
       ],
     );
   }
@@ -214,9 +172,11 @@ class ProgressHeader extends StatelessWidget {
 class SkillCategoryBlock extends StatelessWidget {
   const SkillCategoryBlock({
     super.key,
+    required this.progressionState,
     required this.skillCategoryDefinition,
   });
 
+  final ProgressionState progressionState;
   final SkillCategoryDefinition skillCategoryDefinition;
 
   @override
@@ -252,16 +212,15 @@ class SkillCategoryBlock extends StatelessWidget {
 
           ...skillCategoryDefinition.skillDefinitions.map(
             (skill) => SkillEntry(
+              progressionState: progressionState,
               skillDefinition: skill,
               skillCategoryDefinition: skillCategoryDefinition,
             ),
           ),
           LinearProgressIndicator(
-            value: 1 / 4,
+            value: skillCategoryDefinition.skillsCompleted(progressionState) / skillCategoryDefinition.skillDefinitions.length,
             backgroundColor: Colors.white10,
-            valueColor: AlwaysStoppedAnimation(
-              skillCategoryDefinition.color,
-            ),
+            valueColor: AlwaysStoppedAnimation(skillCategoryDefinition.color),
           ),
         ],
       ),
@@ -270,24 +229,25 @@ class SkillCategoryBlock extends StatelessWidget {
 }
 
 class SkillEntry extends StatefulWidget {
-  const SkillEntry({
+  SkillEntry({
     super.key,
+    required ProgressionState progressionState,
     required this.skillDefinition,
     required this.skillCategoryDefinition,
-  });
+  }) : skillState = progressionState.getSkillState(skillDefinition.id);
 
   final SkillCategoryDefinition skillCategoryDefinition;
   final SkillDefinition skillDefinition;
+
+  final SkillState skillState;
 
   @override
   State<SkillEntry> createState() => _SkillEntryState();
 }
 
 class _SkillEntryState extends State<SkillEntry> {
-  bool _isChecked = false;
-
   void _toggle() {
-    setState(() => _isChecked = !_isChecked);
+    setState(() => widget.skillState.completed = !widget.skillState.completed);
   }
 
   @override
@@ -299,30 +259,25 @@ class _SkillEntryState extends State<SkillEntry> {
       child: AnimatedContainer(
         duration: Duration(microseconds: 250),
         curve: Curves.easeOut,
-        margin: const EdgeInsets.symmetric(
-          vertical: 6,
-          horizontal: 10,
-        ),
-        padding: const EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 14,
-        ),
+        margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color: _isChecked
+          color: widget.skillState.completed
               ? widget.skillCategoryDefinition.color.withAlpha(30)
               : const Color(0xFF2A2A2A),
           border: Border.all(
-            color: _isChecked
+            color: widget.skillState.completed
                 ? widget.skillCategoryDefinition.color
                 : Colors.white12,
             width: 1.5,
           ),
-          boxShadow: _isChecked
+          boxShadow: widget.skillState.completed
               ? [
                   BoxShadow(
-                    color: widget.skillCategoryDefinition.color
-                        .withValues(alpha: 0.25),
+                    color: widget.skillCategoryDefinition.color.withValues(
+                      alpha: 0.25,
+                    ),
                     blurRadius: 12,
                     spreadRadius: 1,
                   ),
@@ -333,7 +288,7 @@ class _SkillEntryState extends State<SkillEntry> {
           children: [
             AnimatedSwitcher(
               duration: Duration(milliseconds: 200),
-              child: _isChecked
+              child: widget.skillState.completed
                   ? Icon(
                       Icons.verified,
                       color: widget.skillCategoryDefinition.color,
@@ -348,8 +303,10 @@ class _SkillEntryState extends State<SkillEntry> {
               child: Text(
                 widget.skillDefinition.displayName,
                 style: TextStyle(
-                  color: _isChecked ? Colors.white : Colors.white70,
-                  fontWeight: _isChecked
+                  color: widget.skillState.completed
+                      ? Colors.white
+                      : Colors.white70,
+                  fontWeight: widget.skillState.completed
                       ? FontWeight.w600
                       : FontWeight.w400,
                 ),

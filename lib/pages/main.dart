@@ -22,8 +22,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Rogue Journeys',
       theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.white)),
       ),
+      // theme: ThemeData(
+      //   colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+      // ),
       home: HomePage(),
     );
   }
@@ -55,9 +58,7 @@ class HomePage extends StatelessWidget {
         ],
       ),
       body: ScrollConfiguration(
-        behavior: ScrollConfiguration.of(
-          context,
-        ).copyWith(overscroll: false),
+        behavior: ScrollConfiguration.of(context).copyWith(overscroll: false),
         child: ListView(
           children: [
             ClassList(
@@ -117,9 +118,7 @@ class ClassList extends StatelessWidget {
         Column(
           children: [
             // Divider(thickness: 1, color: Colors.black),
-            ...sessions.map(
-              (sessions) => ClassEntry(session: sessions),
-            ),
+            ...sessions.map((sessions) => ClassEntry(session: sessions)),
           ],
         ),
       ],
@@ -182,10 +181,7 @@ class ClassTimeRange extends StatelessWidget {
 
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("${session.startTime}-"),
-          Text(session.endTime),
-        ],
+        children: [Text("${session.startTime}-"), Text(session.endTime)],
       ),
     );
   }
@@ -205,10 +201,7 @@ class ClassTitle extends StatelessWidget {
         children: [
           Text(
             session.title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           RichText(
             text: TextSpan(

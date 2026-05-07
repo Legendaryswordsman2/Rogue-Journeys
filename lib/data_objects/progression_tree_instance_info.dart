@@ -1,5 +1,7 @@
 import 'package:rogue_journeys/data_objects/progression_tree_template_info.dart';
 
+// This whole file is currently unusued as I move away from this structure. This file will eventually be deleted.
+
 class ProgressionTreeInstance {
   final ProgressionTreeDefinition progressionTreeDefinition;
   final ProgressionNodeInstance coreRoot;

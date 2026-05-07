@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rogue_journeys/data_objects/progression_tree_instance_info.dart';
+import 'package:rogue_journeys/data_objects/student_info.dart';
 
 class ProgressionTreeTemplateManager {
   ProgressionTreeTemplateManager._internal();
@@ -21,7 +21,7 @@ class ProgressionTreeTemplateManager {
 
     try {
       final jsonString = await rootBundle.loadString(
-        "assets/data/progression_tree.json",
+        "assets/data/progression_tree_template.json",
       );
 
       final jsonData = jsonDecode(jsonString);
@@ -56,16 +56,10 @@ class ProgressionTreeDefinition {
   ProgressionNodeDefinition coreRoot;
   List<ProgressionNodeDefinition> sideRoots;
 
-  ProgressionTreeDefinition({
-    required this.coreRoot,
-    required this.sideRoots,
-  });
+  ProgressionTreeDefinition({required this.coreRoot, required this.sideRoots});
 
-  factory ProgressionTreeDefinition.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    final coreRootJson =
-        json['coreRoot'] as Map<String, dynamic>? ?? {};
+  factory ProgressionTreeDefinition.fromJson(Map<String, dynamic> json) {
+    final coreRootJson = json['coreRoot'] as Map<String, dynamic>? ?? {};
 
     return ProgressionTreeDefinition(
       coreRoot: ProgressionNodeDefinition(
@@ -93,13 +87,9 @@ class ProgressionNodeDefinition {
     required this.next,
   });
 
-  factory ProgressionNodeDefinition.fromJson(
-    Map<String, dynamic> json,
-  ) {
+  factory ProgressionNodeDefinition.fromJson(Map<String, dynamic> json) {
     return ProgressionNodeDefinition(
-      skillCardDefinition: SkillCardDefinition.fromJson(
-        json['skillCard'],
-      ),
+      skillCardDefinition: SkillCardDefinition.fromJson(json['skillCard']),
       next: (json["next"] as List? ?? [])
           .map((e) => ProgressionNodeDefinition.fromJson(e))
           .toList(),
@@ -123,10 +113,9 @@ class SkillCardDefinition {
     return SkillCardDefinition(
       id: json["id"],
       displayName: json["displayName"],
-      skillCategoryDefinitions:
-          (json["skillCategories"] as List? ?? [])
-              .map((e) => SkillCategoryDefinition.fromJson(e))
-              .toList(),
+      skillCategoryDefinitions: (json["skillCategories"] as List? ?? [])
+          .map((e) => SkillCategoryDefinition.fromJson(e))
+          .toList(),
     );
   }
 }
@@ -145,9 +134,7 @@ class SkillCategoryDefinition {
     required this.skillDefinitions,
   });
 
-  factory SkillCategoryDefinition.fromJson(
-    Map<String, dynamic> json,
-  ) {
+  factory SkillCategoryDefinition.fromJson(Map<String, dynamic> json) {
     return SkillCategoryDefinition(
       id: json["id"],
       displayName: json["displayName"],
@@ -156,6 +143,18 @@ class SkillCategoryDefinition {
           .map((e) => SkillDefinition.fromJson(e))
           .toList(),
     );
+  }
+
+  int skillsCompleted(ProgressionState progression) {
+    int completedAmount = 0;
+
+    skillDefinitions.forEach((skillDefinition) {
+      if (progression.getSkillState(skillDefinition.id).completed) {
+        completedAmount++;
+      }
+    });
+
+    return completedAmount;
   }
 
   static Color parseColor(dynamic value) {
@@ -204,9 +203,6 @@ class SkillDefinition {
   SkillDefinition({required this.id, required this.displayName});
 
   factory SkillDefinition.fromJson(Map<String, dynamic> json) {
-    return SkillDefinition(
-      id: json["id"],
-      displayName: json["displayName"],
-    );
+    return SkillDefinition(id: json["id"], displayName: json["displayName"]);
   }
 }
