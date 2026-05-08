@@ -24,8 +24,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.white)),
       ),
-      // theme: ThemeData(
-      //   colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+      // theme: ThemeData.dark().copyWith(
+      //   appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.white)),
+      //   scaffoldBackgroundColor: Color(0xFF202020)
       // ),
       home: HomePage(),
     );

@@ -5,130 +5,128 @@
             "id": "skill_card_core_1",
             "displayName": "Core LVL 1",
             "skillCategories": [
+                {
+                    "id": "category_floor",
+                    "displayName": "Floor Skills",
+                    "color": "0xFFF44336",
+                    "skills": [
                         {
-                            "id": "category_floor",
-                            "displayName": "Floor Skills",
-                            "color": "0xFFF44336",
-                            "skills": [
-                                {
-                                    "id": "shoulder_roll",
-                                    "displayName": "Shoulder Roll"
-                                },
-                                {
-                                    "id": "qm_qm_gallop",
-                                    "displayName": "QM/QM Gallop"
-                                },
-                                {
-                                    "id": "Ground Kong",
-                                    "displayName": "Ground Kong"
-                                },
-                                {
-                                    "id": "180_jump",
-                                    "displayName": "180 Jump"
-                                }
-                            ]
+                            "id": "shoulder_roll",
+                            "displayName": "Shoulder Roll"
                         },
                         {
-                            "id": "category_precisions",
-                            "displayName": "Precision Skills",
-                            "color": "0xFF4CAF50",
-                            "skills": [
-                                {
-                                    "id": "standing_precision",
-                                    "displayName": "Standing Precision"
-                                },
-                                {
-                                    "id": "running_precision",
-                                    "displayName": "Running Precision"
-                                }
-                            ]
+                            "id": "qm_qm_gallop",
+                            "displayName": "QM/QM Gallop"
                         },
                         {
-                            "id": "category_vaults",
-                            "displayName": "Vaulting Skills",
-                            "color": "0xffffce00",
-                            "skills": [
-                                {
-                                    "id": "step_vault",
-                                    "displayName": "Step Vault"
-                                },
-                                {
-                                    "id": "chest_vault",
-                                    "displayName": "Chest Vault"
-                                },
-                                {
-                                    "id": "speed_vault",
-                                    "displayName": "Speed Vault"
-                                },
-                                {
-                                    "id": "monkey_plant",
-                                    "displayName": "Monkey Plant"
-                                }
-                            ]
+                            "id": "Ground Kong",
+                            "displayName": "Ground Kong"
                         },
                         {
-                            "id": "category_walls",
-                            "displayName": "Wall Skills",
-                            "color": "0xFFFF9800",
-                            "skills": [
-                                {
-                                    "id": "wall_run",
-                                    "displayName": "Wall Run"
-                                },
-                                {
-                                    "id": "tic_tac",
-                                    "displayName": "Tic-Tac"
-                                },
-                                {
-                                    "id": "cat_leap",
-                                    "displayName": "Cat Leap"
-                                }
-                            ]
-                        },
-                        {
-                            "id": "category_bars",
-                            "displayName": "Bar Skills",
-                            "color": "0xFF2196F3",
-                            "skills": [
-                                {
-                                    "id": "underbar",
-                                    "displayName": "Underbar"
-                                },
-                                {
-                                    "id": "Swinging_with_regrips",
-                                    "displayName": "Swinging With Regrips"
-                                },
-                                {
-                                    "id": "backwards_lache_dismount",
-                                    "displayName": "Backwards Lache Dismount"
-                                }
-                            ]
-                        },
-                        {
-                            "id": "category_power",
-                            "displayName": "Power Check",
-                            "skills": [
-                                {
-                                    "id": "1_minute_qm_course",
-                                    "displayName": "1 Minute QM Course"
-                                },
-                                {
-                                    "id": "15_jump_squats",
-                                    "displayName": "15 Jump Squats"
-                                },
-                                {
-                                    "id": "20_second_cat_hang",
-                                    "displayName": "20 Second Cat Hang"
-                                },
-                                {
-                                    "id": "20_second_pushup_plank_hold",
-                                    "displayName": "20 Second Pushup-Plank Hold"
-                                }
-                            ]
+                            "id": "180_jump",
+                            "displayName": "180 Jump"
                         }
-
                     ]
-            
+                },
+                {
+                    "id": "category_precisions",
+                    "displayName": "Precision Skills",
+                    "color": "0xFF4CAF50",
+                    "skills": [
+                        {
+                            "id": "standing_precision",
+                            "displayName": "Standing Precision"
+                        },
+                        {
+                            "id": "running_precision",
+                            "displayName": "Running Precision"
+                        }
+                    ]
+                },
+                {
+                    "id": "category_vaults",
+                    "displayName": "Vaulting Skills",
+                    "color": "0xffffce00",
+                    "skills": [
+                        {
+                            "id": "step_vault",
+                            "displayName": "Step Vault"
+                        },
+                        {
+                            "id": "chest_vault",
+                            "displayName": "Chest Vault"
+                        },
+                        {
+                            "id": "speed_vault",
+                            "displayName": "Speed Vault"
+                        },
+                        {
+                            "id": "monkey_plant",
+                            "displayName": "Monkey Plant"
+                        }
+                    ]
+                },
+                {
+                    "id": "category_walls",
+                    "displayName": "Wall Skills",
+                    "color": "0xFFFF9800",
+                    "skills": [
+                        {
+                            "id": "wall_run",
+                            "displayName": "Wall Run"
+                        },
+                        {
+                            "id": "tic_tac",
+                            "displayName": "Tic-Tac"
+                        },
+                        {
+                            "id": "cat_leap",
+                            "displayName": "Cat Leap"
+                        }
+                    ]
+                },
+                {
+                    "id": "category_bars",
+                    "displayName": "Bar Skills",
+                    "color": "0xFF2196F3",
+                    "skills": [
+                        {
+                            "id": "underbar",
+                            "displayName": "Underbar"
+                        },
+                        {
+                            "id": "Swinging_with_regrips",
+                            "displayName": "Swinging With Regrips"
+                        },
+                        {
+                            "id": "backwards_lache_dismount",
+                            "displayName": "Backwards Lache Dismount"
+                        }
+                    ]
+                },
+                {
+                    "id": "category_power",
+                    "displayName": "Power Check",
+                    "skills": [
+                        {
+                            "id": "1_minute_qm_course",
+                            "displayName": "1 Minute QM Course"
+                        },
+                        {
+                            "id": "15_jump_squats",
+                            "displayName": "15 Jump Squats"
+                        },
+                        {
+                            "id": "20_second_cat_hang",
+                            "displayName": "20 Second Cat Hang"
+                        },
+                        {
+                            "id": "20_second_pushup_plank_hold",
+                            "displayName": "20 Second Pushup-Plank Hold"
+                        }
+                    ]
+                }
+            ]
         },
         "next": [
             {
@@ -160,9 +158,7 @@
                                                     "id": "skill_card_skills_6",
                                                     "displayName": "Skills LVL 6"
                                                 },
-                                                "next": [
-                                                    {}
-                                                ]
+                                                "next": []
                                             }
                                         ]
                                     }
@@ -185,9 +181,7 @@
                                                     "id": "skill_card_speed_6",
                                                     "displayName": "Speed LVL 6"
                                                 },
-                                                "next": [
-                                                    {}
-                                                ]
+                                                "next": []
                                             }
                                         ]
                                     }
@@ -210,9 +204,7 @@
                                                     "id": "skill_card_acro_6",
                                                     "displayName": "Acro LVL 6"
                                                 },
-                                                "next": [
-                                                    {}
-                                                ]
+                                                "next": []
                                             }
                                         ]
                                     }

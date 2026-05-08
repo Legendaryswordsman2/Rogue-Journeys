@@ -38,6 +38,8 @@ class ProgressionTreeTemplateManager {
 
     debugPrint("State: $_cache");
 
+    debugPrint("Core Root next nodes: ${_cache!.coreRoot.next.length}");
+
     // debugPrint(
     //   "Skill Card Tracks Loaded: ${_cache!.progressionTrackDefinitions.length}",
     // );
@@ -61,15 +63,10 @@ class ProgressionTreeDefinition {
   factory ProgressionTreeDefinition.fromJson(Map<String, dynamic> json) {
     final coreRootJson = json['coreRoot'] as Map<String, dynamic>? ?? {};
 
+    debugPrint("Core Root JSON: $coreRootJson");
+
     return ProgressionTreeDefinition(
-      coreRoot: ProgressionNodeDefinition(
-        skillCardDefinition: SkillCardDefinition.fromJson(
-          coreRootJson['skillCard'],
-        ),
-        next: (json["next"] as List? ?? [])
-            .map((e) => ProgressionNodeDefinition.fromJson(e))
-            .toList(),
-      ),
+      coreRoot: ProgressionNodeDefinition.fromJson(json['coreRoot']),
       sideRoots: (json["sideRoots"] as List? ?? [])
           .map((e) => ProgressionNodeDefinition.fromJson(e))
           .toList(),

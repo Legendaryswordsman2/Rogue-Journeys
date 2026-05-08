@@ -21,7 +21,7 @@ class SkillCardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white10,
+      backgroundColor: Color(0xFF202020),
       appBar: AppBar(
         centerTitle: true,
         title: Text(

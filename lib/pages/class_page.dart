@@ -21,10 +21,7 @@ class ClassPage extends StatelessWidget {
         centerTitle: true,
         title: Text(
           session.title,
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
 
         flexibleSpace: AppbarGradientContainer(),
@@ -53,11 +50,7 @@ class Header extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
-          colors: [
-            Color(0xff0032c4),
-            Color(0xff004cda),
-            Color(0xff0032c4),
-          ],
+          colors: [Color(0xff0032c4), Color(0xff004cda), Color(0xff0032c4)],
         ),
       ),
       child: Padding(
@@ -78,10 +71,7 @@ class Header extends StatelessWidget {
                       text: "${session.startTime}-${session.endTime}",
                       icon: Icons.timer,
                     ),
-                    TextWithIcon(
-                      text: session.coach,
-                      icon: Icons.person,
-                    ),
+                    TextWithIcon(text: session.coach, icon: Icons.person),
                   ],
                 ),
               ),
@@ -100,9 +90,7 @@ class Header extends StatelessWidget {
                       color: Colors.white,
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: AutoSizeText(
                         maxLines: 1,
                         session.section.name,
@@ -153,10 +141,7 @@ class StudentsList extends StatelessWidget {
           padding: const EdgeInsets.only(top: 8, left: 20, right: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              TitleText("Students"),
-              TitleText("Attendance"),
-            ],
+            children: [TitleText("Students"), TitleText("Attendance")],
           ),
         ),
 
@@ -214,7 +199,9 @@ class StudentEntry extends StatelessWidget {
       onLongPress: () {
         Navigator.push(
           context,
-          CupertinoPageRoute(builder: (context) => AccountPage()),
+          CupertinoPageRoute(
+            builder: (context) => AccountPage(student: student),
+          ),
         );
       },
       child: Padding(
@@ -270,10 +257,7 @@ class AvatarAndInfo extends StatelessWidget {
           children: [
             Text(
               student.studentName,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
             Text("Level ${student.level}"),
           ],
@@ -312,11 +296,7 @@ class TextWithIcon extends StatelessWidget {
   final String text;
   final IconData icon;
 
-  const TextWithIcon({
-    super.key,
-    required this.text,
-    required this.icon,
-  });
+  const TextWithIcon({super.key, required this.text, required this.icon});
 
   @override
   Widget build(BuildContext context) {
