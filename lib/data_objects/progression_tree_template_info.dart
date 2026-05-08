@@ -53,7 +53,6 @@ class ProgressionTreeTemplateManager {
   }
 }
 
-// Represents a list of all Skill Card Tracks.
 class ProgressionTreeDefinition {
   ProgressionNodeDefinition coreRoot;
   List<ProgressionNodeDefinition> sideRoots;

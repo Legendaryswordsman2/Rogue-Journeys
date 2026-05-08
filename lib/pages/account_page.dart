@@ -46,26 +46,84 @@ class ProgressionTreeView extends StatelessWidget {
         color: Color(0xFF121212),
         border: Border.all(color: Colors.white10),
       ),
-      child: Column(
-        mainAxisAlignment: .center,
+      child: Test(rootNode: rootNode),
+      // child: Column(
+      //   mainAxisAlignment: .center,
+      //   verticalDirection: VerticalDirection.up,
+      //   children: [
+      //     // SkillCardInfoEntry(skillCardDefinition: rootNode.skillCardDefinition),
+      //     // Icon(Icons.arrow_upward, size: 18, color: Colors.white),
+      //     // SkillCardInfoEntry(
+      //     //   skillCardDefinition: rootNode.next[0].skillCardDefinition,
+      //     // ),
+      //     // Icon(Icons.arrow_upward, size: 18, color: Colors.white),
+      //     // SkillCardInfoEntry(
+      //     //   skillCardDefinition: rootNode.next[0].next[0].skillCardDefinition,
+      //     // ),
+      //   ],
+      // ),
+    );
+  }
+}
+
+class Test extends StatelessWidget {
+  const Test({super.key, required this.rootNode});
+
+  final ProgressionNodeDefinition rootNode;
+
+  @override
+  Widget build(BuildContext context) {
+    return buildTree(rootNode);
+  }
+
+  Widget buildTree(ProgressionNodeDefinition node) {
+    if (node.next.isEmpty) {
+      return SkillCardInfoEntry(skillCardDefinition: node.skillCardDefinition);
+    }
+
+    if (node.next.length == 1) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
         verticalDirection: VerticalDirection.up,
         children: [
-          SkillCardInfoEntry(skillCardDefinition: rootNode.skillCardDefinition),
-          Icon(Icons.arrow_upward, size: 18, color: Colors.white),
-          SkillCardInfoEntry(
-            skillCardDefinition: rootNode.next[0].skillCardDefinition,
-          ),
-          Icon(Icons.arrow_upward, size: 18, color: Colors.white),
-          SkillCardInfoEntry(
-            skillCardDefinition: rootNode.next[0].next[0].skillCardDefinition,
-          ),
+          SkillCardInfoEntry(skillCardDefinition: node.skillCardDefinition),
+          buildTree(node.next.first),
         ],
-      ),
-      // child: Center(
-      //   child: SkillCardInfoEntry(
-      //     skillCardDefinition: rootNode.skillCardDefinition,
-      //   ),
-      // ),
+      );
+    }
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      verticalDirection: VerticalDirection.up,
+      children: [
+        SkillCardInfoEntry(skillCardDefinition: node.skillCardDefinition),
+        const SizedBox(height: 16),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: node.next
+              .map((child) => Expanded(child: buildTree(child)))
+              .toList(),
+        ),
+      ],
+    );
+  }
+}
+
+class SkillCardInfoRow extends StatelessWidget {
+  const SkillCardInfoRow({super.key, required this.progressionNodes});
+
+  final List<ProgressionNodeDefinition> progressionNodes;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: progressionNodes
+          .map(
+            (node) => SkillCardInfoEntry(
+              skillCardDefinition: node.skillCardDefinition,
+            ),
+          )
+          .toList(),
     );
   }
 }
@@ -94,15 +152,17 @@ class SkillCardInfoEntry extends StatelessWidget {
       child: Column(
         mainAxisAlignment: .spaceBetween,
         children: [
-          Text(
-            skillCardDefinition.displayName,
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
+          FittedBox(
+            child: Text(
+              skillCardDefinition.displayName,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
             ),
           ),
-          Text("5/20 Skill Completed", style: TextStyle(color: Colors.white)),
+          FittedBox(child: Text("5/20 Skill Completed", style: TextStyle(color: Colors.white))),
           LinearProgressIndicator(
             value: 5 / 25,
             backgroundColor: Colors.white10,
@@ -110,28 +170,6 @@ class SkillCardInfoEntry extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class ConnectorLine extends StatelessWidget {
-  const ConnectorLine({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SizedBox(
-          width: 24,
-          child: Center(
-            child: Container(width: 2, height: 40, color: Colors.white54),
-          ),
-        ),
-
-        const SizedBox(width: 12),
-
-        const Expanded(child: SizedBox()),
-      ],
     );
   }
 }
