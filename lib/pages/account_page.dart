@@ -162,7 +162,7 @@ class SkillCardInfoEntry extends StatelessWidget {
               ),
             ),
           ),
-          FittedBox(child: Text("5/20 Skill Completed", style: TextStyle(color: Colors.white))),
+          FittedBox(child: Text("5/20 Skills", style: TextStyle(color: Colors.white))),
           LinearProgressIndicator(
             value: 5 / 25,
             backgroundColor: Colors.white10,
