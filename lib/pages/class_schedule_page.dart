@@ -1,37 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rogue_journeys/data_objects/progression_tree_template_info.dart';
 import 'package:rogue_journeys/pages/class_page.dart';
 import 'package:rogue_journeys/data_objects/class_info.dart';
 import 'package:rogue_journeys/widgets/appbar_gradient_widget.dart';
-
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  ProgressionTreeTemplateManager.insance.loadProgressionTree();
-
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Rogue Journeys',
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.white)),
-      ),
-      // theme: ThemeData.dark().copyWith(
-      //   appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.white)),
-      //   scaffoldBackgroundColor: Color(0xFF202020)
-      // ),
-      home: HomePage(),
-    );
-  }
-}
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

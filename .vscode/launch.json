@@ -5,12 +5,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "rogue_journeys",
-            "request": "launch",
-            "type": "dart",
-            "program": "lib/pages/main.dart"
-        },
-        {
             "name": "rogue_journeys (profile mode)",
             "request": "launch",
             "type": "dart",
