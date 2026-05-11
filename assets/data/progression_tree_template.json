@@ -402,19 +402,259 @@
                             {
                                 "skillCard": {
                                     "id": "skill_card_skills_4",
-                                    "displayName": "Skills: LVL 4"
+                                    "displayName": "Skills: LVL 4",
+                                    "skillCategories": [
+                                        {
+                                            "id": "category_precisions",
+                                            "displayName": "Precision Skills",
+                                            "color": "0xFF4CAF50",
+                                            "skills": [
+                                                {
+                                                    "id": "rail_precision_6ft_or_8ft_bars",
+                                                    "displayName": "Rail Precision (6FT or 8FT Bars)"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": "category_vaults",
+                                            "displayName": "Vaulting Skills",
+                                            "color": "0xffffce00",
+                                            "skills": [
+                                                {
+                                                    "id": "level_kong_precision_0.75bl",
+                                                    "displayName": "Level Kong Precision (.75BL)"
+                                                },
+                                                {
+                                                    "id": "bar_kong_pre",
+                                                    "displayName": "Bar Kong Pre"
+                                                },
+                                                {
+                                                    "id": "double_vault",
+                                                    "displayName": "Double Vault"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": "category_walls",
+                                            "displayName": "Wall Skills",
+                                            "color": "0xFFFF9800",
+                                            "skills": [
+                                                {
+                                                    "id": "running_dyno_to_level_3_climbup",
+                                                    "displayName": "Running Dyno -> Level 3 Climbup"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": "category_bars",
+                                            "displayName": "Bar Skills",
+                                            "color": "0xFF2196F3",
+                                            "skills": [
+                                                {
+                                                    "id": "bar_catch_to_180_to_lache_pre",
+                                                    "displayName": "Bar Catch -> 180 -> Lache Pre"
+                                                },
+                                                {
+                                                    "id": "toe_shoot",
+                                                    "displayName": "Toe Shoot"
+                                                },
+                                                {
+                                                    "id": "b2b_lache_regrabs_to_precision",
+                                                    "displayName": "B2B Lache Regrabs -> Precision"
+                                                },
+                                                {
+                                                    "id": "underbar_over_block_to_precision",
+                                                    "displayName": "Underbar Over Block to Precision"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": "category_power",
+                                            "displayName": "Power Check",
+                                            "skills": [
+                                                {
+                                                    "id": "plyo_1.5bl_to_pre_1.75bl",
+                                                    "displayName": "Plyo (1.5BL) -> Pre (1.75BL)"
+                                                },
+                                                {
+                                                    "id": "quad_jump_over_5bl",
+                                                    "displayName": "Quad Jump (Over 5BL)"
+                                                },
+                                                {
+                                                    "id": "8ft_rails_command_course",
+                                                    "displayName": "8FT Rails Command Course"
+                                                },
+                                                {
+                                                    "id": "kip_up_muscle_up",
+                                                    "displayName": "Kip-up/Muscle-up"
+                                                }
+                                            ]
+                                        }
+                                    ]
                                 },
                                 "next": [
                                     {
                                         "skillCard": {
                                             "id": "skill_card_skills_5",
-                                            "displayName": "Skills: LVL 5"
+                                            "displayName": "Skills: LVL 5",
+                                            "skillCategories": [
+                                                {
+                                                    "id": "category_precisions",
+                                                    "displayName": "Precision Skills",
+                                                    "color": "0xFF4CAF50",
+                                                    "skills": [
+                                                        {
+                                                            "id": "from_fort_plyo_across_the_8ft_bars_to_precision_on_last_8ft_bar",
+                                                            "displayName": "From Fort, Plyo Across the 8FT Bars to Precision onn Last 8FT Bar"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "id": "category_vaults",
+                                                    "displayName": "Vaulting Skills",
+                                                    "color": "0xffffce00",
+                                                    "skills": [
+                                                        {
+                                                            "id": "level_kong_precision_3ft_rails",
+                                                            "displayName": "Level Kong Precision (3FT Rails)"
+                                                        },
+                                                        {
+                                                            "id": "double_kong_rail_box",
+                                                            "displayName": "Double Kong Rail Box"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "id": "category_walls",
+                                                    "displayName": "Wall Skills",
+                                                    "color": "0xFFFF9800",
+                                                    "skills": [
+                                                        {
+                                                            "id": "cat_leap_180_cat_pre_1.5bl",
+                                                            "displayName": "Cat Leap -> 180 Cat Pre (1.5BL)"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "id": "category_bars",
+                                                    "displayName": "Bar Skills",
+                                                    "color": "0xFF2196F3",
+                                                    "skills": [
+                                                        {
+                                                            "id": "consecutive_8ft_laches_to_precision_1bl_5ft_block",
+                                                            "displayName": "Consecutive 8FT Laches to Precisions (1BL, 5FT Block)"
+                                                        },
+                                                        {
+                                                            "id": "toe_shoot_to_cat_to_180_to_underbar",
+                                                            "displayName": "Toe Shoot -> Cat -> 180 -> Underbar"
+                                                        },
+                                                        {
+                                                            "id": "kip_cast_to_pre_8ft_bars",
+                                                            "displayName": "Kip_Cast -> Pre 8FT Bars"
+                                                        },
+                                                        {
+                                                            "id": "underbar_over_block_to_precision",
+                                                            "displayName": "Underbar Over Block to Precision"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "id": "category_power",
+                                                    "displayName": "Power Check",
+                                                    "skills": [
+                                                        {
+                                                            "id": "quad_jump_over_5bl",
+                                                            "displayName": "Quad Jump (Over 5BL)"
+                                                        },
+                                                        {
+                                                            "id": "weighted_pull_ups_1.25bw",
+                                                            "displayName": "Weighted Pull-Ups (1.25BW)"
+                                                        },
+                                                        {
+                                                            "id": "15_demon_dips",
+                                                            "displayName": "15 Demon Dips"
+                                                        },
+                                                        {
+                                                            "id": "10_toes_to_bar_back_against_a_wall",
+                                                            "displayName": "10 Toes to Bar (Back Against a Wall)"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
                                         },
                                         "next": [
                                             {
                                                 "skillCard": {
                                                     "id": "skill_card_skills_6",
-                                                    "displayName": "Skills: LVL 6"
+                                                    "displayName": "Skills: LVL 6",
+                                                    "skillCategories": [
+                                                        {
+                                                            "id": "category_precisions",
+                                                            "displayName": "Precision Skills",
+                                                            "color": "0xFF4CAF50",
+                                                            "skills": [
+                                                                {
+                                                                    "id": "from_fort_split_stride_across_the_8ft_bars_to_precision_on_last_8ft_bar_no_sidesteps",
+                                                                    "displayName": "From Fort, Split Stride(s) Across the 8FT Bars to Precision on Last 8FT Bar. No Sidesteps"
+                                                                },
+                                                                {
+                                                                    "id": "side_stride_on_foam_pit_wall_rail_to_stride_on_fp_rail_to_precision_second_fp_rail",
+                                                                    "displayName": "Side Stride on Foam Pit Wall Rail -> Stride on FP Rail -> Precision Second FP Rail"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "id": "category_vaults",
+                                                            "displayName": "Vaulting Skills",
+                                                            "color": "0xffffce00",
+                                                            "skills": [
+                                                                {
+                                                                    "id": "double_kong_rail_box_to_2_step_to_dash_precision_to_floor_rail_1.25bl",
+                                                                    "displayName": "Double Kong Rail Box -> 2 Step > Dash Precision to Floor Rail (1.25BL)"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "id": "category_walls",
+                                                            "displayName": "Wall Skills",
+                                                            "color": "0xFFFF9800",
+                                                            "skills": [
+                                                                {
+                                                                    "id": "wallrun_to_180_to_rail_precision",
+                                                                    "displayName": "Wallrun -> 180 > Rail Precision (@ Height & atleast 1BL)"
+                                                                },
+                                                                {
+                                                                    "id": "wallrun_to_180_to_cat_to_180_to_precision",
+                                                                    "displayName": "Wallrun -> 180 -> Cat -> 180 -> Precision (Going up in between two walls)"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "id": "category_bars",
+                                                            "displayName": "Bar Skills",
+                                                            "color": "0xFF2196F3",
+                                                            "skills": [
+                                                                {
+                                                                    "id": "b2b_8ft_lache_to_toe_tap_regrabs_to_180_lache_to_cat_to_climbup",
+                                                                    "displayName": "B2B 8FT Lache to Toe Tap Regrabs -> 180 Lache -> Cat -> Climbup"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "id": "category_power",
+                                                            "displayName": "Power Check",
+                                                            "skills": [
+                                                                {
+                                                                    "id": "podium_in_any_skills_competition",
+                                                                    "displayName": "Podium in Any Skills Competition (Top 3)"
+                                                                },
+                                                                {
+                                                                    "id": "amrap_level_5_skill_stripe",
+                                                                    "displayName": "AMRAP Level 5 Skill Stripe (10 Minutes)"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
                                                 },
                                                 "next": []
                                             }
@@ -425,19 +665,239 @@
                             {
                                 "skillCard": {
                                     "id": "skill_card_speed_4",
-                                    "displayName": "Speed: LVL 4"
+                                    "displayName": "Speed: LVL 4",
+                                    "skillCategories": [
+                                        {
+                                            "id": "category_floor",
+                                            "displayName": "Floor Skills",
+                                            "color": "0xFFF44336",
+                                            "skills": [
+                                                {
+                                                    "id": "speed_course",
+                                                    "displayName": "Speed Course (Designated based on their age)"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": "category_precisions",
+                                            "displayName": "Precision Skills",
+                                            "color": "0xFF4CAF50",
+                                            "skills": [
+                                                {
+                                                    "id": "level_kong_precision_0.75bl",
+                                                    "displayName": "Level Kong Precision (.75BL)"
+                                                },
+                                                {
+                                                    "id": "rail_precision_6ft_or_8ft_bars",
+                                                    "displayName": "Rail Precision (6FT or 8FT Bars)"
+                                                },
+                                                {
+                                                    "id": "rail_running_course",
+                                                    "displayName": "rail_running_course"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": "category_vaults",
+                                            "displayName": "Vaulting Skills",
+                                            "color": "0xffffce00",
+                                            "skills": [
+                                                {
+                                                    "id": "double_vault",
+                                                    "displayName": "Double Vault"
+                                                },
+                                                {
+                                                    "id": "two_step_vaulting_course",
+                                                    "displayName": "Two Step Vaulting Course"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": "category_drop",
+                                            "displayName": "Drop Skills",
+                                            "skills": [
+                                                {
+                                                    "id": "drop_to_roll_1.75bh",
+                                                    "displayName": "Drop to Roll (1.75BH)"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": "category_power",
+                                            "displayName": "Power Check",
+                                            "skills": [
+                                                {
+                                                    "id": "fast_5_box_jumps",
+                                                    "displayName": "Fast 5 Box Jumps"
+                                                },
+                                                {
+                                                    "id": "3_minute_ab_circuit",
+                                                    "displayName": "3 Minute Ab Circuit"
+                                                },
+                                                {
+                                                    "id": "complete_level_3_card_within_1_classtime",
+                                                    "displayName": "Complete Level 3 Card within 1 Classtime"
+                                                }
+                                            ]
+                                        }
+                                    ]
                                 },
                                 "next": [
                                     {
                                         "skillCard": {
                                             "id": "skill_card_speed_5",
-                                            "displayName": "Speed: LVL 5"
+                                            "displayName": "Speed: LVL 5",
+                                            "skillCategories": [
+                                                {
+                                                    "id": "category_floor",
+                                                    "displayName": "Floor Skills",
+                                                    "color": "0xFFF44336",
+                                                    "skills": [
+                                                        {
+                                                            "id": "full_gym_speed_course",
+                                                            "displayName": "Full Gym Speed Course (1 way, no pauses)"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "id": "category_precisions",
+                                                    "displayName": "Precision Skills",
+                                                    "color": "0xFF4CAF50",
+                                                    "skills": [
+                                                        {
+                                                            "id": "stride_plyo_on_block_course",
+                                                            "displayName": "Stide/Plyo on Block Course (Each ~ 1.5BL)"
+                                                        },
+                                                        {
+                                                            "id": "strides_across_the_8ft_bars_to_precision",
+                                                            "displayName": "Strides Across the 8FT Bars to Precision (Including side strides)"
+                                                        },
+                                                        {
+                                                            "id": "drop_to_roll_to_sprint_to_climbup_n_over_5ft_block_1.75bh",
+                                                            "displayName": "Drop to Roll -> Sprint -> Climbup-n-Over 5FT Block (1.75BH)"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "id": "category_vaults",
+                                                    "displayName": "Vaulting Skills",
+                                                    "color": "0xffffce00",
+                                                    "skills": [
+                                                        {
+                                                            "id": "double_vault_1bl_to_2_step_to_kong_precision_1bl",
+                                                            "displayName": "Double Vault (1BL) -> 2 Step -> Kong Precision (1BL)"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "id": "category_walls",
+                                                    "displayName": "Wall Skills",
+                                                    "color": "0xFFFF9800",
+                                                    "skills": [
+                                                        {
+                                                            "id": "back_to_back_dynos",
+                                                            "displayName": "Back-to_back Dynos"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "id": "category_power",
+                                                    "displayName": "Power Check",
+                                                    "skills": [
+                                                        {
+                                                            "id": "amrap_workout",
+                                                            "displayName": "AMRAP Workout"
+                                                        },
+                                                        {
+                                                            "id": "6_minute_ab_circuit",
+                                                            "displayName": "6 Minutes Ab Circuit"
+                                                        },
+                                                        {
+                                                            "id": "climbup_straight_into_kong_down_to_shoulder_roll",
+                                                            "displayName": "Climbup straight into Kong Down -> Shoulder Roll"
+                                                        },
+                                                        {
+                                                            "id": "over_n_under_course_on_the_8ft_bars",
+                                                            "displayName": "Over-n-Under Course on the 8FT Bars"
+                                                        },
+                                                        {
+                                                            "id": "8_Climbups_in_under_30_seconds",
+                                                            "displayName": "8 Climups < 30 Seconds"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
                                         },
                                         "next": [
                                             {
                                                 "skillCard": {
                                                     "id": "skill_card_speed_6",
-                                                    "displayName": "Speed: LVL 6"
+                                                    "displayName": "Speed: LVL 6",
+                                                    "skillCategories": [
+                                                        {
+                                                            "id": "category_floor",
+                                                            "displayName": "Floor Skills",
+                                                            "color": "0xFFF44336",
+                                                            "skills": [
+                                                                {
+                                                                    "id": "full_gym_speed_course_down_and_back",
+                                                                    "displayName": "Full Gym Speed Course (down and back, no pauses)"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "id": "category_precisions",
+                                                            "displayName": "Precision Skills",
+                                                            "color": "0xFF4CAF50",
+                                                            "skills": [
+                                                                {
+                                                                    "id": "rail_running_course_to_reverse_rail_running_course",
+                                                                    "displayName": "Rail Running Course -> Reverse Rail Running Course (<20 Seconds)"
+                                                                },
+                                                                {
+                                                                    "id": "stride_plyo_on_block_course",
+                                                                    "displayName": "Stride/Plyo on Block Course (Each ~1.75BL)"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "id": "category_walls",
+                                                            "displayName": "Wall Skills",
+                                                            "color": "0xFFFF9800",
+                                                            "skills": [
+                                                                {
+                                                                    "id": "fast_5_climbups",
+                                                                    "displayName": "Fast 5 Climbups (12 Seconds)"
+                                                                },
+                                                                {
+                                                                    "id": "cat_drop",
+                                                                    "displayName": "Cat Drop"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "id": "category_power",
+                                                            "displayName": "Power Check",
+                                                            "skills": [
+                                                                {
+                                                                    "id": "10_minute_ab_circuit",
+                                                                    "displayName": "10 Minute Ab Circuit"
+                                                                },
+                                                                {
+                                                                    "id": "murph_under_1_hour",
+                                                                    "displayName": "MURPH (1 Mile, 100 Pullups, 200 Pushups, 300 Squats, 1 Mile) (<1 Hour)"
+                                                                },
+                                                                {
+                                                                    "id": "create_a_speed_focused_video_that_gets_the_approval_of_coaches",
+                                                                    "displayName": "Create a Speed Focused Video that get the Approval of Coaches"
+                                                                },
+                                                                {
+                                                                    "id": "podium_at_any_speed_competition",
+                                                                    "displayName": "Podium at any Spped Competition (Top 3)"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
                                                 },
                                                 "next": []
                                             }
@@ -448,19 +908,290 @@
                             {
                                 "skillCard": {
                                     "id": "skill_card_acro_4",
-                                    "displayName": "Acro: LVL 4"
+                                    "displayName": "Acro: LVL 4",
+                                    "skillCategories": [
+                                        {
+                                            "id": "category_floor",
+                                            "displayName": "Floor Skills",
+                                            "color": "0xFFF44336",
+                                            "skills": [
+                                                {
+                                                    "id": "butterfly_kick",
+                                                    "displayName": "Butterfly Kick"
+                                                },
+                                                {
+                                                    "id": "aerial",
+                                                    "displayName": "Aerial"
+                                                },
+                                                {
+                                                    "id": "round_off",
+                                                    "displayName": "Round Off"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": "category_drop",
+                                            "displayName": "Drop Skills",
+                                            "skills": [
+                                                {
+                                                    "id": "front_flip_to_roll_off_block",
+                                                    "displayName": "Front Flip to Roll off Block"
+                                                },
+                                                {
+                                                    "id": "backflip_off_block",
+                                                    "displayName": "Backflip off Block"
+                                                },
+                                                {
+                                                    "id": "sideflip_off_block",
+                                                    "displayName": "Sideflip off Block"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": "category_walls",
+                                            "displayName": "Wall Skills",
+                                            "color": "0xFFFF9800",
+                                            "skills": [
+                                                {
+                                                    "id": "wallspin",
+                                                    "displayName": "Wallspin"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": "category_bars",
+                                            "displayName": "Bar Skills",
+                                            "color": "0xFF2196F3",
+                                            "skills": [
+                                                {
+                                                    "id": "toe_shoot",
+                                                    "displayName": "Toe Shoot"
+                                                },
+                                                {
+                                                    "id": "flyaway",
+                                                    "displayName": "Flyaway"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": "category_power",
+                                            "displayName": "Power Check",
+                                            "skills": [
+                                                {
+                                                    "id": "10_v_ups",
+                                                    "displayName": "10 V-Ups"
+                                                },
+                                                {
+                                                    "id": "5_arch_and_hollows",
+                                                    "displayName": "5 Arch and Hollows"
+                                                },
+                                                {
+                                                    "id": "30_second_handstand_against_a_wall",
+                                                    "displayName": "30 Second Handstand Against a Wall"
+                                                }
+                                            ]
+                                        }
+                                    ]
                                 },
                                 "next": [
                                     {
                                         "skillCard": {
                                             "id": "skill_card_acro_5",
-                                            "displayName": "Acro: LVL 5"
+                                            "displayName": "Acro: LVL 5",
+                                            "skillCategories": [
+                                                {
+                                                    "id": "category_floor",
+                                                    "displayName": "Floor Skills",
+                                                    "color": "0xFFF44336",
+                                                    "skills": [
+                                                        {
+                                                            "id": "cheat_swing_gainer",
+                                                            "displayName": "Cheat/Swing Gainer (Must do both)"
+                                                        },
+                                                        {
+                                                            "id": "360_dive_roll",
+                                                            "displayName": "360 Dive Roll"
+                                                        },
+                                                        {
+                                                            "id": "flip_pre",
+                                                            "displayName": "Flip Pre (1BL Floor Beam OR Precision Trainer)"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "id": "category_drop",
+                                                    "displayName": "Drop Skills",
+                                                    "skills": [
+                                                        {
+                                                            "id": "gainer",
+                                                            "displayName": "Gainer"
+                                                        },
+                                                        {
+                                                            "id": "a_twist",
+                                                            "displayName": "Backflip off Block"
+                                                        },
+                                                        {
+                                                            "id": "back_full_off_block",
+                                                            "displayName": "Back Full off Block"
+                                                        },
+                                                        {
+                                                            "id": "big_drop_flip_to_roll_1.75bl",
+                                                            "displayName": "Big Drop Flip -> Roll (1.75BL)"
+                                                        },
+                                                        {
+                                                            "id": "any_inward_flip_off_wall_or_block",
+                                                            "displayName": "Any Inward Flip off Wall OR Block"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "id": "category_vaults",
+                                                    "displayName": "Vaulting Skills",
+                                                    "color": "0xffffce00",
+                                                    "skills": [
+                                                        {
+                                                            "id": "kong_front",
+                                                            "displayName": "Kong Front"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "id": "category_walls",
+                                                    "displayName": "Wall Skills",
+                                                    "color": "0xFFFF9800",
+                                                    "skills": [
+                                                        {
+                                                            "id": "wall_flip",
+                                                            "displayName": "Wall Flip"
+                                                        },
+                                                        {
+                                                            "id": "palm_flip",
+                                                            "displayName": "palm Flip"
+                                                        },
+                                                        {
+                                                            "id": "cast_away",
+                                                            "displayName": "Cast_away"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "id": "category_bars",
+                                                    "displayName": "Bar Skills",
+                                                    "color": "0xFF2196F3",
+                                                    "skills": [
+                                                        {
+                                                            "id": "flyaway_full",
+                                                            "displayName": "Flyaway Full"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "id": "category_power",
+                                                    "displayName": "Power Check",
+                                                    "skills": [
+                                                        {
+                                                            "id": "5_Pistol_squats",
+                                                            "displayName": "5 Pistol Squats"
+                                                        },
+                                                        {
+                                                            "id": "10_weighted_dips_1.25bl",
+                                                            "displayName": "10 Weighted Dips (1.25BL)"
+                                                        },
+                                                        {
+                                                            "id": "10_toes_to_bar_back_against_a_wall",
+                                                            "displayName": "10 Toes to Bar (Back Against a Wall)"
+                                                        },
+                                                        {
+                                                            "id": "10_kettlebell_squats_1.25bl",
+                                                            "displayName": "10 Kettlebell Squats (1.25BL)"
+                                                        },
+                                                        {
+                                                            "id": "30_second_freestanding_handstand",
+                                                            "displayName": "30 Second Freestanding Handstand"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
                                         },
                                         "next": [
                                             {
                                                 "skillCard": {
                                                     "id": "skill_card_acro_6",
-                                                    "displayName": "Acro: LVL 6"
+                                                    "displayName": "Acro: LVL 6",
+                                                    "skillCategories": [
+                                                        {
+                                                            "id": "category_power",
+                                                            "displayName": "Power Check",
+                                                            "skills": [
+                                                                {
+                                                                    "id": "podium_in_any_freestyle_event",
+                                                                    "displayName": "Podium in any Freestyle Event (Top 3)"
+                                                                },
+                                                                {
+                                                                    "id": "film_a_run_using_any_4_of_these_skills",
+                                                                    "displayName": "Film a run using any 4 of these skills"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "id": "category_level_6_skills",
+                                                            "displayName": "Level 6 Skills",
+                                                            "skills": [
+                                                                {
+                                                                    "id": "dub_a_twist_rudy",
+                                                                    "displayName": "Dub A-Twist/Rudy"
+                                                                },
+                                                                {
+                                                                    "id": "devil_or_buddah_or_angel_drop",
+                                                                    "displayName": "Devil/Buddah_Angel Drop (Only need to do one)"
+                                                                },
+                                                                {
+                                                                    "id": "cork",
+                                                                    "displayName": "Cork"
+                                                                },
+                                                                {
+                                                                    "id": "trapdoor",
+                                                                    "displayName": "Trapdoor"
+                                                                },
+                                                                {
+                                                                    "id": "waffle",
+                                                                    "displayName": "Waffle"
+                                                                },
+                                                                {
+                                                                    "id": "any_1_n_3_variation_frontflip_sideflip",
+                                                                    "displayName": "Any 1-n-3 Variation (Frontflip/Sideflip)"
+                                                                },
+                                                                {
+                                                                    "id": "gaet_flip",
+                                                                    "displayName": "Gaet Flip"
+                                                                },
+                                                                {
+                                                                    "id": "pimp_flip",
+                                                                    "displayName": "Pimp Flip"
+                                                                },
+                                                                {
+                                                                    "id": "swing_cast",
+                                                                    "displayName": "Swing Cast"
+                                                                },
+                                                                {
+                                                                    "id": "any_double_twist",
+                                                                    "displayName": "Any Double Twist (That is NOT a Dub-A or Ryd) (720 + 1 flip)"
+                                                                },
+                                                                {
+                                                                    "id": "any_double_flip",
+                                                                    "displayName": "Any Double Flip"
+                                                                },
+                                                                {
+                                                                    "id": "any_bar_flip_or_twist_regrab",
+                                                                    "displayName": "Any Bar Flip or Twist Regrab (Flyaway Regrab, Flyaway 90 Regrab, 360 Regrab)"
+                                                                },
+                                                                {
+                                                                    "id": "flip_square",
+                                                                    "displayName": "Flip Square (Sideflip, Front Flip, Back Flip, SideFlip)"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
                                                 },
                                                 "next": []
                                             }
