@@ -10,6 +10,8 @@ void main() {
   runApp(const Start());
 }
 
+final ValueNotifier<bool> useMobileFrame = ValueNotifier<bool>(true);
+
 class Start extends StatelessWidget {
   const Start({super.key});
 
@@ -25,6 +27,27 @@ class Start extends StatelessWidget {
       //   scaffoldBackgroundColor: Color(0xFF202020)
       // ),
       home: HomePage(),
+      builder: (context, child) {
+        return ValueListenableBuilder<bool>(
+          valueListenable: useMobileFrame,
+          builder: (context, enabled, _) {
+            Widget content = child!;
+
+            if (enabled) {
+              content = Expanded(
+                child: Container(
+                  color: const Color.fromARGB(255, 22, 22, 22),
+                  child: Center(
+                    child: ClipRect(child: SizedBox(width: 420, child: content)),
+                  ),
+                ),
+              );
+            }
+
+            return content;
+          },
+        );
+      },
     );
   }
 }

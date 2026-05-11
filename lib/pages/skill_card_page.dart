@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rogue_journeys/data_objects/progression_tree_template_info.dart';
 import 'package:rogue_journeys/data_objects/student_info.dart';
+import 'package:rogue_journeys/main.dart';
 import 'package:rogue_journeys/widgets/appbar_gradient_widget.dart';
 
 class SkillCardPage extends StatelessWidget {
@@ -27,6 +28,16 @@ class SkillCardPage extends StatelessWidget {
           "Skill Card",
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
+
+        actions: [
+          IconButton(
+            icon: Icon(Icons.smartphone, color: Colors.white),
+            color: Colors.white,
+            onPressed: () {
+              useMobileFrame.value = !useMobileFrame.value;
+            },
+          ),
+        ],
 
         flexibleSpace: AppbarGradientContainer(),
       ),
@@ -214,7 +225,9 @@ class _HeaderProgressState extends State<HeaderProgress> {
 
   @override
   Widget build(BuildContext context) {
-    final completed = widget.progressionState.getSkillCardState(widget.skillCardDefinition).completedSkillsAmount;
+    final completed = widget.progressionState
+        .getSkillCardState(widget.skillCardDefinition)
+        .completedSkillsAmount;
     final total = widget.skillCardDefinition.totalSkills;
 
     final int percent = total == 0 ? 0 : ((completed / total) * 100).round();

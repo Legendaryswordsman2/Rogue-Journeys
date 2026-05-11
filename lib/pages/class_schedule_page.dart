@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rogue_journeys/main.dart';
 import 'package:rogue_journeys/pages/class_page.dart';
 import 'package:rogue_journeys/data_objects/class_info.dart';
 import 'package:rogue_journeys/widgets/appbar_gradient_widget.dart';
@@ -23,9 +24,11 @@ class HomePage extends StatelessWidget {
 
         actions: [
           IconButton(
-            icon: Icon(Icons.search, color: Colors.white),
+            icon: Icon(Icons.smartphone, color: Colors.white),
             color: Colors.white,
-            onPressed: null,
+            onPressed: () {
+              useMobileFrame.value = !useMobileFrame.value;
+            },
           ),
         ],
       ),

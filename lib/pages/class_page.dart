@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rogue_journeys/data_objects/class_info.dart';
 import 'package:rogue_journeys/data_objects/student_info.dart';
+import 'package:rogue_journeys/main.dart';
 import 'package:rogue_journeys/pages/account_page.dart';
 import 'package:rogue_journeys/pages/skill_card_page.dart';
 import 'package:rogue_journeys/widgets/appbar_gradient_widget.dart';
@@ -23,6 +24,16 @@ class ClassPage extends StatelessWidget {
           session.title,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
+
+        actions: [
+          IconButton(
+            icon: Icon(Icons.smartphone, color: Colors.white),
+            color: Colors.white,
+            onPressed: () {
+              useMobileFrame.value = !useMobileFrame.value;
+            },
+          ),
+        ],
 
         flexibleSpace: AppbarGradientContainer(),
       ),
@@ -203,14 +214,8 @@ class StudentEntry extends StatelessWidget {
           ),
         );
       },
-      onLongPress: () {
-        Navigator.push(
-          context,
-          CupertinoPageRoute(
-            builder: (context) => AccountPage(student: student),
-          ),
-        );
-      },
+      onDoubleTap: () => _openAccountPage(context),
+      onLongPress: () => _openAccountPage(context),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Row(
@@ -221,6 +226,13 @@ class StudentEntry extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void _openAccountPage(BuildContext context) {
+    Navigator.push(
+      context,
+      CupertinoPageRoute(builder: (context) => AccountPage(student: student)),
     );
   }
 }

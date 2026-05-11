@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rogue_journeys/data_objects/progression_tree_template_info.dart';
 import 'package:rogue_journeys/data_objects/student_info.dart';
+import 'package:rogue_journeys/main.dart';
 import 'package:rogue_journeys/pages/skill_card_page.dart';
 import 'package:rogue_journeys/widgets/appbar_gradient_widget.dart';
 
@@ -22,6 +23,16 @@ class AccountPage extends StatelessWidget {
             "Account",
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
+
+          actions: [
+            IconButton(
+              icon: Icon(Icons.smartphone, color: Colors.white),
+              color: Colors.white,
+              onPressed: () {
+                useMobileFrame.value = !useMobileFrame.value;
+              },
+            ),
+          ],
 
           flexibleSpace: AppbarGradientContainer(),
         ),
