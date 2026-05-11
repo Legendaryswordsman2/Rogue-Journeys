@@ -34,11 +34,13 @@ class Start extends StatelessWidget {
             Widget content = child!;
 
             if (enabled) {
-              content = Expanded(
+              content = SizedBox.expand(
                 child: Container(
                   color: const Color.fromARGB(255, 22, 22, 22),
                   child: Center(
-                    child: ClipRect(child: SizedBox(width: 420, child: content)),
+                    child: ClipRect(
+                      child: SizedBox(width: 420, child: content),
+                    ),
                   ),
                 ),
               );
