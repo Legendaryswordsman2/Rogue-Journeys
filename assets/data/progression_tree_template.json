@@ -265,7 +265,138 @@
                     {
                         "skillCard": {
                             "id": "skill_card_core_3",
-                            "displayName": "Foundations: LVL 3"
+                            "displayName": "Foundations: LVL 3",
+                            "skillCategories": [
+                                {
+                                    "id": "category_floor",
+                                    "displayName": "Floor Skills",
+                                    "color": "0xFFF44336",
+                                    "skills": [
+                                        {
+                                            "id": "dive_roll_over_waist",
+                                            "displayName": "Dive Roll Over Waist"
+                                        },
+                                        {
+                                            "id": "cartwheel",
+                                            "displayName": "Cartwheel"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "category_precisions",
+                                    "displayName": "Precision Skills",
+                                    "color": "0xFF4CAF50",
+                                    "skills": [
+                                        {
+                                            "id": "standing_precision_3ft_rails",
+                                            "displayName": "Standing Precision 3FT Rails"
+                                        },
+                                        {
+                                            "id": "running_precision_3ft_rails",
+                                            "displayName": "Running Precision 3FT Rails"
+                                        },
+                                        {
+                                            "id": "lava_course",
+                                            "displayName": "Lava Course"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "category_vaults",
+                                    "displayName": "Vaulting Skills",
+                                    "color": "0xffffce00",
+                                    "skills": [
+                                        {
+                                            "id": "dash_vault",
+                                            "displayName": "Dash Vault"
+                                        },
+                                        {
+                                            "id": "reverse_vault",
+                                            "displayName": "Reverse Vault"
+                                        },
+                                        {
+                                            "id": "dive_kong",
+                                            "displayName": "Dive Kong (1BL)"
+                                        },
+                                        {
+                                            "id": "kong_pre_floor_beam",
+                                            "displayName": "Kong Pre -> Floor Beam (1BL)"
+                                        },
+                                        {
+                                            "id": "corner_palm_spin",
+                                            "displayName": "Corner Palm Spin"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "category_walls",
+                                    "displayName": "Wall Skills",
+                                    "color": "0xFFFF9800",
+                                    "skills": [
+                                        {
+                                            "id": "wall_climb",
+                                            "displayName": "Wall Climb (1.75BL)"
+                                        },
+                                        {
+                                            "id": "cat_leap",
+                                            "displayName": "Cat Leap (1.5BL)"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "category_bars",
+                                    "displayName": "Bar Skills",
+                                    "color": "0xFF2196F3",
+                                    "skills": [
+                                        {
+                                            "id": "lache_regrab",
+                                            "displayName": "Lache Regrab"
+                                        },
+                                        {
+                                            "id": "brachiation_course",
+                                            "displayName": "Brachiation Course"
+                                        },
+                                        {
+                                            "id": "sit_turn",
+                                            "displayName": "Sit Turn"
+                                        },
+                                        {
+                                            "id": "mounting_the_bar",
+                                            "displayName": "Mounting the Bar"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "category_power",
+                                    "displayName": "Power Check",
+                                    "skills": [
+                                        {
+                                            "id": "3_consecutive_rail_squats",
+                                            "displayName": "3 Consecutive Rail Squats"
+                                        },
+                                        {
+                                            "id": "5_consecutive_top_outs",
+                                            "displayName": "5 Consecutive Top Outs"
+                                        },
+                                        {
+                                            "id": "20_burpees",
+                                            "displayName": "20 Burpees"
+                                        },
+                                        {
+                                            "id": "pre_to_plyo",
+                                            "displayName": "Pre (1BL) to Plyo (1.5BL)"
+                                        },
+                                        {
+                                            "id": "level_3_climbup",
+                                            "displayName": "Level 3 Climbup"
+                                        },
+                                        {
+                                            "id": "8_pull_ups",
+                                            "displayName": "8 Pull Ups"
+                                        }
+                                    ]
+                                }
+                            ]
                         },
                         "next": [
                             {
