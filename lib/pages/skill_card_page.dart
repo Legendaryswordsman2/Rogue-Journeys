@@ -4,19 +4,18 @@ import 'package:rogue_journeys/data_objects/student_info.dart';
 import 'package:rogue_journeys/widgets/appbar_gradient_widget.dart';
 
 class SkillCardPage extends StatelessWidget {
-  SkillCardPage({super.key, required this.student})
-    : tempProgressionState = student.progressionState.copy();
+  SkillCardPage({
+    super.key,
+    required this.student,
+    required this.skillCardDefinition,
+  }) : tempProgressionState = student.progressionState.copy();
 
   final Student student;
 
   // A copy of the students progression state. This is modifed when changes are made in the Skill Card page. then when "Save Changes" is pressed, the tempProgressionState is applied to the students ProgressionState.
   final ProgressionState tempProgressionState;
 
-  final SkillCardDefinition skillCardDefinition = ProgressionTreeTemplateManager
-      .insance
-      .progressionTree
-      .coreRoot
-      .skillCardDefinition;
+  final SkillCardDefinition skillCardDefinition;
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +106,9 @@ class SkillCardView extends StatelessWidget {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(20),
                   onTap: () {
-                    student.progressionState.override(progressionState);
+                    student.progressionState.overrideSkillStates(
+                      progressionState,
+                    );
                     Navigator.pop(context);
                   },
                   child: SizedBox(
@@ -162,7 +163,7 @@ class _HeaderInfoViewState extends State<HeaderInfoView> {
           mainAxisAlignment: .spaceBetween,
           children: [
             Text(
-              "Progression: LVL 1",
+              widget.skillCardDefinition.displayName,
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -235,7 +236,7 @@ class _HeaderProgressState extends State<HeaderProgress> {
         ),
         SizedBox(height: 8),
         Text("$percent% completed", style: TextStyle(color: Colors.white54)),
-        SizedBox(height: 8)
+        SizedBox(height: 8),
       ],
     );
   }

@@ -192,7 +192,14 @@ class StudentEntry extends StatelessWidget {
         Navigator.push(
           context,
           CupertinoPageRoute(
-            builder: (context) => SkillCardPage(student: student),
+            builder: (context) => SkillCardPage(
+              student: student,
+              skillCardDefinition: student
+                  .progressionState
+                  .progressionTreeDefinition
+                  .coreRoot
+                  .skillCardDefinition,
+            ),
           ),
         );
       },

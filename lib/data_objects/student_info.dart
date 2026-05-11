@@ -151,15 +151,43 @@ class Student {
 class ProgressionState {
   // final String progressionTreeTemplateVersion;
   final ProgressionTreeDefinition progressionTreeDefinition;
-  Map<String, SkillState> _skillStates;
 
-  ProgressionState({required this.progressionTreeDefinition})
-    : _skillStates = {};
+  final Map<SkillCardDefinition, SkillCardState> _skillCardStates = {};
+
+  /// Individual skill progress
+  Map<String, SkillState> _skillStates = {};
+
+  ProgressionState({required this.progressionTreeDefinition});
 
   ProgressionState._internal({
     required this.progressionTreeDefinition,
     required Map<String, SkillState> skillStates,
   }) : _skillStates = skillStates;
+
+  SkillCardState getSkillCardState(SkillCardDefinition skillCardDefinition) {
+    return _skillCardStates.putIfAbsent(
+      skillCardDefinition,
+      () => SkillCardState(
+        skillCardDefinition: skillCardDefinition,
+        progressionState: this,
+      ),
+    );
+  }
+
+  SkillCardState? getLatestUnlockedSkillCard(ProgressionNodeDefinition? node) {
+    node ??= progressionTreeDefinition.coreRoot;
+    SkillCardState skillCardState = getSkillCardState(
+      progressionTreeDefinition.coreRoot.skillCardDefinition,
+    );
+
+    if (skillCardState.isComplete == false) return skillCardState;
+
+    if (node.next.isNotEmpty) {
+      return getLatestUnlockedSkillCard(node.next[0]);
+    } else {
+      return null;
+    }
+  }
 
   SkillState getSkillState(String skillId) {
     return _skillStates.putIfAbsent(skillId, () => SkillState());
@@ -194,8 +222,47 @@ class ProgressionState {
     );
   }
 
-  void override(ProgressionState newProgressionState) {
+  /// Replace the entire skill states list with a new list
+  void overrideSkillStates(ProgressionState newProgressionState) {
     _skillStates = newProgressionState._skillStates;
+  }
+}
+
+class SkillCardState {
+  final SkillCardDefinition skillCardDefinition;
+  final ProgressionState progressionState;
+
+  SkillCardState({
+    required this.skillCardDefinition,
+    required this.progressionState,
+  });
+
+  List<SkillState>? _skillStatesCache;
+
+  List<SkillState> get _skillStates {
+    if (_skillStatesCache != null) return _skillStatesCache!;
+
+    return skillCardDefinition.skillCategoryDefinitions
+        .expand((categoryDefinition) => categoryDefinition.skillDefinitions)
+        .map(
+          (skillDefinition) =>
+              progressionState.getSkillState(skillDefinition.id),
+        )
+        .toList();
+  }
+
+  double get completionPercentage {
+    if (_skillStates.isEmpty) return 0;
+
+    final completed = _skillStates
+        .where((skillState) => skillState.completed)
+        .length;
+
+    return completed / _skillStates.length;
+  }
+
+  bool get isComplete {
+    return completionPercentage >= 1.0;
   }
 }
 
