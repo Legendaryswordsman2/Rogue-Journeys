@@ -10,7 +10,7 @@ void main() {
   runApp(const Start());
 }
 
-final ValueNotifier<bool> useMobileFrame = ValueNotifier<bool>(true);
+final ValueNotifier<bool> useMobileFrame = ValueNotifier<bool>(false);
 
 class Start extends StatelessWidget {
   const Start({super.key});
