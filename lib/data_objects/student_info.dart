@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:rogue_journeys/data_objects/progression_tree_template_info.dart';
 
 class Student {
@@ -251,14 +252,14 @@ class SkillCardState {
         .toList();
   }
 
-  double get completionPercentage {
+  int get completedSkillsAmount {
     if (_skillStates.isEmpty) return 0;
 
-    final completed = _skillStates
-        .where((skillState) => skillState.completed)
-        .length;
+    return _skillStates.where((skillState) => skillState.completed).length;
+  }
 
-    return completed / _skillStates.length;
+  double get completionPercentage {
+    return completedSkillsAmount / _skillStates.length;
   }
 
   bool get isComplete {

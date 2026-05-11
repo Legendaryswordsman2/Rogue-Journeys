@@ -37,7 +37,7 @@ class AccountPage extends StatelessWidget {
   }
 }
 
-class ProgressionTreeView extends StatelessWidget {
+class ProgressionTreeView extends StatefulWidget {
   const ProgressionTreeView({
     super.key,
     required this.student,
@@ -47,6 +47,11 @@ class ProgressionTreeView extends StatelessWidget {
   final Student student;
   final ProgressionNodeDefinition rootNode;
 
+  @override
+  State<ProgressionTreeView> createState() => _ProgressionTreeViewState();
+}
+
+class _ProgressionTreeViewState extends State<ProgressionTreeView> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -62,33 +67,49 @@ class ProgressionTreeView extends StatelessWidget {
         behavior: ScrollConfiguration.of(context).copyWith(overscroll: false),
         child: ListView(
           reverse: true,
-          children: [Test(student: student, rootNode: rootNode)],
+          children: [
+            ProgressionTreeNodes(
+              student: widget.student,
+              rootNode: widget.rootNode,
+              onPressed: (skillCardDefinition) =>
+                  openSkillCard(context, skillCardDefinition),
+            ),
+          ],
         ),
       ),
-      // child: Column(
-      //   mainAxisAlignment: .center,
-      //   verticalDirection: VerticalDirection.up,
-      //   children: [
-      //     // SkillCardInfoEntry(skillCardDefinition: rootNode.skillCardDefinition),
-      //     // Icon(Icons.arrow_upward, size: 18, color: Colors.white),
-      //     // SkillCardInfoEntry(
-      //     //   skillCardDefinition: rootNode.next[0].skillCardDefinition,
-      //     // ),
-      //     // Icon(Icons.arrow_upward, size: 18, color: Colors.white),
-      //     // SkillCardInfoEntry(
-      //     //   skillCardDefinition: rootNode.next[0].next[0].skillCardDefinition,
-      //     // ),
-      //   ],
-      // ),
     );
+  }
+
+  Future<void> openSkillCard(
+    BuildContext context,
+    SkillCardDefinition skillCardDefinition,
+  ) async {
+    await Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (context) => SkillCardPage(
+          student: widget.student,
+          skillCardDefinition: skillCardDefinition,
+        ),
+      ),
+    );
+
+    setState(() {});
   }
 }
 
-class Test extends StatelessWidget {
-  const Test({super.key, required this.student, required this.rootNode});
+class ProgressionTreeNodes extends StatelessWidget {
+  const ProgressionTreeNodes({
+    super.key,
+    required this.student,
+    required this.rootNode,
+    required this.onPressed,
+  });
 
   final Student student;
   final ProgressionNodeDefinition rootNode;
+
+  final void Function(SkillCardDefinition) onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -100,6 +121,7 @@ class Test extends StatelessWidget {
       return SkillCardInfoEntry(
         student: student,
         skillCardDefinition: node.skillCardDefinition,
+        onPressed: (definition) => onPressed(definition),
       );
     }
 
@@ -111,6 +133,7 @@ class Test extends StatelessWidget {
           SkillCardInfoEntry(
             student: student,
             skillCardDefinition: node.skillCardDefinition,
+            onPressed: (definition) => onPressed(definition),
           ),
           buildTree(node.next.first),
         ],
@@ -124,6 +147,7 @@ class Test extends StatelessWidget {
         SkillCardInfoEntry(
           student: student,
           skillCardDefinition: node.skillCardDefinition,
+          onPressed: (definition) => onPressed(definition),
         ),
         const SizedBox(height: 16),
         Row(
@@ -142,10 +166,13 @@ class SkillCardInfoEntry extends StatelessWidget {
     super.key,
     required this.student,
     required this.skillCardDefinition,
+    required this.onPressed,
   });
 
   final Student student;
   final SkillCardDefinition skillCardDefinition;
+
+  final void Function(SkillCardDefinition) onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -155,17 +182,7 @@ class SkillCardInfoEntry extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         clipBehavior: Clip.antiAlias, // important
         child: InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              CupertinoPageRoute(
-                builder: (context) => SkillCardPage(
-                  student: student,
-                  skillCardDefinition: skillCardDefinition,
-                ),
-              ),
-            );
-          },
+          onTap: () => onPressed(skillCardDefinition),
           child: Ink(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -182,6 +199,7 @@ class SkillCardInfoEntry extends StatelessWidget {
                 padding: const EdgeInsets.all(12),
                 child: SkillCardInfoEntryContents(
                   skillCardDefinition: skillCardDefinition,
+                  student: student,
                 ),
               ),
             ),
@@ -189,51 +207,23 @@ class SkillCardInfoEntry extends StatelessWidget {
         ),
       ),
     );
-    //   return Material(
-    //     child: InkWell(
-    //       onTap: () {},
-    //       child: Container(
-    //         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-    //         // padding: EdgeInsets.all(12),
-    //         child: Ink(
-    //           width: 200,
-    //           height: 120,
-    //           // margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-    //           padding: EdgeInsets.all(12),
-    //           decoration: BoxDecoration(
-    //             borderRadius: BorderRadius.circular(20),
-    //             gradient: LinearGradient(
-    //               begin: Alignment.topLeft,
-    //               end: Alignment.bottomRight,
-    //               colors: [Color(0xFF343434), Color(0xFF242424)],
-    //             ),
-    //             // color: Color(0xFF2A2A2A),
-    //             border: Border.all(color: Colors.white12, width: 1.5),
-    //             boxShadow: [
-    //               BoxShadow(
-    //                 color: Colors.black.withValues(alpha: 0.3),
-    //                 blurRadius: 10,
-    //                 offset: Offset(0, 4),
-    //               ),
-    //             ],
-    //           ),
-    //           child: SkillCardInfoEntryContents(
-    //             skillCardDefinition: skillCardDefinition,
-    //           ),
-    //         ),
-    //       ),
-    //     ),
-    //   );
   }
 }
 
 class SkillCardInfoEntryContents extends StatelessWidget {
   final SkillCardDefinition skillCardDefinition;
+  final Student student;
 
-  const SkillCardInfoEntryContents({
+  final SkillCardState skillCardState;
+
+  SkillCardInfoEntryContents({
     super.key,
     required this.skillCardDefinition,
-  });
+    required this.student,
+  }) : skillCardState = student.progressionState.getSkillCardState(
+         skillCardDefinition,
+       );
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -256,8 +246,8 @@ class SkillCardInfoEntryContents extends StatelessWidget {
             ),
             SizedBox(height: 8),
 
-            const Text(
-              "5/20 Skills",
+            Text(
+              "${skillCardState.completedSkillsAmount}/${skillCardDefinition.totalSkills} Skills",
               style: TextStyle(
                 color: Colors.white60,
                 fontSize: 13,
@@ -271,9 +261,12 @@ class SkillCardInfoEntryContents extends StatelessWidget {
           child: SizedBox(
             height: 8,
             child: LinearProgressIndicator(
-              value: 5 / 20,
+              value: student.progressionState
+                  .getSkillCardState(skillCardDefinition)
+                  .completionPercentage,
               backgroundColor: Colors.white10,
-              valueColor: AlwaysStoppedAnimation(Colors.orangeAccent),
+              valueColor: AlwaysStoppedAnimation(Colors.greenAccent),
+              // valueColor: AlwaysStoppedAnimation(Colors.orangeAccent),
             ),
           ),
         ),

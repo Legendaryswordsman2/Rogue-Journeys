@@ -3,7 +3,7 @@
     "coreRoot": {
         "skillCard": {
             "id": "skill_card_core_1",
-            "displayName": "Core LVL 1",
+            "displayName": "Foundations: LVL 1",
             "skillCategories": [
                 {
                     "id": "category_floor",
@@ -19,7 +19,7 @@
                             "displayName": "QM/QM Gallop"
                         },
                         {
-                            "id": "Ground Kong",
+                            "id": "ground_kong",
                             "displayName": "Ground Kong"
                         },
                         {
@@ -132,31 +132,158 @@
             {
                 "skillCard": {
                     "id": "skill_card_core_2",
-                    "displayName": "Core LVL 2"
+                    "displayName": "Foundations: LVL 2",
+                    "skillCategories": [
+                        {
+                            "id": "category_floor",
+                            "displayName": "Floor Skills",
+                            "color": "0xFFF44336",
+                            "skills": [
+                                {
+                                    "id": "dive_roll",
+                                    "displayName": "Dive Roll"
+                                },
+                                {
+                                    "id": "backwards_roll",
+                                    "displayName": "Backwards Roll"
+                                },
+                                {
+                                    "id": "360_jump",
+                                    "displayName": "360 Jump"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "category_precisions",
+                            "displayName": "Precision Skills",
+                            "color": "0xFF4CAF50",
+                            "skills": [
+                                {
+                                    "id": "standing_precision_rails",
+                                    "displayName": "Standing Precision Rails"
+                                },
+                                {
+                                    "id": "running_precision_rails",
+                                    "displayName": "Running Precision Rails"
+                                },
+                                {
+                                    "id": "cat_180_precision",
+                                    "displayName": "Cat 180 Precision"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "category_vaults",
+                            "displayName": "Vaults Skills",
+                            "color": "0xffffce00",
+                            "skills": [
+                                {
+                                    "id": "lazy_thief_vault",
+                                    "displayName": "Lazy/Thief Vault"
+                                },
+                                {
+                                    "id": "kong_vault",
+                                    "displayName": "Kong Vault"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "category_walls",
+                            "displayName": "Wall Skills",
+                            "color": "0xFFFF9800",
+                            "skills": [
+                                {
+                                    "id": "wall_run_180_to_shoulder_roll",
+                                    "displayName": "Wall Run 180 to Shoulder Roll"
+                                },
+                                {
+                                    "id": "tic_tac_1_bl",
+                                    "displayName": "Tic Tic 1 BL"
+                                },
+                                {
+                                    "id": "tic_tac_over_waist_height",
+                                    "displayName": "Tic Tac Over Waist Height"
+                                },
+                                {
+                                    "id": "cat_leap_to_climbup",
+                                    "displayName": "Cat Leap to Climbup"
+                                },
+                                {
+                                    "id": "climb_down_to_cat_hang",
+                                    "displayName": "Climb Down to Cat Hang"
+                                },
+                                {
+                                    "id": "top_out",
+                                    "displayName": "Top Out"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "category_bars",
+                            "displayName": "Bar Skills",
+                            "color": "0xFF2196F3",
+                            "skills": [
+                                {
+                                    "id": "lach_precision",
+                                    "displayName": "Lache Precision"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "category_power",
+                            "displayName": "Power Check",
+                            "skills": [
+                                {
+                                    "id": "4_cat_hang_knee_drives",
+                                    "displayName": "4 Cat Hang Knee Drives (Both Sides)"
+                                },
+                                {
+                                    "id": "4_cat_hang_squats",
+                                    "displayName": "4 Cat Hang Squats"
+                                },
+                                {
+                                    "id": "15_pushups",
+                                    "displayName": "15 Pushups"
+                                },
+                                {
+                                    "id": "5_wall_dips",
+                                    "displayName": "5 Wall Dips"
+                                },
+                                {
+                                    "id": "3_dead_hang_pull_ups",
+                                    "displayName": "3 Dead Hang Pull Ups"
+                                },
+                                {
+                                    "id": "10_second_squat_balance_on_a_rail",
+                                    "displayName": "10 Second Squat Balance on a Rail"
+                                }
+                            ]
+                        }
+                    ]
                 },
                 "next": [
                     {
                         "skillCard": {
                             "id": "skill_card_core_3",
-                            "displayName": "Core LVL 3"
+                            "displayName": "Foundations: LVL 3"
                         },
                         "next": [
                             {
                                 "skillCard": {
                                     "id": "skill_card_skills_4",
-                                    "displayName": "Skills LVL 4"
+                                    "displayName": "Skills: LVL 4"
                                 },
                                 "next": [
                                     {
                                         "skillCard": {
                                             "id": "skill_card_skills_5",
-                                            "displayName": "Skills LVL 5"
+                                            "displayName": "Skills: LVL 5"
                                         },
                                         "next": [
                                             {
                                                 "skillCard": {
                                                     "id": "skill_card_skills_6",
-                                                    "displayName": "Skills LVL 6"
+                                                    "displayName": "Skills: LVL 6"
                                                 },
                                                 "next": []
                                             }
@@ -167,19 +294,19 @@
                             {
                                 "skillCard": {
                                     "id": "skill_card_speed_4",
-                                    "displayName": "Speed LVL 4"
+                                    "displayName": "Speed: LVL 4"
                                 },
                                 "next": [
                                     {
                                         "skillCard": {
                                             "id": "skill_card_speed_5",
-                                            "displayName": "Speed LVL 5"
+                                            "displayName": "Speed: LVL 5"
                                         },
                                         "next": [
                                             {
                                                 "skillCard": {
                                                     "id": "skill_card_speed_6",
-                                                    "displayName": "Speed LVL 6"
+                                                    "displayName": "Speed: LVL 6"
                                                 },
                                                 "next": []
                                             }
@@ -190,19 +317,19 @@
                             {
                                 "skillCard": {
                                     "id": "skill_card_acro_4",
-                                    "displayName": "Acro LVL 4"
+                                    "displayName": "Acro: LVL 4"
                                 },
                                 "next": [
                                     {
                                         "skillCard": {
                                             "id": "skill_card_acro_5",
-                                            "displayName": "Acro LVL 5"
+                                            "displayName": "Acro: LVL 5"
                                         },
                                         "next": [
                                             {
                                                 "skillCard": {
                                                     "id": "skill_card_acro_6",
-                                                    "displayName": "Acro LVL 6"
+                                                    "displayName": "Acro: LVL 6"
                                                 },
                                                 "next": []
                                             }

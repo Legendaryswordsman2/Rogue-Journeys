@@ -214,7 +214,7 @@ class _HeaderProgressState extends State<HeaderProgress> {
 
   @override
   Widget build(BuildContext context) {
-    final completed = widget.progressionState.countAllCompletedSkills();
+    final completed = widget.progressionState.getSkillCardState(widget.skillCardDefinition).completedSkillsAmount;
     final total = widget.skillCardDefinition.totalSkills;
 
     final int percent = total == 0 ? 0 : ((completed / total) * 100).round();
