@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:rogue_journeys/data_objects/progression_tree_template_info.dart';
 
 class Student {
@@ -176,12 +177,11 @@ class ProgressionState {
 
   SkillCardState? getLatestUnlockedSkillCard(ProgressionNodeDefinition? node) {
     node ??= progressionTreeDefinition.coreRoot;
-    SkillCardState skillCardState = getSkillCardState(
-      progressionTreeDefinition.coreRoot.skillCardDefinition,
-    );
+
+    SkillCardState skillCardState = getSkillCardState(node.skillCardDefinition);
 
     if (skillCardState.isComplete == false) return skillCardState;
-
+    
     if (node.next.isNotEmpty) {
       return getLatestUnlockedSkillCard(node.next[0]);
     } else {

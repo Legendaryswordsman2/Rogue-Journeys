@@ -199,21 +199,7 @@ class StudentEntry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          CupertinoPageRoute(
-            builder: (context) => SkillCardPage(
-              student: student,
-              skillCardDefinition: student
-                  .progressionState
-                  .progressionTreeDefinition
-                  .coreRoot
-                  .skillCardDefinition,
-            ),
-          ),
-        );
-      },
+      onTap: () => _openSkillCardPageWithLatestSkillCard(context),
       onDoubleTap: () => _openAccountPage(context),
       onLongPress: () => _openAccountPage(context),
       child: Padding(
@@ -234,6 +220,25 @@ class StudentEntry extends StatelessWidget {
       context,
       CupertinoPageRoute(builder: (context) => AccountPage(student: student)),
     );
+  }
+
+  void _openSkillCardPageWithLatestSkillCard(BuildContext context) {
+    SkillCardState? skillCardState = student.progressionState
+        .getLatestUnlockedSkillCard(null);
+
+    if (skillCardState != null) {
+      Navigator.push(
+        context,
+        CupertinoPageRoute(
+          builder: (context) => SkillCardPage(
+            student: student,
+            skillCardDefinition: skillCardState.skillCardDefinition,
+          ),
+        ),
+      );
+    } else {
+      _openAccountPage(context);
+    }
   }
 }
 
