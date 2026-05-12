@@ -12,7 +12,6 @@ class ProgressionTreeTemplateManager {
 
   ProgressionTreeDefinition? _cache;
   bool _loading = false;
-  // Future<void>? _loadTask;
 
   Future<void> loadProgressionTree() async {
     if (_cache != null || _loading) return;
@@ -35,14 +34,6 @@ class ProgressionTreeTemplateManager {
     } finally {
       _loading = false;
     }
-
-    debugPrint("State: $_cache");
-
-    debugPrint("Core Root next nodes: ${_cache!.coreRoot.next.length}");
-
-    // debugPrint(
-    //   "Skill Card Tracks Loaded: ${_cache!.progressionTrackDefinitions.length}",
-    // );
   }
 
   ProgressionTreeDefinition get progressionTree {
@@ -60,10 +51,6 @@ class ProgressionTreeDefinition {
   ProgressionTreeDefinition({required this.coreRoot, required this.sideRoots});
 
   factory ProgressionTreeDefinition.fromJson(Map<String, dynamic> json) {
-    final coreRootJson = json['coreRoot'] as Map<String, dynamic>? ?? {};
-
-    debugPrint("Core Root JSON: $coreRootJson");
-
     return ProgressionTreeDefinition(
       coreRoot: ProgressionNodeDefinition.fromJson(json['coreRoot']),
       sideRoots: (json["sideRoots"] as List? ?? [])

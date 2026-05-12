@@ -69,22 +69,17 @@ class Header extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              child: Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    TextWithIcon(
-                      text: session.date,
-                      icon: Icons.calendar_today,
-                    ),
-                    TextWithIcon(
-                      text: "${session.startTime}-${session.endTime}",
-                      icon: Icons.timer,
-                    ),
-                    TextWithIcon(text: session.coach, icon: Icons.person),
-                  ],
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  TextWithIcon(text: session.date, icon: Icons.calendar_today),
+                  TextWithIcon(
+                    text: "${session.startTime}-${session.endTime}",
+                    icon: Icons.timer,
+                  ),
+                  TextWithIcon(text: session.coach, icon: Icons.person),
+                ],
               ),
             ),
             Expanded(
