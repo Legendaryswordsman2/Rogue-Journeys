@@ -45,13 +45,15 @@ class ProgressionTreeTemplateManager {
 }
 
 class ProgressionTreeDefinition {
-  ProgressionNodeDefinition coreRoot;
-  List<ProgressionNodeDefinition> sideRoots;
+  final String version;
+  final ProgressionNodeDefinition coreRoot;
+  final List<ProgressionNodeDefinition> sideRoots;
 
-  ProgressionTreeDefinition({required this.coreRoot, required this.sideRoots});
+  ProgressionTreeDefinition({required this.version, required this.coreRoot, required this.sideRoots});
 
   factory ProgressionTreeDefinition.fromJson(Map<String, dynamic> json) {
     return ProgressionTreeDefinition(
+      version: json["version"],
       coreRoot: ProgressionNodeDefinition.fromJson(json['coreRoot']),
       sideRoots: (json["sideRoots"] as List? ?? [])
           .map((e) => ProgressionNodeDefinition.fromJson(e))

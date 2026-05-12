@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:rogue_journeys/data_objects/progression_tree_template_info.dart';
 import 'package:rogue_journeys/pages/class_schedule_page.dart';
 
-void main() {
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   ProgressionTreeTemplateManager.insance.loadProgressionTree();
 

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "751244806919",
+    "project_id": "rogue-journeys",
+    "storage_bucket": "rogue-journeys.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:751244806919:android:31f6944ec38a37c73413a2",
+        "android_client_info": {
+          "package_name": "com.example.rogue_journeys"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtFziJuozgHoFeQgX_UYJUbY5r-51loqA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
