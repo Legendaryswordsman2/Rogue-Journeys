@@ -20,7 +20,7 @@ class AccountPage extends StatelessWidget {
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-            "Account",
+            student.studentName,
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
 

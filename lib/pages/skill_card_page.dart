@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rogue_journeys/data_objects/progression_tree_template_info.dart';
 import 'package:rogue_journeys/data_objects/student_info.dart';
 import 'package:rogue_journeys/main.dart';
+import 'package:rogue_journeys/pages/account_page.dart';
 import 'package:rogue_journeys/widgets/appbar_gradient_widget.dart';
 
 class SkillCardPage extends StatelessWidget {
@@ -35,6 +37,18 @@ class SkillCardPage extends StatelessWidget {
             color: Colors.white,
             onPressed: () {
               useMobileFrame.value = !useMobileFrame.value;
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.account_circle, color: Colors.white),
+            color: Colors.white,
+            onPressed: () {
+              Navigator.push(
+                context,
+                CupertinoPageRoute(
+                  builder: (context) => AccountPage(student: student),
+                ),
+              );
             },
           ),
         ],
