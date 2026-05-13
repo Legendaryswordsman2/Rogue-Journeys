@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/widgets.dart';
 import 'package:rogue_journeys/data_objects/progression_tree_template_info.dart';
 
 class Student {
@@ -32,13 +33,66 @@ class Student {
     required this.level,
   });
 
+  static Future<Student?> fromId(String id) async {
+    final doc = await FirebaseFirestore.instance
+        .collection("Students")
+        .doc(id)
+        .get();
+
+    debugPrint("Doc Exists: ${doc.exists}");
+    if (!doc.exists) return null;
+
+    return Student.fromJson(id, doc.data()!);
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "studentName": studentName,
+      "profilePicAssetLocation": profilePicAssetLocation,
+
+      "progressionState": progressionState.toJson(),
+    };
+  }
+
+  factory Student.fromJson(String id, Map<String, dynamic> json) {
+    final Student student = Student(
+      id: id,
+      studentName: json["studentName"] ?? "",
+      profilePicAssetLocation: json["profilePicAssetLocation"] ?? "",
+      level: 1,
+    );
+
+    student._progressionState = ProgressionState.fromJson(
+      json["progressionState"] ?? {},
+      student,
+    );
+
+    return student;
+  }
+
   void saveToDatabase() async {
     await FirebaseFirestore.instance
         .collection("Students")
         .doc(id)
-        .collection("progression")
-        .doc("current")
-        .set(progressionState.toJson());
+        .set(toJson());
+  }
+
+  static void uploadSampleStudentsToDatabase() {
+    for (final student in sampleStudentList1) {
+      student.saveToDatabase();
+    }
+    for (final student in sampleStudentList2) {
+      student.saveToDatabase();
+    }
+    for (final student in sampleStudentList3) {
+      student.saveToDatabase();
+    }
+    for (final student in sampleStudentList4) {
+      student.saveToDatabase();
+    }
+    for (final student in sampleStudentList5) {
+      student.saveToDatabase();
+    }
   }
 
   static final Student sampleStudent = Student(

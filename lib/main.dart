@@ -31,7 +31,7 @@ class Start extends StatelessWidget {
       //   appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.white)),
       //   scaffoldBackgroundColor: Color(0xFF202020)
       // ),
-      home: HomePage(),
+      home: ClassSchedulePage(),
       builder: (context, child) {
         return ValueListenableBuilder<bool>(
           valueListenable: useMobileFrame,
