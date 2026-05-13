@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rogue_journeys/data_objects/student_info.dart';
 import 'package:rogue_journeys/main.dart';
@@ -85,13 +86,14 @@ class _ClassSchedulePageState extends State<ClassSchedulePage> {
               useMobileFrame.value = !useMobileFrame.value;
             },
           ),
-          IconButton(
-            icon: Icon(Icons.cloud, color: Colors.white),
-            color: Colors.white,
-            onPressed: () {
-              Student.uploadSampleStudentsToDatabase();
-            },
-          ),
+          if (kDebugMode)
+            IconButton(
+              icon: Icon(Icons.cloud, color: Colors.white),
+              color: Colors.white,
+              onPressed: () {
+                Student.uploadSampleStudentsToDatabase();
+              },
+            ),
         ],
       ),
       body: ScrollConfiguration(
