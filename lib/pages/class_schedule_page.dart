@@ -6,8 +6,24 @@ import 'package:rogue_journeys/pages/class_page.dart';
 import 'package:rogue_journeys/data_objects/class_info.dart';
 import 'package:rogue_journeys/widgets/appbar_gradient_widget.dart';
 
-class ClassSchedulePage extends StatelessWidget {
+class ClassSchedulePage extends StatefulWidget {
   const ClassSchedulePage({super.key});
+
+  @override
+  State<ClassSchedulePage> createState() => _ClassSchedulePageState();
+}
+
+class _ClassSchedulePageState extends State<ClassSchedulePage> {
+  late final Future<List<Class>> _upcomingClassesFuture;
+  late final Future<List<Class>> _earlierClassesFuture;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _upcomingClassesFuture = loadUpcomingClasses();
+    _earlierClassesFuture = loadEarlierClasses();
+  }
 
   Future<List<Class>> loadUpcomingClasses() async {
     final classes = await Future.wait(
@@ -83,7 +99,7 @@ class ClassSchedulePage extends StatelessWidget {
         child: ListView(
           children: [
             FutureBuilder(
-              future: loadEarlierClasses(),
+              future: _earlierClassesFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -103,7 +119,7 @@ class ClassSchedulePage extends StatelessWidget {
               },
             ),
             FutureBuilder(
-              future: loadUpcomingClasses(),
+              future: _upcomingClassesFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
