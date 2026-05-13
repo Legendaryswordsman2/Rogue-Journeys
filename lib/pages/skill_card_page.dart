@@ -39,18 +39,6 @@ class SkillCardPage extends StatelessWidget {
               useMobileFrame.value = !useMobileFrame.value;
             },
           ),
-          IconButton(
-            icon: Icon(Icons.account_circle, color: Colors.white),
-            color: Colors.white,
-            onPressed: () {
-              Navigator.push(
-                context,
-                CupertinoPageRoute(
-                  builder: (context) => AccountPage(student: student),
-                ),
-              );
-            },
-          ),
         ],
 
         flexibleSpace: AppbarGradientContainer(),
@@ -195,13 +183,30 @@ class _HeaderInfoViewState extends State<HeaderInfoView> {
                 color: Colors.white,
               ),
             ),
-            Text(
-              widget.student.studentName,
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: Colors.white70,
-              ),
+            Row(
+              children: [
+                IconButton(
+                  icon: Icon(Icons.account_circle, color: Colors.white),
+                  color: Colors.white,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) =>
+                            AccountPage(student: widget.student),
+                      ),
+                    );
+                  },
+                ),
+                Text(
+                  widget.student.studentName,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white70,
+                  ),
+                ),
+              ],
             ),
           ],
         ),

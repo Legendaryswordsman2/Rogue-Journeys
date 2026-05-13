@@ -71,13 +71,18 @@ class _ProgressionTreeViewState extends State<ProgressionTreeView> {
       // width: 300,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Color(0xFF121212),
+        // color: Color(0xFF121212),
+        gradient: const LinearGradient(
+          begin: Alignment.bottomRight,
+          end: Alignment.topLeft,
+          colors: [Color(0xFF101010), Color(0xFF242424)],
+        ),
         border: Border.all(color: Colors.white10),
       ),
       child: ScrollConfiguration(
         behavior: ScrollConfiguration.of(context).copyWith(overscroll: false),
         child: ListView(
-          reverse: true,
+          // reverse: true,
           children: [
             ProgressionTreeNodes(
               student: widget.student,
@@ -139,7 +144,7 @@ class ProgressionTreeNodes extends StatelessWidget {
     if (node.next.length == 1) {
       return Column(
         mainAxisSize: MainAxisSize.min,
-        verticalDirection: VerticalDirection.up,
+        // verticalDirection: VerticalDirection.up,
         children: [
           SkillCardInfoEntry(
             student: student,
@@ -153,7 +158,7 @@ class ProgressionTreeNodes extends StatelessWidget {
 
     return Column(
       mainAxisSize: MainAxisSize.min,
-      verticalDirection: VerticalDirection.up,
+      // verticalDirection: VerticalDirection.up,
       children: [
         SkillCardInfoEntry(
           student: student,
@@ -205,7 +210,7 @@ class SkillCardInfoEntry extends StatelessWidget {
             ),
             child: SizedBox(
               width: 200,
-              height: 120,
+              height: 100,
               child: Padding(
                 padding: const EdgeInsets.all(12),
                 child: SkillCardInfoEntryContents(
