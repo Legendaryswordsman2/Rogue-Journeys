@@ -3,8 +3,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rogue_journeys/data_objects/student_info.dart';
 import 'package:rogue_journeys/main.dart';
+import 'package:rogue_journeys/tabs/admin_tab.dart';
 import 'package:rogue_journeys/pages/class_page.dart';
 import 'package:rogue_journeys/data_objects/class_info.dart';
+import 'package:rogue_journeys/tabs/skill_dictionary_tab.dart';
+import 'package:rogue_journeys/tabs/student_search_tab.dart';
 import 'package:rogue_journeys/widgets/appbar_gradient_widget.dart';
 
 class ClassSchedulePage extends StatefulWidget {
@@ -15,7 +18,90 @@ class ClassSchedulePage extends StatefulWidget {
 }
 
 class _ClassSchedulePageState extends State<ClassSchedulePage> {
+  int _selectedIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Image.asset("assets/images/logo.png", height: 40),
+
+        flexibleSpace: AppbarGradientContainer(),
+
+        leading: IconButton(
+          icon: Icon(Icons.calendar_today, color: Colors.white),
+          onPressed: null,
+        ),
+
+        actions: [
+          IconButton(
+            icon: Icon(Icons.smartphone, color: Colors.white),
+            color: Colors.white,
+            onPressed: () {
+              useMobileFrame.value = !useMobileFrame.value;
+            },
+          ),
+          if (kDebugMode)
+            IconButton(
+              icon: Icon(Icons.cloud, color: Colors.white),
+              color: Colors.white,
+              onPressed: () {
+                Student.uploadSampleStudentsToDatabase();
+              },
+            ),
+        ],
+      ),
+      body: _pages[_selectedIndex],
+      // body:
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Color(0xFF2196F3),
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today),
+            label: "Schedule",
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.people), label: "Students"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu_book),
+            label: "Skill Dictionary",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.admin_panel_settings),
+            label: "Admin",
+          ),
+        ],
+      ),
+    );
+  }
+
+  final List<Widget> _pages = const [
+    ClassScheduleView(),
+    StudentSearchTab(),
+    SkillDictionaryTab(),
+    AdminTab(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+}
+
+class ClassScheduleView extends StatefulWidget {
+  const ClassScheduleView({super.key});
+
+  @override
+  State<ClassScheduleView> createState() => _ClassScheduleViewState();
+}
+
+class _ClassScheduleViewState extends State<ClassScheduleView> {
   late final Future<List<Class>> _upcomingClassesFuture;
+
   late final Future<List<Class>> _earlierClassesFuture;
 
   @override
@@ -66,173 +152,53 @@ class _ClassSchedulePageState extends State<ClassSchedulePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Image.asset("assets/images/logo.png", height: 40),
+    return ScrollConfiguration(
+      behavior: ScrollConfiguration.of(context).copyWith(overscroll: false),
+      child: ListView(
+        children: [
+          FutureBuilder(
+            future: _earlierClassesFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
 
-        flexibleSpace: AppbarGradientContainer(),
+              if (snapshot.hasError) {
+                return Center(child: Text("Error: ${snapshot.error}"));
+              }
 
-        leading: IconButton(
-          icon: Icon(Icons.calendar_today, color: Colors.white),
-          onPressed: null,
-        ),
+              final classes = snapshot.data ?? [];
 
-        actions: [
-          IconButton(
-            icon: Icon(Icons.smartphone, color: Colors.white),
-            color: Colors.white,
-            onPressed: () {
-              useMobileFrame.value = !useMobileFrame.value;
+              return ClassList(
+                title: "Earlier Classes",
+                sessions: classes,
+                initiallyExpanded: false,
+              );
             },
           ),
-          if (kDebugMode)
-            IconButton(
-              icon: Icon(Icons.cloud, color: Colors.white),
-              color: Colors.white,
-              onPressed: () {
-                Student.uploadSampleStudentsToDatabase();
-              },
-            ),
+          FutureBuilder(
+            future: _upcomingClassesFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              if (snapshot.hasError) {
+                return Center(child: Text("Error: ${snapshot.error}"));
+              }
+
+              final classes = snapshot.data ?? [];
+
+              return ClassList(
+                title: "Upcoming Classes",
+                sessions: classes,
+                initiallyExpanded: true,
+              );
+            },
+          ),
         ],
       ),
-      body: ScrollConfiguration(
-        behavior: ScrollConfiguration.of(context).copyWith(overscroll: false),
-        child: ListView(
-          children: [
-            FutureBuilder(
-              future: _earlierClassesFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-
-                if (snapshot.hasError) {
-                  return Center(child: Text("Error: ${snapshot.error}"));
-                }
-
-                final classes = snapshot.data ?? [];
-
-                return ClassList(
-                  title: "Earlier Classes",
-                  sessions: classes,
-                  initiallyExpanded: false,
-                );
-              },
-            ),
-            FutureBuilder(
-              future: _upcomingClassesFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-
-                if (snapshot.hasError) {
-                  return Center(child: Text("Error: ${snapshot.error}"));
-                }
-
-                final classes = snapshot.data ?? [];
-
-                return ClassList(
-                  title: "Upcoming Classes",
-                  sessions: classes,
-                  initiallyExpanded: true,
-                );
-              },
-            ),
-            // ClassList(
-            //   title: "Earlier Classes",
-            //   sessions: Class.sampleEarlierClasses,
-            // ),
-            // ClassList(
-            //   title: "Upcoming Classes",
-            //   sessions: Class.sampleUpcomingClasses,
-            //   initiallyExpanded: true,
-            // ),
-          ],
-        ),
-      ),
-      // body: FutureBuilder(
-      //   future: loadUpcomingClasses(),
-      //   builder: (context, snapshot) {
-      //     if (snapshot.connectionState == ConnectionState.waiting) {
-      //       return const Center(child: CircularProgressIndicator());
-      //     }
-
-      //     if (snapshot.hasError) {
-      //       return Center(child: Text("Error: ${snapshot.error}"));
-      //     }
-
-      //     final classes = snapshot.data ?? [];
-
-      //     return ScrollConfiguration(
-      //       behavior: ScrollConfiguration.of(
-      //         context,
-      //       ).copyWith(overscroll: false),
-      //       child: ListView(
-      //         children: [
-      //           // ClassList(
-      //           //   title: "Earlier Classes",
-      //           //   sessions: Class.sampleEarlierClasses,
-      //           // ),
-      //           ClassList(
-      //             title: "Upcoming Classes",
-      //             sessions: classes,
-      //             initiallyExpanded: true,
-      //           ),
-      //         ],
-      //       ),
-      //     );
-      //   },
-      // ),
     );
-
-    // return Scaffold(
-    //   appBar: AppBar(
-    //     centerTitle: true,
-    //     title: Image.asset("assets/images/logo.png", height: 40),
-
-    //     flexibleSpace: AppbarGradientContainer(),
-
-    //     leading: IconButton(
-    //       icon: Icon(Icons.calendar_today, color: Colors.white),
-    //       onPressed: null,
-    //     ),
-
-    //     actions: [
-    //       IconButton(
-    //         icon: Icon(Icons.smartphone, color: Colors.white),
-    //         color: Colors.white,
-    //         onPressed: () {
-    //           useMobileFrame.value = !useMobileFrame.value;
-    //         },
-    //       ),
-    //       IconButton(
-    //         icon: Icon(Icons.cloud, color: Colors.white),
-    //         color: Colors.white,
-    //         onPressed: () {
-    //           Student.uploadSampleStudentsToDatabase();
-    //         },
-    //       ),
-    //     ],
-    //   ),
-    //   body: ScrollConfiguration(
-    //     behavior: ScrollConfiguration.of(context).copyWith(overscroll: false),
-    //     child: ListView(
-    //       children: [
-    //         ClassList(
-    //           title: "Earlier Classes",
-    //           sessions: Class.sampleEarlierClasses,
-    //         ),
-    //         ClassList(
-    //           title: "Upcoming Classes",
-    //           sessions: Class.sampleUpcomingClasses,
-    //           initiallyExpanded: true,
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }
 
