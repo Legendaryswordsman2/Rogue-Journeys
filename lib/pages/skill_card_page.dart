@@ -22,31 +22,54 @@ class SkillCardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFF202020),
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          "Skill Card",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
+    return PopScope(
+      canPop: false,
 
-        actions: [
-          IconButton(
-            icon: Icon(Icons.smartphone, color: Colors.white),
-            color: Colors.white,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+
+        showDialog(
+          context: context,
+          builder: (_) => const LeavePageConfirmationPopup(),
+        );
+      },
+      child: Scaffold(
+        backgroundColor: Color(0xFF202020),
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            "Skill Card",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+
             onPressed: () {
-              useMobileFrame.value = !useMobileFrame.value;
+              showDialog(
+                context: context,
+                builder: (_) => const LeavePageConfirmationPopup(),
+              );
             },
           ),
-        ],
 
-        flexibleSpace: AppbarGradientContainer(),
-      ),
-      body: SkillCardView(
-        skillCardDefinition: skillCardDefinition,
-        student: student,
-        progressionState: tempProgressionState,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.smartphone, color: Colors.white),
+              color: Colors.white,
+              onPressed: () {
+                useMobileFrame.value = !useMobileFrame.value;
+              },
+            ),
+          ],
+
+          flexibleSpace: AppbarGradientContainer(),
+        ),
+        body: SkillCardView(
+          skillCardDefinition: skillCardDefinition,
+          student: student,
+          progressionState: tempProgressionState,
+        ),
       ),
     );
   }
@@ -494,6 +517,32 @@ class _SkillEntryState extends State<SkillEntry> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class LeavePageConfirmationPopup extends StatelessWidget {
+  const LeavePageConfirmationPopup({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text("Leave without Saving?"),
+      content: const Text("Unsaved changes will be discarded."),
+
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text("Cancel"),
+        ),
+
+        ElevatedButton(
+          onPressed: () => Navigator.of(context)
+            ..pop()
+            ..pop(),
+          child: const Text("Confirm"),
+        ),
+      ],
     );
   }
 }
