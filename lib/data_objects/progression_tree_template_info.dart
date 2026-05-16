@@ -13,6 +13,8 @@ class ProgressionTreeTemplateManager {
   ProgressionTreeDefinition? _cache;
   bool _loading = false;
 
+  List<SkillDefinition> initializedSkillDefinitions = [];
+
   Future<void> loadProgressionTree() async {
     if (_cache != null || _loading) return;
 
@@ -190,7 +192,9 @@ class SkillDefinition {
   String id;
   String displayName;
 
-  SkillDefinition({required this.id, required this.displayName});
+  SkillDefinition({required this.id, required this.displayName}){
+    ProgressionTreeTemplateManager.insance.initializedSkillDefinitions.add(this);
+  }
 
   factory SkillDefinition.fromJson(Map<String, dynamic> json) {
     return SkillDefinition(id: json["id"], displayName: json["displayName"]);
