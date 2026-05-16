@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rogue_journeys/pages/progression-tree-admin_page.dart';
+import 'package:rogue_journeys/pages/progression_tree_admin_page.dart';
 import 'package:rogue_journeys/pages/skill_dictionary_admin_page.dart';
 
 class AdminTab extends StatelessWidget {

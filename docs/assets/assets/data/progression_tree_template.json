@@ -693,7 +693,7 @@
                                                 },
                                                 {
                                                     "id": "rail_running_course",
-                                                    "displayName": "rail_running_course"
+                                                    "displayName": "Rail Running Course"
                                                 }
                                             ]
                                         },
@@ -796,7 +796,7 @@
                                                     "skills": [
                                                         {
                                                             "id": "back_to_back_dynos",
-                                                            "displayName": "Back-to_back Dynos"
+                                                            "displayName": "Back-to-back Dynos"
                                                         }
                                                     ]
                                                 },
@@ -1070,7 +1070,7 @@
                                                         },
                                                         {
                                                             "id": "cast_away",
-                                                            "displayName": "Cast_away"
+                                                            "displayName": "Cast Away"
                                                         }
                                                     ]
                                                 },
@@ -1143,7 +1143,7 @@
                                                                 },
                                                                 {
                                                                     "id": "devil_or_buddah_or_angel_drop",
-                                                                    "displayName": "Devil/Buddah_Angel Drop (Only need to do one)"
+                                                                    "displayName": "Devil/Buddah/Angel Drop (Only need to do one)"
                                                                 },
                                                                 {
                                                                     "id": "cork",
@@ -1175,7 +1175,7 @@
                                                                 },
                                                                 {
                                                                     "id": "any_double_twist",
-                                                                    "displayName": "Any Double Twist (That is NOT a Dub-A or Ryd) (720 + 1 flip)"
+                                                                    "displayName": "Any Double Twist (That is NOT a Dub-A or Rudy) (720 + 1 flip)"
                                                                 },
                                                                 {
                                                                     "id": "any_double_flip",
