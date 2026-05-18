@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rogue_journeys/data_objects/progression_tree_template_info.dart';
+import 'package:rogue_journeys/managers/progression_tree_manager.dart';
 import 'package:rogue_journeys/pages/class_schedule_page.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -10,7 +10,7 @@ void main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  ProgressionTreeTemplateManager.insance.loadProgressionTree();
+  ProgressionTreeManager.insance.loadProgressionTree();
 
   runApp(const Start());
 }

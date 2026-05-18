@@ -1,50 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:rogue_journeys/data_objects/student_info.dart';
-
-class ProgressionTreeTemplateManager {
-  ProgressionTreeTemplateManager._internal();
-
-  static final ProgressionTreeTemplateManager insance =
-      ProgressionTreeTemplateManager._internal();
-
-  ProgressionTreeDefinition? _cache;
-  bool _loading = false;
-
-  List<SkillDefinition> initializedSkillDefinitions = [];
-
-  Future<void> loadProgressionTree() async {
-    if (_cache != null || _loading) return;
-
-    _loading = true;
-
-    try {
-      final jsonString = await rootBundle.loadString(
-        "assets/data/progression_tree_template.json",
-      );
-
-      final jsonData = jsonDecode(jsonString);
-
-      _cache = ProgressionTreeDefinition.fromJson(jsonData);
-    } catch (e, stackTrace) {
-      debugPrint("Failed to load Porgression Tree: $e");
-      debugPrint("STACK TRACE: $stackTrace");
-
-      _cache = null;
-    } finally {
-      _loading = false;
-    }
-  }
-
-  ProgressionTreeDefinition get progressionTree {
-    if (_cache == null) {
-      throw Exception("Progression Tree not loaded");
-    }
-    return _cache!;
-  }
-}
+import 'package:rogue_journeys/managers/progression_tree_manager.dart';
 
 class ProgressionTreeDefinition {
   final String version;
@@ -193,7 +149,7 @@ class SkillDefinition {
   String displayName;
 
   SkillDefinition({required this.id, required this.displayName}){
-    ProgressionTreeTemplateManager.insance.initializedSkillDefinitions.add(this);
+    ProgressionTreeManager.insance.initializedSkillDefinitions.add(this);
   }
 
   factory SkillDefinition.fromJson(Map<String, dynamic> json) {

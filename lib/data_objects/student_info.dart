@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rogue_journeys/data_objects/progression_tree_template_info.dart';
+import 'package:rogue_journeys/managers/progression_tree_manager.dart';
 
 class Student {
   final String id;
@@ -17,7 +18,7 @@ class Student {
     return _progressionState ??= ProgressionState(
       student: this,
       progressionTreeDefinition:
-          ProgressionTreeTemplateManager.insance.progressionTree,
+          ProgressionTreeManager.insance.progressionTree,
     );
   }
 
@@ -342,7 +343,7 @@ class ProgressionState {
     final state = ProgressionState(
       student: student,
       progressionTreeDefinition:
-          ProgressionTreeTemplateManager.insance.progressionTree,
+          ProgressionTreeManager.insance.progressionTree,
     );
 
     for (final id in completedSkillIds) {

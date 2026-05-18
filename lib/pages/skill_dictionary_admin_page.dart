@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rogue_journeys/data_objects/progression_tree_template_info.dart';
 import 'package:rogue_journeys/main.dart';
+import 'package:rogue_journeys/managers/progression_tree_manager.dart';
 import 'package:rogue_journeys/widgets/appbar_gradient_widget.dart';
 
 class SkillDictionaryAdminPage extends StatefulWidget {
@@ -18,7 +19,7 @@ class _SkillDictionaryAdminPageState extends State<SkillDictionaryAdminPage> {
   void initState() {
     super.initState();
 
-    selectedSkill = ProgressionTreeTemplateManager
+    selectedSkill = ProgressionTreeManager
         .insance
         .initializedSkillDefinitions
         .first;
@@ -90,7 +91,7 @@ class SkillDictionaryList extends StatelessWidget {
         behavior: ScrollConfiguration.of(context).copyWith(overscroll: false),
         child: ListView(
           children: [
-            ...ProgressionTreeTemplateManager
+            ...ProgressionTreeManager
                 .insance
                 .initializedSkillDefinitions
                 .map(
@@ -124,33 +125,29 @@ class SkillDefinitionEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(border: BoxBorder.all(color: Colors.blue)),
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-      
+    return Material(
+      child: Ink(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.blue),
           color: isSelected ? Colors.blueAccent : Colors.white,
-      
-          child: Text(
-            skillDefinition.displayName,
-            style: TextStyle(color: Colors.black),
+        ),
+        child: InkWell(
+          splashColor: Colors.blue.withValues(alpha: 0.3),
+          highlightColor: Colors.blue.withValues(alpha: 0.1),
+          onTap: onTap,
+          child: Padding(
+            padding: EdgeInsetsGeometry.symmetric(vertical: 10, horizontal: 5),
+            child: Text(
+              skillDefinition.displayName,
+              style: TextStyle(
+                color: Colors.black,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ),
         ),
       ),
     );
-    // return Container(
-    //   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-    //   decoration: BoxDecoration(
-    //     border: BoxBorder.all(color: Colors.greenAccent),
-    //     color: Colors.white,
-    //   ),
-    //   child: Text(
-    //     skillDefinition.displayName,
-    //     style: TextStyle(color: Colors.black),
-    //   ),
-    // );
   }
 }
 
@@ -170,7 +167,16 @@ class _EditSkillViewState extends State<EditSkillView> {
       behavior: ScrollConfiguration.of(context).copyWith(overscroll: false),
       child: ListView(
         children: [
-          Center(child: Text(widget.initialSkilLDefinition.displayName)),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Text(
+                widget.initialSkilLDefinition.displayName,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
           Container(
             margin: EdgeInsets.all(16),
             padding: const EdgeInsets.all(16),
