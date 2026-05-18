@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rogue_journeys/data_objects/progression_tree_template_info.dart';
+import 'package:rogue_journeys/data_objects/progression_tree_definitions.dart';
 import 'package:rogue_journeys/data_objects/student_info.dart';
 import 'package:rogue_journeys/main.dart';
 import 'package:rogue_journeys/pages/account_page.dart';

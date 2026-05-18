@@ -7,7 +7,11 @@ class ProgressionTreeDefinition {
   final ProgressionNodeDefinition coreRoot;
   final List<ProgressionNodeDefinition> sideRoots;
 
-  ProgressionTreeDefinition({required this.version, required this.coreRoot, required this.sideRoots});
+  ProgressionTreeDefinition({
+    required this.version,
+    required this.coreRoot,
+    required this.sideRoots,
+  });
 
   factory ProgressionTreeDefinition.fromJson(Map<String, dynamic> json) {
     return ProgressionTreeDefinition(
@@ -22,8 +26,8 @@ class ProgressionTreeDefinition {
 
 // References a Skill Card Definition and contains the next Progression Nodes to be unlocked once the Skill Card has been completed.
 class ProgressionNodeDefinition {
-  SkillCardDefinition skillCardDefinition;
-  List<ProgressionNodeDefinition> next;
+  final SkillCardDefinition skillCardDefinition;
+  final List<ProgressionNodeDefinition> next;
 
   ProgressionNodeDefinition({
     required this.skillCardDefinition,
@@ -42,9 +46,9 @@ class ProgressionNodeDefinition {
 
 // Represents a list of skill categories contained in the Skill Card.
 class SkillCardDefinition {
-  String id;
-  String displayName;
-  List<SkillCategoryDefinition> skillCategoryDefinitions;
+  final String id;
+  final String displayName;
+  final List<SkillCategoryDefinition> skillCategoryDefinitions;
 
   final int totalSkills;
 
@@ -76,10 +80,10 @@ class SkillCardDefinition {
 
 // Represents a list of skills inside a category (e.g. Floor, Vaults, Walls, Bars, Precisions).
 class SkillCategoryDefinition {
-  String id;
-  String displayName;
-  Color color;
-  List<SkillDefinition> skillDefinitions;
+  final String id;
+  final String displayName;
+  final Color color;
+  final List<SkillDefinition> skillDefinitions;
 
   SkillCategoryDefinition({
     required this.id,
@@ -145,10 +149,10 @@ class SkillCategoryDefinition {
 
 // Represents a single skill inside a Skill Card.
 class SkillDefinition {
-  String id;
-  String displayName;
+  final String id;
+  final String displayName;
 
-  SkillDefinition({required this.id, required this.displayName}){
+  SkillDefinition({required this.id, required this.displayName}) {
     ProgressionTreeManager.insance.initializedSkillDefinitions.add(this);
   }
 

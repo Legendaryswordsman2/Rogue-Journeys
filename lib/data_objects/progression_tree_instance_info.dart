@@ -1,4 +1,4 @@
-import 'package:rogue_journeys/data_objects/progression_tree_template_info.dart';
+import 'package:rogue_journeys/data_objects/progression_tree_definitions.dart';
 
 // This whole file is currently unusued as I move away from this structure. This file will eventually be deleted.
 

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:rogue_journeys/data_objects/progression_tree_template_info.dart';
+import 'package:rogue_journeys/data_objects/progression_tree_definitions.dart';
 
 class ProgressionTreeManager {
   ProgressionTreeManager._internal();

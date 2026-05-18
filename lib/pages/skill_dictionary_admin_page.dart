@@ -1,7 +1,9 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:rogue_journeys/data_objects/progression_tree_template_info.dart';
+import 'package:rogue_journeys/data_objects/progression_tree_definitions.dart';
 import 'package:rogue_journeys/main.dart';
 import 'package:rogue_journeys/managers/progression_tree_manager.dart';
+import 'package:rogue_journeys/managers/skill_dictionary_manager.dart';
 import 'package:rogue_journeys/widgets/appbar_gradient_widget.dart';
 
 class SkillDictionaryAdminPage extends StatefulWidget {
@@ -19,10 +21,12 @@ class _SkillDictionaryAdminPageState extends State<SkillDictionaryAdminPage> {
   void initState() {
     super.initState();
 
-    selectedSkill = ProgressionTreeManager
-        .insance
-        .initializedSkillDefinitions
-        .first;
+    debugPrint(
+      "Skills Count: ${ProgressionTreeManager.insance.initializedSkillDefinitions.length}",
+    );
+
+    selectedSkill =
+        ProgressionTreeManager.insance.initializedSkillDefinitions.first;
   }
 
   void selectSkill(SkillDefinition skill) {
@@ -58,15 +62,15 @@ class _SkillDictionaryAdminPageState extends State<SkillDictionaryAdminPage> {
         ),
         body: Row(
           children: [
-            SkillDictionaryList(
-              selectedSkill: selectedSkill,
-              onSkillSelected: selectSkill,
+            Expanded(
+              child: SkillDictionaryList(
+                selectedSkill: selectedSkill,
+                onSkillSelected: selectSkill,
+              ),
             ),
             // Container(color: Colors.amber),
             // Expanded(child: Container(color: Colors.blueAccent)),
-            Expanded(
-              child: EditSkillView(initialSkilLDefinition: selectedSkill),
-            ),
+            Expanded(child: EditSkillView(skillDefinition: selectedSkill)),
           ],
         ),
       ),
@@ -86,27 +90,46 @@ class SkillDictionaryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ScrollConfiguration(
-        behavior: ScrollConfiguration.of(context).copyWith(overscroll: false),
-        child: ListView(
-          children: [
-            ...ProgressionTreeManager
-                .insance
-                .initializedSkillDefinitions
-                .map(
-                  (skillDefinition) => SkillDefinitionEntry(
-                    skillDefinition: skillDefinition,
-                    isSelected: skillDefinition == selectedSkill,
-
-                    onTap: () {
-                      onSkillSelected(skillDefinition);
-                    },
-                  ),
-                ),
-          ],
+    return Column(
+      children: [
+        Container(
+          // padding: EdgeInsets.symmetric(horizontal: 10),
+          // margin: EdgeInsets.symmetric(vertical: 5),
+          width: double.infinity,
+          color: Colors.lightBlueAccent,
+          child: Text(
+            "Skills List",
+            textAlign: .center,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 25,
+              color: Colors.white,
+            ),
+          ),
         ),
-      ),
+        Expanded(
+          child: ScrollConfiguration(
+            behavior: ScrollConfiguration.of(
+              context,
+            ).copyWith(overscroll: false),
+            child: ListView(
+              children: [
+                ...ProgressionTreeManager.insance.initializedSkillDefinitions
+                    .map(
+                      (skillDefinition) => SkillDefinitionEntry(
+                        skillDefinition: skillDefinition,
+                        isSelected: skillDefinition == selectedSkill,
+
+                        onTap: () {
+                          onSkillSelected(skillDefinition);
+                        },
+                      ),
+                    ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -152,56 +175,102 @@ class SkillDefinitionEntry extends StatelessWidget {
 }
 
 class EditSkillView extends StatefulWidget {
-  const EditSkillView({super.key, required this.initialSkilLDefinition});
+  EditSkillView({super.key, required this.skillDefinition})
+    : skillInfo = SkillInfo(skillId: skillDefinition.id);
 
-  final SkillDefinition initialSkilLDefinition;
+  final SkillDefinition skillDefinition;
+  final SkillInfo skillInfo;
 
   @override
   State<EditSkillView> createState() => _EditSkillViewState();
 }
 
 class _EditSkillViewState extends State<EditSkillView> {
+  final TextEditingController descriptionController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return ScrollConfiguration(
       behavior: ScrollConfiguration.of(context).copyWith(overscroll: false),
-      child: ListView(
-        children: [
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 8),
-              child: Text(
-                widget.initialSkilLDefinition.displayName,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                textAlign: TextAlign.center,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 16, right: 16),
+        child: ListView(
+          children: [
+            titleText(),
+            Container(
+              // margin: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
+
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Theme.of(context).dividerColor),
+              ),
+
+              child: TextField(
+                controller: descriptionController,
+                minLines: 6,
+                maxLines: null,
+
+                style: const TextStyle(fontSize: 16, height: 1.5),
+
+                decoration: const InputDecoration(
+                  hintText: "Skill description...",
+                  border: InputBorder.none,
+                  isCollapsed: true,
+                ),
+              ),
+            ),
+            saveChangesButton(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget titleText() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 8),
+        child: Text(
+          widget.skillDefinition.displayName,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+
+  Widget saveChangesButton() {
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      child: Material(
+        color: Colors.transparent,
+        child: Ink(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            gradient: const LinearGradient(
+              colors: [Colors.lightBlue, Colors.blueAccent],
+            ),
+            border: Border.all(color: Colors.white10),
+          ),
+          child: InkWell(
+            borderRadius: BorderRadius.circular(20),
+            onTap: null,
+            child: SizedBox(
+              height: 50,
+              child: Center(
+                child: AutoSizeText(
+                  "Save Changes",
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.all(16),
-            padding: const EdgeInsets.all(16),
-
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Theme.of(context).dividerColor),
-            ),
-
-            child: TextField(
-              // controller: descriptionController,
-              minLines: 6,
-              maxLines: null,
-
-              style: const TextStyle(fontSize: 16, height: 1.5),
-
-              decoration: const InputDecoration(
-                hintText: "Skill description...",
-                border: InputBorder.none,
-                isCollapsed: true,
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

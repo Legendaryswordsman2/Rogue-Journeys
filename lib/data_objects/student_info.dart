@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
-import 'package:rogue_journeys/data_objects/progression_tree_template_info.dart';
+import 'package:rogue_journeys/data_objects/progression_tree_definitions.dart';
 import 'package:rogue_journeys/managers/progression_tree_manager.dart';
 
 class Student {
