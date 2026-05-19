@@ -1,10 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rogue_journeys/data_objects/progression_tree_definitions.dart';
 import 'package:rogue_journeys/main.dart';
 import 'package:rogue_journeys/managers/progression_tree_manager.dart';
 import 'package:rogue_journeys/managers/skill_dictionary_manager.dart';
 import 'package:rogue_journeys/widgets/appbar_gradient_widget.dart';
+import 'package:rogue_journeys/widgets/editable_list_widget.dart';
 
 class SkillDictionaryAdminPage extends StatefulWidget {
   const SkillDictionaryAdminPage({super.key});
@@ -70,7 +72,12 @@ class _SkillDictionaryAdminPageState extends State<SkillDictionaryAdminPage> {
             ),
             // Container(color: Colors.amber),
             // Expanded(child: Container(color: Colors.blueAccent)),
-            Expanded(child: EditSkillView(skillDefinition: selectedSkill)),
+            Expanded(
+              child: EditSkillView(
+                key: ValueKey(selectedSkill.id),
+                skillDefinition: selectedSkill,
+              ),
+            ),
           ],
         ),
       ),
@@ -187,8 +194,10 @@ class EditSkillView extends StatefulWidget {
 
 class _EditSkillViewState extends State<EditSkillView> {
   final TextEditingController descriptionController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    // return EditableList();
     return ScrollConfiguration(
       behavior: ScrollConfiguration.of(context).copyWith(overscroll: false),
       child: Padding(
@@ -196,6 +205,9 @@ class _EditSkillViewState extends State<EditSkillView> {
         child: ListView(
           children: [
             titleText(),
+            SizedBox(height: 10),
+            EditableList(title: "Categories", inputBoxHint: "Category..."),
+            SizedBox(height: 20),
             Container(
               // margin: EdgeInsets.all(16),
               padding: const EdgeInsets.all(16),
@@ -206,20 +218,31 @@ class _EditSkillViewState extends State<EditSkillView> {
                 border: Border.all(color: Theme.of(context).dividerColor),
               ),
 
-              child: TextField(
-                controller: descriptionController,
-                minLines: 6,
-                maxLines: null,
+              child: Column(
+                children: [
+                  Text(
+                    "Skill Description",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                  TextField(
+                    onChanged: (value) => widget.skillInfo.skillDescription =
+                        descriptionController.text,
+                    controller: descriptionController,
+                    minLines: 6,
+                    maxLines: null,
 
-                style: const TextStyle(fontSize: 16, height: 1.5),
+                    style: const TextStyle(fontSize: 16, height: 1.5),
 
-                decoration: const InputDecoration(
-                  hintText: "Skill description...",
-                  border: InputBorder.none,
-                  isCollapsed: true,
-                ),
+                    decoration: const InputDecoration(
+                      hintText: "Skill description...",
+                      border: InputBorder.none,
+                      isCollapsed: true,
+                    ),
+                  ),
+                ],
               ),
             ),
+
             saveChangesButton(),
           ],
         ),
@@ -255,7 +278,10 @@ class _EditSkillViewState extends State<EditSkillView> {
           ),
           child: InkWell(
             borderRadius: BorderRadius.circular(20),
-            onTap: null,
+            onTap: () => FirebaseFirestore.instance
+                .collection("Skill Dictionary")
+                .doc(widget.skillInfo.skillId)
+                .set(widget.skillInfo.toMap()),
             child: SizedBox(
               height: 50,
               child: Center(

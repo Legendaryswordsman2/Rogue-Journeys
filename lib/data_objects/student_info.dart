@@ -43,28 +43,28 @@ class Student {
     debugPrint("Doc Exists: ${doc.exists}");
     if (!doc.exists) return null;
 
-    return Student.fromJson(id, doc.data()!);
+    return Student.fromMap(id, doc.data()!);
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     return {
       "studentName": studentName,
       "profilePicAssetLocation": profilePicAssetLocation,
 
-      "progressionState": progressionState.toJson(),
+      "progressionState": progressionState.toMap(),
     };
   }
 
-  factory Student.fromJson(String id, Map<String, dynamic> json) {
+  factory Student.fromMap(String id, Map<String, dynamic> map) {
     final Student student = Student(
       id: id,
-      studentName: json["studentName"] ?? "",
-      profilePicAssetLocation: json["profilePicAssetLocation"] ?? "",
+      studentName: map["studentName"] ?? "",
+      profilePicAssetLocation: map["profilePicAssetLocation"] ?? "",
       level: 1,
     );
 
-    student._progressionState = ProgressionState.fromJson(
-      json["progressionState"] ?? {},
+    student._progressionState = ProgressionState.fromMap(
+      map["progressionState"] ?? {},
       student,
     );
 
@@ -75,7 +75,7 @@ class Student {
     await FirebaseFirestore.instance
         .collection("Students")
         .doc(id)
-        .set(toJson());
+        .set(toMap());
   }
 
   static void uploadSampleStudentsToDatabase() {
@@ -327,18 +327,18 @@ class ProgressionState {
     student.saveToDatabase();
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     return {
       "templateVersion": progressionTreeDefinition.version,
       "completedSkillIds": getCompletedSkillsList(),
     };
   }
 
-  factory ProgressionState.fromJson(
-    Map<String, dynamic> json,
+  factory ProgressionState.fromMap(
+    Map<String, dynamic> map,
     Student student,
   ) {
-    final completedSkillIds = Set<String>.from(json["completedSkillIds"] ?? []);
+    final completedSkillIds = Set<String>.from(map["completedSkillIds"] ?? []);
 
     final state = ProgressionState(
       student: student,
