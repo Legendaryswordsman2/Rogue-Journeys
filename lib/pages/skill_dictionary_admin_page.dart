@@ -1,7 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:rogue_journeys/data_objects/progression_tree_definitions.dart';
 import 'package:rogue_journeys/main.dart';
 import 'package:rogue_journeys/managers/progression_tree_manager.dart';
 import 'package:rogue_journeys/managers/skill_dictionary_manager.dart';
@@ -17,21 +15,21 @@ class SkillDictionaryAdminPage extends StatefulWidget {
 }
 
 class _SkillDictionaryAdminPageState extends State<SkillDictionaryAdminPage> {
-  late SkillDefinition selectedSkill;
+  late SkillInfo selectedSkill;
 
   @override
   void initState() {
     super.initState();
 
     debugPrint(
-      "Skills Count: ${ProgressionTreeManager.insance.initializedSkillDefinitions.length}",
+      "Skills Count: ${ProgressionTreeManager.instance.initializedSkillDefinitions.length}",
     );
 
     selectedSkill =
-        ProgressionTreeManager.insance.initializedSkillDefinitions.first;
+        SkillDictionaryManager.instance.skillDictionary.entries.first.value;
   }
 
-  void selectSkill(SkillDefinition skill) {
+  void selectSkill(SkillInfo skill) {
     setState(() {
       selectedSkill = skill;
     });
@@ -74,8 +72,8 @@ class _SkillDictionaryAdminPageState extends State<SkillDictionaryAdminPage> {
             // Expanded(child: Container(color: Colors.blueAccent)),
             Expanded(
               child: EditSkillView(
-                key: ValueKey(selectedSkill.id),
-                skillDefinition: selectedSkill,
+                key: ValueKey(selectedSkill.skillId),
+                skillInfo: selectedSkill,
               ),
             ),
           ],
@@ -92,19 +90,15 @@ class SkillDictionaryList extends StatelessWidget {
     required this.onSkillSelected,
   });
 
-  final SkillDefinition selectedSkill;
-  final void Function(SkillDefinition) onSkillSelected;
+  final SkillInfo selectedSkill;
+  final void Function(SkillInfo) onSkillSelected;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          // padding: EdgeInsets.symmetric(horizontal: 10),
-          // margin: EdgeInsets.symmetric(vertical: 5),
-          width: double.infinity,
-          color: Colors.lightBlueAccent,
-          child: Text(
+        ListTile(
+          title: Text(
             "Skills List",
             textAlign: .center,
             style: TextStyle(
@@ -113,7 +107,32 @@ class SkillDictionaryList extends StatelessWidget {
               color: Colors.white,
             ),
           ),
+          tileColor: Colors.lightBlueAccent,
+          titleAlignment: ListTileTitleAlignment.center,
+
+          trailing: IconButton(
+            icon: const Icon(Icons.add, color: Colors.white),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) => const AddSkillPopup(),
+              );
+            },
+          ),
         ),
+        // Container(
+        //   width: double.infinity,
+        //   color: Colors.lightBlueAccent,
+        //   child: Text(
+        //     "Skills List",
+        //     textAlign: .center,
+        //     style: TextStyle(
+        //       fontWeight: FontWeight.bold,
+        //       fontSize: 25,
+        //       color: Colors.white,
+        //     ),
+        //   ),
+        // ),
         Expanded(
           child: ScrollConfiguration(
             behavior: ScrollConfiguration.of(
@@ -121,17 +140,28 @@ class SkillDictionaryList extends StatelessWidget {
             ).copyWith(overscroll: false),
             child: ListView(
               children: [
-                ...ProgressionTreeManager.insance.initializedSkillDefinitions
-                    .map(
-                      (skillDefinition) => SkillDefinitionEntry(
-                        skillDefinition: skillDefinition,
-                        isSelected: skillDefinition == selectedSkill,
+                ...SkillDictionaryManager.instance.skillDictionary.entries.map(
+                  (skillInfo) => SkillInfoEntry(
+                    skillInfo: skillInfo.value,
+                    isSelected: skillInfo.value == selectedSkill,
 
-                        onTap: () {
-                          onSkillSelected(skillDefinition);
-                        },
-                      ),
-                    ),
+                    onTap: () {
+                      onSkillSelected(skillInfo.value);
+                    },
+                  ),
+                ),
+
+                // ...ProgressionTreeManager.insance.initializedSkillDefinitions
+                //     .map(
+                //       (skillDefinition) => SkillInfoEntry(
+                //         skillDefinition: skillDefinition,
+                //         isSelected: skillDefinition == selectedSkill,
+
+                //         onTap: () {
+                //           onSkillSelected(skillDefinition);
+                //         },
+                //       ),
+                //     ),
               ],
             ),
           ),
@@ -141,15 +171,43 @@ class SkillDictionaryList extends StatelessWidget {
   }
 }
 
-class SkillDefinitionEntry extends StatelessWidget {
-  const SkillDefinitionEntry({
+class AddSkillPopup extends StatelessWidget {
+  const AddSkillPopup({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Center(child: const Text("Add New Skill")),
+      content: TextField(autocorrect: true),
+      actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Cancel"),
+            ),
+
+            TextButton(
+              onPressed: () {
+                Navigator.pop(
+                  context,
+                  // renameController.text.trim(),
+                );
+              },
+              child: const Text("Save"),
+            ),
+          ],
+    );
+  }
+}
+
+class SkillInfoEntry extends StatelessWidget {
+  const SkillInfoEntry({
     super.key,
-    required this.skillDefinition,
+    required this.skillInfo,
     required this.isSelected,
     required this.onTap,
   });
 
-  final SkillDefinition skillDefinition;
+  final SkillInfo skillInfo;
   final bool isSelected;
   final VoidCallback onTap;
 
@@ -168,7 +226,7 @@ class SkillDefinitionEntry extends StatelessWidget {
           child: Padding(
             padding: EdgeInsetsGeometry.symmetric(vertical: 10, horizontal: 5),
             child: Text(
-              skillDefinition.displayName,
+              skillInfo.skillId,
               style: TextStyle(
                 color: Colors.black,
                 overflow: TextOverflow.ellipsis,
@@ -182,11 +240,11 @@ class SkillDefinitionEntry extends StatelessWidget {
 }
 
 class EditSkillView extends StatefulWidget {
-  EditSkillView({super.key, required this.skillDefinition})
-    : skillInfo = SkillInfo(skillId: skillDefinition.id);
-
-  final SkillDefinition skillDefinition;
+  EditSkillView({super.key, required this.skillInfo})
+    : skillInfoCopy = SkillInfo.copy(skillInfo);
   final SkillInfo skillInfo;
+
+  final SkillInfo skillInfoCopy;
 
   @override
   State<EditSkillView> createState() => _EditSkillViewState();
@@ -196,8 +254,15 @@ class _EditSkillViewState extends State<EditSkillView> {
   final TextEditingController descriptionController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    descriptionController.text = widget.skillInfoCopy.skillDescription;
+  }
+
+  bool get hasChanges => widget.skillInfo != widget.skillInfoCopy;
+
+  @override
   Widget build(BuildContext context) {
-    // return EditableList();
     return ScrollConfiguration(
       behavior: ScrollConfiguration.of(context).copyWith(overscroll: false),
       child: Padding(
@@ -206,7 +271,12 @@ class _EditSkillViewState extends State<EditSkillView> {
           children: [
             titleText(),
             SizedBox(height: 10),
-            EditableList(title: "Categories", inputBoxHint: "Category..."),
+            EditableList(
+              title: "Categories",
+              initialItems: widget.skillInfoCopy.categories,
+              inputBoxHint: "Category...",
+              onListChanged: (items) => setState(() {}),
+            ),
             SizedBox(height: 20),
             Container(
               // margin: EdgeInsets.all(16),
@@ -225,9 +295,14 @@ class _EditSkillViewState extends State<EditSkillView> {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
                   TextField(
-                    onChanged: (value) => widget.skillInfo.skillDescription =
-                        descriptionController.text,
+                    onChanged: (value) {
+                      setState(() {
+                        widget.skillInfoCopy.skillDescription =
+                            descriptionController.text;
+                      });
+                    },
                     controller: descriptionController,
+
                     minLines: 6,
                     maxLines: null,
 
@@ -255,7 +330,7 @@ class _EditSkillViewState extends State<EditSkillView> {
       child: Padding(
         padding: const EdgeInsets.only(top: 8),
         child: Text(
-          widget.skillDefinition.displayName,
+          widget.skillInfo.skillId,
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           textAlign: TextAlign.center,
         ),
@@ -271,17 +346,23 @@ class _EditSkillViewState extends State<EditSkillView> {
         child: Ink(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            gradient: const LinearGradient(
-              colors: [Colors.lightBlue, Colors.blueAccent],
-            ),
+            gradient: hasChanges
+                ? const LinearGradient(
+                    colors: [Colors.lightBlue, Colors.blueAccent],
+                  )
+                : null,
             border: Border.all(color: Colors.white10),
           ),
           child: InkWell(
             borderRadius: BorderRadius.circular(20),
-            onTap: () => FirebaseFirestore.instance
-                .collection("Skill Dictionary")
-                .doc(widget.skillInfo.skillId)
-                .set(widget.skillInfo.toMap()),
+            onTap: hasChanges
+                ? () {
+                    setState(() {
+                      widget.skillInfo.copyFrom(widget.skillInfoCopy);
+                      widget.skillInfo.saveToDatabase();
+                    });
+                  }
+                : null,
             child: SizedBox(
               height: 50,
               child: Center(

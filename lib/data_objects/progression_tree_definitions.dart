@@ -153,7 +153,7 @@ class SkillDefinition {
   final String displayName;
 
   SkillDefinition({required this.id, required this.displayName}) {
-    ProgressionTreeManager.insance.initializedSkillDefinitions.add(this);
+    ProgressionTreeManager.instance.initializedSkillDefinitions.add(this);
   }
 
   factory SkillDefinition.fromJson(Map<String, dynamic> json) {

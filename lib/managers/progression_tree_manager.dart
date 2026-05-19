@@ -7,7 +7,7 @@ import 'package:rogue_journeys/data_objects/progression_tree_definitions.dart';
 class ProgressionTreeManager {
   ProgressionTreeManager._internal();
 
-  static final ProgressionTreeManager insance =
+  static final ProgressionTreeManager instance =
       ProgressionTreeManager._internal();
 
   ProgressionTreeDefinition? _cache;

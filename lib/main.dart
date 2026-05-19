@@ -11,8 +11,8 @@ void main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  ProgressionTreeManager.insance.loadProgressionTree();
-  SkillDictionaryManager.insance.loadSkillDictionary();
+  ProgressionTreeManager.instance.loadProgressionTree();
+  SkillDictionaryManager.instance.loadSkillDictionary();
 
   runApp(const Start());
 }

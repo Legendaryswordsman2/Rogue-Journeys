@@ -18,7 +18,7 @@ class Student {
     return _progressionState ??= ProgressionState(
       student: this,
       progressionTreeDefinition:
-          ProgressionTreeManager.insance.progressionTree,
+          ProgressionTreeManager.instance.progressionTree,
     );
   }
 
@@ -343,7 +343,7 @@ class ProgressionState {
     final state = ProgressionState(
       student: student,
       progressionTreeDefinition:
-          ProgressionTreeManager.insance.progressionTree,
+          ProgressionTreeManager.instance.progressionTree,
     );
 
     for (final id in completedSkillIds) {
