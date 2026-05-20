@@ -68,8 +68,6 @@ class _SkillDictionaryAdminPageState extends State<SkillDictionaryAdminPage> {
                 onSkillSelected: selectSkill,
               ),
             ),
-            // Container(color: Colors.amber),
-            // Expanded(child: Container(color: Colors.blueAccent)),
             Expanded(
               child: EditSkillView(
                 key: ValueKey(selectedSkill.skillId),
@@ -83,7 +81,7 @@ class _SkillDictionaryAdminPageState extends State<SkillDictionaryAdminPage> {
   }
 }
 
-class SkillDictionaryList extends StatelessWidget {
+class SkillDictionaryList extends StatefulWidget {
   const SkillDictionaryList({
     super.key,
     required this.selectedSkill,
@@ -93,6 +91,11 @@ class SkillDictionaryList extends StatelessWidget {
   final SkillInfo selectedSkill;
   final void Function(SkillInfo) onSkillSelected;
 
+  @override
+  State<SkillDictionaryList> createState() => _SkillDictionaryListState();
+}
+
+class _SkillDictionaryListState extends State<SkillDictionaryList> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -113,26 +116,10 @@ class SkillDictionaryList extends StatelessWidget {
           trailing: IconButton(
             icon: const Icon(Icons.add, color: Colors.white),
             onPressed: () {
-              showDialog(
-                context: context,
-                builder: (_) => const AddSkillPopup(),
-              );
+              openAddSkillPopup();
             },
           ),
         ),
-        // Container(
-        //   width: double.infinity,
-        //   color: Colors.lightBlueAccent,
-        //   child: Text(
-        //     "Skills List",
-        //     textAlign: .center,
-        //     style: TextStyle(
-        //       fontWeight: FontWeight.bold,
-        //       fontSize: 25,
-        //       color: Colors.white,
-        //     ),
-        //   ),
-        // ),
         Expanded(
           child: ScrollConfiguration(
             behavior: ScrollConfiguration.of(
@@ -143,25 +130,13 @@ class SkillDictionaryList extends StatelessWidget {
                 ...SkillDictionaryManager.instance.skillDictionary.entries.map(
                   (skillInfo) => SkillInfoEntry(
                     skillInfo: skillInfo.value,
-                    isSelected: skillInfo.value == selectedSkill,
+                    isSelected: skillInfo.value == widget.selectedSkill,
 
                     onTap: () {
-                      onSkillSelected(skillInfo.value);
+                      widget.onSkillSelected(skillInfo.value);
                     },
                   ),
                 ),
-
-                // ...ProgressionTreeManager.insance.initializedSkillDefinitions
-                //     .map(
-                //       (skillDefinition) => SkillInfoEntry(
-                //         skillDefinition: skillDefinition,
-                //         isSelected: skillDefinition == selectedSkill,
-
-                //         onTap: () {
-                //           onSkillSelected(skillDefinition);
-                //         },
-                //       ),
-                //     ),
               ],
             ),
           ),
@@ -169,32 +144,43 @@ class SkillDictionaryList extends StatelessWidget {
       ],
     );
   }
+
+  Future<void> openAddSkillPopup() async {
+    await showDialog(context: context, builder: (_) => AddSkillPopup());
+
+    setState(() {});
+  }
 }
 
 class AddSkillPopup extends StatelessWidget {
-  const AddSkillPopup({super.key});
+  AddSkillPopup({super.key});
+
+  final TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Center(child: const Text("Add New Skill")),
-      content: TextField(autocorrect: true),
+      content: TextField(autocorrect: true, controller: controller),
       actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("Cancel"),
-            ),
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text("Cancel"),
+        ),
 
-            TextButton(
-              onPressed: () {
-                Navigator.pop(
-                  context,
-                  // renameController.text.trim(),
-                );
-              },
-              child: const Text("Save"),
-            ),
-          ],
+        TextButton(
+          onPressed: () {
+            SkillDictionaryManager.instance.addNewSkillToDictionary(
+              SkillInfo(skillId: controller.text),
+            );
+            Navigator.pop(
+              context,
+              // renameController.text.trim(),
+            );
+          },
+          child: const Text("Save"),
+        ),
+      ],
     );
   }
 }
@@ -251,12 +237,16 @@ class EditSkillView extends StatefulWidget {
 }
 
 class _EditSkillViewState extends State<EditSkillView> {
-  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController descriptionFieldController =
+      TextEditingController();
+  final TextEditingController demoVideoFieldController =
+      TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    descriptionController.text = widget.skillInfoCopy.skillDescription;
+    descriptionFieldController.text = widget.skillInfoCopy.skillDescription;
+    demoVideoFieldController.text = widget.skillInfoCopy.demoVideoLink;
   }
 
   bool get hasChanges => widget.skillInfo != widget.skillInfoCopy;
@@ -278,45 +268,9 @@ class _EditSkillViewState extends State<EditSkillView> {
               onListChanged: (items) => setState(() {}),
             ),
             SizedBox(height: 20),
-            Container(
-              // margin: EdgeInsets.all(16),
-              padding: const EdgeInsets.all(16),
-
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Theme.of(context).dividerColor),
-              ),
-
-              child: Column(
-                children: [
-                  Text(
-                    "Skill Description",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                  ),
-                  TextField(
-                    onChanged: (value) {
-                      setState(() {
-                        widget.skillInfoCopy.skillDescription =
-                            descriptionController.text;
-                      });
-                    },
-                    controller: descriptionController,
-
-                    minLines: 6,
-                    maxLines: null,
-
-                    style: const TextStyle(fontSize: 16, height: 1.5),
-
-                    decoration: const InputDecoration(
-                      hintText: "Skill description...",
-                      border: InputBorder.none,
-                      isCollapsed: true,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            skillDescriptionField(),
+            SizedBox(height: 20),
+            demoVideoField(),
 
             saveChangesButton(),
           ],
@@ -334,6 +288,88 @@ class _EditSkillViewState extends State<EditSkillView> {
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           textAlign: TextAlign.center,
         ),
+      ),
+    );
+  }
+
+  Widget skillDescriptionField() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Theme.of(context).dividerColor),
+      ),
+
+      child: Column(
+        children: [
+          Text(
+            "Skill Description",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+          TextField(
+            onChanged: (value) {
+              setState(() {
+                widget.skillInfoCopy.skillDescription =
+                    descriptionFieldController.text;
+              });
+            },
+            controller: descriptionFieldController,
+
+            minLines: 6,
+            maxLines: null,
+
+            style: const TextStyle(fontSize: 16, height: 1.5),
+
+            decoration: const InputDecoration(
+              hintText: "Skill description...",
+              border: InputBorder.none,
+              isCollapsed: true,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget demoVideoField() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Theme.of(context).dividerColor),
+      ),
+
+      child: Column(
+        children: [
+          Text(
+            "Demo Video YT Link",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+          TextField(
+            onChanged: (value) {
+              setState(() {
+                widget.skillInfoCopy.demoVideoLink =
+                    demoVideoFieldController.text;
+              });
+            },
+            controller: demoVideoFieldController,
+
+            minLines: 1,
+
+            // maxLines: null,
+            style: const TextStyle(fontSize: 16, height: 1.5),
+
+            decoration: const InputDecoration(
+              hintText: "YouTube Link...",
+              border: InputBorder.none,
+              isCollapsed: true,
+            ),
+          ),
+        ],
       ),
     );
   }

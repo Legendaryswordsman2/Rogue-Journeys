@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/rendering.dart';
 
 class SkillDictionaryManager {
   static final SkillDictionaryManager instance = SkillDictionaryManager();
@@ -14,7 +15,6 @@ class SkillDictionaryManager {
   }
 
   bool _loading = false;
-
   Future<void> loadSkillDictionary() async {
     if (_skillDictionary != null || _loading) return;
 
@@ -33,26 +33,57 @@ class SkillDictionaryManager {
     _loading = false;
   }
 
+  CategoryNode? _skillDictionaryTreeRoot;
+
+  CategoryNode get skillDictionaryTreeRoot {
+    if (_skillDictionaryTreeRoot != null) return _skillDictionaryTreeRoot!;
+
+    return buildTree(_skillDictionary!.values.toList());
+  }
+
+  CategoryNode buildTree(List<SkillInfo> skills) {
+    debugPrint("BUILDING SKILL DICTIONARY TREE!");
+    final root = CategoryNode("root");
+
+    for (final skill in skills) {
+      for (final path in skill.categories) {
+        final parts = path.split('/');
+
+        CategoryNode current = root;
+
+        for (final part in parts) {
+          current.childrenCategories.putIfAbsent(
+            part,
+            () => CategoryNode(part),
+          );
+
+          current = current.childrenCategories[part]!;
+        }
+
+        current.skills.add(skill);
+      }
+    }
+
+    _skillDictionaryTreeRoot = root;
+    return root;
+  }
+
   void addNewSkillToDictionary(SkillInfo skillInfo) {
     skillDictionary[skillInfo.skillId] = skillInfo;
     skillInfo.saveToDatabase();
   }
-
-  // void addOrUpdateSkillInfo(SkillInfo skillInfo) {
-  //   if (skillInfos.any((info) => info.skillId == skillInfo.skillId)) {
-
-  //   }
-  // }
 }
 
 class SkillInfo {
   String skillId;
   String skillDescription;
+  String demoVideoLink;
   List<String> categories;
 
   SkillInfo({
     required this.skillId,
     this.skillDescription = "",
+    this.demoVideoLink = "",
     List<String>? categories,
   }) : categories = categories ?? [];
 
@@ -63,6 +94,7 @@ class SkillInfo {
     return other is SkillInfo &&
         other.skillId == skillId &&
         other.skillDescription == skillDescription &&
+        other.demoVideoLink == demoVideoLink &&
         ListEquality().equals(other.categories, categories);
   }
 
@@ -71,6 +103,7 @@ class SkillInfo {
     return Object.hash(
       skillId,
       skillDescription,
+      demoVideoLink,
       ListEquality().hash(categories),
     );
   }
@@ -79,6 +112,7 @@ class SkillInfo {
     return SkillInfo(
       skillId: id,
       skillDescription: map["skillDescription"] ?? "",
+      demoVideoLink: map['demoVideoLink'] ?? "",
       categories: List<String>.from(map["categories"] ?? []),
     );
   }
@@ -87,6 +121,7 @@ class SkillInfo {
     return SkillInfo(
       skillId: skillInfo.skillId,
       skillDescription: skillInfo.skillDescription,
+      demoVideoLink: skillInfo.demoVideoLink,
       categories: List<String>.from(skillInfo.categories),
     );
   }
@@ -94,6 +129,7 @@ class SkillInfo {
   void copyFrom(SkillInfo skillInfo) {
     skillId = skillInfo.skillId;
     skillDescription = skillInfo.skillDescription;
+    demoVideoLink = skillInfo.demoVideoLink;
     categories = List<String>.from(skillInfo.categories);
   }
 
@@ -101,6 +137,7 @@ class SkillInfo {
     return {
       "skillId": skillId,
       "skillDescription": skillDescription,
+      'demoVideoLink': demoVideoLink,
       "categories": categories,
     };
   }
@@ -111,4 +148,14 @@ class SkillInfo {
         .doc(skillId)
         .set(toMap());
   }
+}
+
+class CategoryNode {
+  final String name;
+
+  final Map<String, CategoryNode> childrenCategories = {};
+
+  final List<SkillInfo> skills = [];
+
+  CategoryNode(this.name);
 }
